@@ -64,7 +64,7 @@ export default function OnboardingForm() {
       console.log(validateData.data);
       const newUser = await createUser(validateData.data);
       console.log(newUser);
-      router.push("/dashboard");
+      router.push("onboard/success");
     } else {
       console.log(validateData.error);
     }

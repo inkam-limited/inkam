@@ -27,12 +27,17 @@ import { useRouter } from "next/navigation";
 
 export const formSchema = z.object({
   name: z.string().min(1, { message: "Please enter your name" }),
-  number: z.string().min(1, { message: "Please enter your phone number" }),
-  division: z.string().min(1, { message: "Please select your account type" }),
+  number: z
+    .string()
+    .min(1, { message: "Please enter your phone number" })
+    .max(11, { message: "Valid phone number is 11 digits" })
+    .startsWith("0", { message: "Number must start with 0" }),
+  division: z.string().min(1, { message: "Please select your division" }),
   district: z.string().min(1, { message: "Please select your district" }),
 });
 
 export default function OnboardingForm() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const [divisions, setDivisions] = useState<{ division: string }[]>([]);
   const [districts, setDistricts] = useState<{ district: string }[]>([]);
@@ -59,6 +64,7 @@ export default function OnboardingForm() {
   }, [selectedDivision]);
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
     const validateData = formSchema.safeParse(data);
     if (validateData.success) {
       console.log(validateData.data);
@@ -158,7 +164,9 @@ export default function OnboardingForm() {
               }}
             />
           )}
-          <Button type="submit">Submit</Button>
+          <Button type="submit">
+            {isLoading ? "submitting..." : "Submit"}
+          </Button>
         </form>
       </Form>
     </div>

@@ -74,7 +74,7 @@ const BarCharts = ({ agents }: { agents: Agent[] }) => {
   return (
     <ChartContainer config={chartConfig} className="h-[400px] w-full mt-2">
       <BarChart data={chartData}>
-        <CartesianGrid vertical={false} />
+        <CartesianGrid vertical={true} />
         <XAxis
           dataKey="day"
           tickLine={false}

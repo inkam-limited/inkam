@@ -1,12 +1,12 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="">
-      <div className="grid md:grid-cols-2 gap-4 ">
-        <div className="col-span-2 relative h-[550px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+        <div className="md:col-span-2 relative h-[280px] md:h-[550px]">
           <Image
             src="/inkam-cover.png"
             alt="Inkam Logo"
@@ -14,23 +14,22 @@ export default function Home() {
             fill
           />
         </div>
-        <div className=" flex flex-col gap-4 p-10">
+        <div className=" flex flex-col items-center md:items-start gap-4 p-10">
           <h1 className="text-4xl font-bold">Join Inkam</h1>
-          <p>Largest distribution network in bangladesh</p>
+          <p className="text-center md:text-left">
+            Largest distribution network in bangladesh
+          </p>
         </div>
-        <div className="flex items-start flex-col gap-4 p-10">
+        <div className="flex items-center md:items-start flex-col gap-4 p-10">
           <Link
-            className="px-10 py-4 font-bold hover:bg-blue-700 transition-all bg-blue-600 text-neutral-50 rounded-sm"
+            className="px-6 py-4 border w-56 text-center text-neutral-50 bg-blue-700 border-gray-700 font-bold rounded-sm"
             href="/onboard"
           >
             Join as a Agent
           </Link>
-          <Link
-            className="px-6 py-4 outline font-bold rounded-sm"
-            href="/dashboard"
-          >
+          <LoginLink className="px-6 py-4 border w-56 text-center border-gray-700 font-bold rounded-sm">
             Login to Dashboard
-          </Link>
+          </LoginLink>
         </div>
       </div>
     </div>

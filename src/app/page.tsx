@@ -20,7 +20,7 @@ export default function Home() {
             Largest distribution network in bangladesh
           </p>
         </div>
-        <div className="flex items-center md:items-start flex-col gap-4 p-10">
+        <div className="flex items-center flex-col gap-4 p-10">
           <Link
             className="px-6 py-4 border w-56 text-center text-neutral-50 bg-blue-700 border-gray-700 font-bold rounded-sm"
             href="/onboard"

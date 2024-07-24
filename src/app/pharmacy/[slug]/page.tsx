@@ -30,7 +30,7 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
         <p>{shop.number}</p>
       </div>
       <div className="flex flex-col gap-4">
-        <PharmacyQR link={`${process.env.VERCEL_URL}/${shop.id}`} />
+        <PharmacyQR link={`${process.env.NEXT_PUBLIC_URL}/${shop.id}`} />
         <Link href={`/pharmacy/transaction/lead/${shop.id}`}>
           <Button variant="outline">Generate Lead</Button>
         </Link>

@@ -16,7 +16,7 @@ const PhoneNumber = () => {
 const TransactionSuccess = () => {
   return (
     <div>
-      <h1>Successful</h1>
+      <h1 className="text-3xl font-bold">Transaction Successful</h1>
       <p>You will be contacted soon</p>
       <p>
         at{" "}

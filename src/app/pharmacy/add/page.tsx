@@ -87,7 +87,7 @@ const AddPharmacyPage = () => {
                 <FormControl>
                   <Input placeholder="Owner phone number" {...field} />
                 </FormControl>
-                <FormDescription>Input your phone number </FormDescription>
+                <FormDescription>Input your phone number</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

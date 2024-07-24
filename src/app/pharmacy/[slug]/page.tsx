@@ -3,6 +3,8 @@ import React from "react";
 import PharmacyQR from "./PharmacyQR";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Agent } from "@prisma/client";
+import TransactionTable from "./TransactionTable";
 
 const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
   const shop = await prisma.agent.findUnique({
@@ -14,8 +16,13 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
   if (!shop) {
     return <div>Shop not found</div>;
   }
-  console.log(shop);
 
+  const transactions = await prisma.transaction.findMany({
+    where: {
+      agentId: shop.id,
+    },
+  });
+  console.log(transactions);
   return (
     <div className="grid grid-cols-2 gap-4 w-full max-w-7xl mx-auto px-4">
       <div className="flex justify-center flex-col gap-4">
@@ -23,10 +30,13 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
         <p>{shop.number}</p>
       </div>
       <div className="flex flex-col gap-4">
-        <PharmacyQR link={shop.id} />
+        <PharmacyQR link={`${process.env.VERCEL_URL}/${shop.id}`} />
         <Link href={`/pharmacy/transaction/lead/${shop.id}`}>
           <Button variant="outline">Generate Lead</Button>
         </Link>
+      </div>
+      <div className="col-span-1 md:col-span-2">
+        <TransactionTable transactions={transactions} />
       </div>
     </div>
   );

@@ -13,12 +13,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Agent {
+enum Role {
+  ADMIN
+  USER
+  AGENT
+}
+
+model User {
   id        String   @id @default(uuid())
   name      String
   number    String
-  division  String
-  district  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  role      Role     @default(USER)
+}
+
+model Agent {
+  id          String        @id @default(uuid())
+  name        String
+  number      String
+  division    String?
+  district    String?
+  location    String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Transaction Transaction[]
+}
+
+model Transaction {
+  id               String   @id @default(uuid())
+  agent            Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  agentId          String
+  agentName        String
+  customerNumber   String
+  customerName     String
+  customerLocation String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }

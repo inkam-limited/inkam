@@ -1,7 +1,6 @@
 import React from "react";
 import OnboardingForm from "./OnboardingForm";
 import Image from "next/image";
-// connectDB();
 const page = () => {
   return (
     <div>

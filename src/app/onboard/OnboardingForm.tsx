@@ -22,27 +22,17 @@ import {
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import { getDistricts, getDivisions } from "@/lib/utils";
-import { createUser } from "../actions/user.actions";
 import { useRouter } from "next/navigation";
-
-export const formSchema = z.object({
-  name: z.string().min(1, { message: "Please enter your name" }),
-  number: z
-    .string()
-    .min(1, { message: "Please enter your phone number" })
-    .max(11, { message: "Valid phone number is 11 digits" })
-    .startsWith("0", { message: "Number must start with 0" }),
-  division: z.string().min(1, { message: "Please select your division" }),
-  district: z.string().min(1, { message: "Please select your district" }),
-});
+import { createAgentSchema } from "../../lib/schema";
+import { createAgent } from "../actions/agent.actions";
 
 export default function OnboardingForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const [divisions, setDivisions] = useState<{ division: string }[]>([]);
   const [districts, setDistricts] = useState<{ district: string }[]>([]);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof createAgentSchema>>({
+    resolver: zodResolver(createAgentSchema),
     defaultValues: {
       name: "",
       number: "",
@@ -63,12 +53,12 @@ export default function OnboardingForm() {
     }
   }, [selectedDivision]);
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: z.infer<typeof createAgentSchema>) => {
     setIsLoading(true);
-    const validateData = formSchema.safeParse(data);
+    const validateData = createAgentSchema.safeParse(data);
     if (validateData.success) {
       console.log(validateData.data);
-      const newUser = await createUser(validateData.data);
+      const newUser = await createAgent(validateData.data);
       console.log(newUser);
       router.push("onboard/success");
     } else {

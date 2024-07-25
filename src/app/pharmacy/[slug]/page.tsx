@@ -32,7 +32,7 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
           <h1 className="text-2xl font-bold">{shop.name}</h1>
           <p>{shop.number}</p>
           <PharmacyQR
-            link={`${process.env.NEXT_PUBLIC_URL}/pharmacy/transaction/lead/${shop.id}`}
+            link={`${process.env.NEXT_PUBLIC_URL}/transaction/lead/${shop.id}`}
           />
           <Link href={`/pharmacy/transaction/lead/${shop.id}`}>
             <Button variant="outline">Generate Lead</Button>

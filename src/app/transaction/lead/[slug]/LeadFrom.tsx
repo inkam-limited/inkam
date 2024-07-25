@@ -48,9 +48,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
       const result = await createTransaction(validateData.data);
       if (result) {
         console.log(result);
-        router.push(
-          `/pharmacy/transaction/success?ref=${result.customerNumber}`
-        );
+        router.push(`/transaction/success?ref=${result.customerNumber}`);
       }
     } else {
       console.log(validateData.error);

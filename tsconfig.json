@@ -27,7 +27,9 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/pharmacy/transaction/lead",
-    "src/app/pharmacy/transaction/success"
+    "src/app/pharmacy/transaction/success",
+    "src/app/_trpc/Provider.txs",
+    "src/lib/seed.ts"
   ],
   "exclude": ["node_modules"]
 }

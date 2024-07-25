@@ -15,7 +15,7 @@ const PharmacyDashboard = async () => {
   return (
     <div>
       <div className="flex flex-col gap-4">
-        <h2 className="text-2xl font-bold py-4">Add a new pharmacy</h2>
+        <h2 className="text-2xl font-bold py-4">All Pharmacies</h2>
         <PharmacyList pharmacies={pharmacies} />
       </div>
     </div>

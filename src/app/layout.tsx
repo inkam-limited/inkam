@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Providers from "./_trpc/Provider";
 
 const font = localFont({
   src: "../fonts/DMSans-VariableFont_opsz,wght.ttf",
@@ -19,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={font.className}>{children}</body>
+      <body className={font.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

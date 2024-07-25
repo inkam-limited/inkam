@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { getDistricts, getDivisions } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { createAgentSchema } from "../../lib/schema";
-import { createAgent } from "../actions/agent.actions";
+import { createAgent } from "../../actions/agent.actions";
 
 export default function OnboardingForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);

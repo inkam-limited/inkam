@@ -27,7 +27,7 @@ const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
         <TableBody>
           {pharmacies.map(function (pharmacy) {
             return (
-              <TableRow>
+              <TableRow key={pharmacy.id}>
                 <TableCell className="font-medium">{pharmacy.name}</TableCell>
                 <TableCell>{pharmacy.number}</TableCell>
                 <TableCell>{pharmacy.location}</TableCell>

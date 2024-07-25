@@ -5,11 +5,12 @@ import { createAgentSchema, createTransactionSchema } from "@/lib/schema";
 import { z } from "zod";
 
 export async function createAgent(data: z.infer<typeof createAgentSchema>) {
+  console.log(data.number);
   try {
     const agent = await prisma.agent.create({
       data: {
         name: data.name,
-        number: data.number,
+        number: `+88${data.number}`,
         division: data.division ?? "",
         district: data.district ?? "",
         location: data.location ?? "",

@@ -1,15 +1,11 @@
 import React from "react";
+import PharmacyNav from "./(protected)/PharmacyNav";
 
 const TransactionLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="w-full h-[100svh]">
-      <div className="flex justify-between items-center mx-auto w-full h-16 px-4 py-2 bg-white">
-        <div className="text-2xl font-bold">Transaction</div>
-      </div>
-      <div className="mx-auto w-full flex items-center flex-col gap-4 px-4 py-4">
-        {children}
-      </div>
-    </div>
+    <main className="w-full max-w-7xl h-[100svh] justify-between items-center mx-auto px-4 py-2 bg-white">
+      {children}
+    </main>
   );
 };
 

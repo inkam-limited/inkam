@@ -14,7 +14,7 @@ function PharmacyQR({ link }: { link: string }) {
         quality: 0.3,
         errorCorrectionLevel: "M",
         margin: 3,
-        scale: 4,
+        scale: 2,
         width: 500,
         color: {
           dark: "#010599FF",

@@ -58,83 +58,82 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   };
 
   return (
-    <div className="w-full max-w-lg">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="agentId"
-            render={({ field }) => (
-              <FormItem hidden>
-                <FormControl>
-                  <Input disabled hidden {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="agentName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Pharmacy Name</FormLabel>
-                <FormControl>
-                  <Input disabled {...field} />
-                </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="customerName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Patient Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your name" {...field} />
-                </FormControl>
-                <FormDescription>Input patient Name</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="customerNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Patient Number</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your number" {...field} />
-                </FormControl>
-                <FormDescription>Input patient number</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="customerLocation"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Patient Address</FormLabel>
-                <FormControl>
-                  <Input placeholder="John Doe" {...field} />
-                </FormControl>
-                <FormDescription>Input patient name</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">
-            {isLoading ? "submitting..." : "Submit"}
-          </Button>
-        </form>
-      </Form>
-    </div>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 flex flex-col "
+      >
+        <FormField
+          control={form.control}
+          name="agentId"
+          render={({ field }) => (
+            <FormItem hidden>
+              <FormControl>
+                <Input disabled hidden {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="agentName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Pharmacy Name</FormLabel>
+              <FormControl>
+                <Input disabled {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="customerName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Patient Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Your name" {...field} />
+              </FormControl>
+              <FormDescription>Input patient Name</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="customerNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Patient Number</FormLabel>
+              <FormControl>
+                <Input placeholder="Your number" {...field} />
+              </FormControl>
+              <FormDescription>Input patient number</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="customerLocation"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Patient Address</FormLabel>
+              <FormControl>
+                <Input placeholder="John Doe" {...field} />
+              </FormControl>
+              <FormDescription>Input patient name</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">{isLoading ? "submitting..." : "Submit"}</Button>
+      </form>
+    </Form>
   );
 }

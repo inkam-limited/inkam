@@ -66,6 +66,7 @@ export const appRouter = router({
             number: input.number,
             division: input.division,
             district: input.district,
+            location: input.location,
           },
         });
         return { success: true };

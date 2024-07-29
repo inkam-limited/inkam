@@ -67,7 +67,7 @@ export default function OnboardingForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="gap-4 w-full flex-col flex max-w-lg border border-neutral-300 rounded-lg px-4 py-8 shadow-md"
+        className="gap-4 w-full flex-col flex max-w-lg border border-neutral-300 rounded-lg px-4 py-8"
       >
         <FormField
           control={form.control}

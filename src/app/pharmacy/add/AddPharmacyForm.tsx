@@ -18,10 +18,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { createAgentSchema } from "@/lib/schema";
 import { createAgent } from "@/actions/agent.actions";
+import { trpc } from "@/app/_trpc/client";
 
 const AddPharmacyForm = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { mutate, isLoading } = trpc.createAgent.useMutation();
 
   const form = useForm<z.infer<typeof createAgentSchema>>({
     resolver: zodResolver(createAgentSchema),
@@ -33,14 +34,12 @@ const AddPharmacyForm = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof createAgentSchema>) => {
-    setIsLoading(true);
-    const validateData = createAgentSchema.safeParse(data);
-    if (validateData.success && validateData.data) {
-      const result = await createAgent(validateData.data);
-      if (result) {
-        router.push("/pharmacy/dashboard");
-        router.refresh();
-      }
+    try {
+      mutate(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      router.push("/pharmacy/dashboard");
     }
   };
 

@@ -24,13 +24,9 @@ import { useEffect, useState } from "react";
 import { getDistricts, getDivisions } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { createAgentSchema } from "../../lib/schema";
-import { createAgent } from "../../actions/agent.actions";
 import { trpc } from "../_trpc/client";
 
 export default function OnboardingForm() {
-  const { data } = trpc.hello.useQuery();
-  console.log(data && data);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const [divisions, setDivisions] = useState<{ division: string }[]>([]);
   const [districts, setDistricts] = useState<{ district: string }[]>([]);
@@ -44,6 +40,7 @@ export default function OnboardingForm() {
     },
   });
   const selectedDivision = form.watch("division");
+  const { mutate, isLoading } = trpc.createAgent.useMutation();
 
   useEffect(() => {
     getDivisions().then((data) => {
@@ -57,59 +54,85 @@ export default function OnboardingForm() {
   }, [selectedDivision]);
 
   const onSubmit = async (data: z.infer<typeof createAgentSchema>) => {
-    setIsLoading(true);
-    const validateData = createAgentSchema.safeParse(data);
-    if (validateData.success) {
-      console.log(validateData.data);
-      const newUser = await createAgent(validateData.data);
-      console.log(newUser);
+    try {
+      mutate(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
       router.push("onboard/success");
-    } else {
-      console.log(validateData.error);
     }
   };
 
   return (
-    <div className="w-full max-w-lg">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="gap-4 w-full flex-col flex max-w-lg border border-neutral-300 rounded-lg px-4 py-8 shadow-md"
+      >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Agent Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Your name" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="number"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number</FormLabel>
+              <FormControl>
+                <Input placeholder="Your number" {...field} />
+              </FormControl>
+              <FormDescription>Input your phone number </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="division"
+          render={({ field }) => {
+            return (
               <FormItem>
-                <FormLabel>Agent Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your name" {...field} />
-                </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+                <FormLabel>Division</FormLabel>
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your division" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {divisions.map((data) => (
+                      <SelectItem value={data.division} key={data.division}>
+                        {data.division}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
-            )}
-          />
+            );
+          }}
+        />
+        {selectedDivision && (
           <FormField
             control={form.control}
-            name="number"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone Number</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your number" {...field} />
-                </FormControl>
-                <FormDescription>Input your phone number </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="division"
+            name="district"
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Division</FormLabel>
+                  <FormLabel>District</FormLabel>
                   <Select onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger>
@@ -117,9 +140,9 @@ export default function OnboardingForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {divisions.map((data) => (
-                        <SelectItem value={data.division} key={data.division}>
-                          {data.division}
+                      {districts.map((data) => (
+                        <SelectItem value={data.district} key={data.district}>
+                          {data.district}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -129,39 +152,9 @@ export default function OnboardingForm() {
               );
             }}
           />
-          {selectedDivision && (
-            <FormField
-              control={form.control}
-              name="district"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>District</FormLabel>
-                    <Select onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select your division" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {districts.map((data) => (
-                          <SelectItem value={data.district} key={data.district}>
-                            {data.district}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
-          )}
-          <Button type="submit">
-            {isLoading ? "submitting..." : "Submit"}
-          </Button>
-        </form>
-      </Form>
-    </div>
+        )}
+        <Button type="submit">{isLoading ? "submitting..." : "Submit"}</Button>
+      </form>
+    </Form>
   );
 }

@@ -9,9 +9,7 @@ const page = () => {
           <Image src="/logo.png" className="object-cover" alt="logo" fill />
         </div>
         <h1 className="text-xl font-bold">Lets get started..</h1>
-        <div>
-          <OnboardingForm />
-        </div>
+        <OnboardingForm />
       </div>
     </div>
   );

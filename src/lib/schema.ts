@@ -9,7 +9,10 @@ export const createAgentSchema = z.object({
     .refine((val) => val.startsWith("0"), {
       message: "Number must start with 0",
     }),
-  location: z.string().min(1, { message: "Please input your address" }),
+  location: z
+    .string()
+    .min(3, { message: "Please input your address" })
+    .optional(),
   division: z.string().optional(),
   district: z.string().optional(),
 });

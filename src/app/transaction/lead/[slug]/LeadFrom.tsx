@@ -21,9 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
-import { Agent, Transaction } from "@prisma/client";
+import { Agent } from "@prisma/client";
 import { createTransactionSchema } from "@/lib/schema";
-import { createTransaction } from "@/actions/agent.actions";
 import { useRouter } from "next/navigation";
 import { trpc } from "@/app/_trpc/client";
 

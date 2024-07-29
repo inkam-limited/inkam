@@ -4,7 +4,7 @@ import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "./trpc";
 import prisma from "@/db";
 import { User, Transaction } from "@prisma/client";
-import { createTransactionSchema } from "@/lib/schema";
+import { createAgentSchema, createTransactionSchema } from "@/lib/schema";
 import { redirect } from "next/navigation";
 
 export const appRouter = router({
@@ -51,6 +51,23 @@ export const appRouter = router({
           },
         });
 
+        return { success: true };
+      } catch (error) {
+        throw new TRPCError({ code: "BAD_REQUEST" });
+      }
+    }),
+  createAgent: publicProcedure
+    .input(createAgentSchema)
+    .mutation(async ({ input }) => {
+      try {
+        await prisma.agent.create({
+          data: {
+            name: input.name,
+            number: input.number,
+            division: input.division,
+            district: input.district,
+          },
+        });
         return { success: true };
       } catch (error) {
         throw new TRPCError({ code: "BAD_REQUEST" });

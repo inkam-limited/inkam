@@ -25,8 +25,11 @@ import { getDistricts, getDivisions } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { createAgentSchema } from "../../lib/schema";
 import { createAgent } from "../../actions/agent.actions";
+import { trpc } from "../_trpc/client";
 
 export default function OnboardingForm() {
+  const { data } = trpc.hello.useQuery();
+  console.log(data && data);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const [divisions, setDivisions] = useState<{ division: string }[]>([]);

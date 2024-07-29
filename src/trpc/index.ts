@@ -30,6 +30,11 @@ export const appRouter = router({
     const users: User[] = await prisma.user.findMany();
     return users;
   }),
+  hello: publicProcedure.query(async () => {
+    const users = await prisma.user.findMany();
+    console.log(users);
+    return { message: "hello", success: true };
+  }),
 });
 
 export type AppRouter = typeof appRouter;

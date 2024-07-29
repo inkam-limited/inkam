@@ -21,14 +21,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
-import { Agent } from "@prisma/client";
+import { Agent, Transaction } from "@prisma/client";
 import { createTransactionSchema } from "@/lib/schema";
 import { createTransaction } from "@/actions/agent.actions";
 import { useRouter } from "next/navigation";
+import { trpc } from "@/app/_trpc/client";
 
 export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
+  const { data: labTests } = trpc.getLabTests.useQuery();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
+
+  const { mutate } = trpc.createTransaction.useMutation();
 
   const form = useForm<z.infer<typeof createTransactionSchema>>({
     resolver: zodResolver(createTransactionSchema),
@@ -38,21 +42,16 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
       customerName: "",
       customerNumber: "",
       customerLocation: "",
+      labTestId: "",
     },
   });
-
   const onSubmit = async (data: z.infer<typeof createTransactionSchema>) => {
+    const test = data.labTestId
+      ? labTests && labTests.find((test) => test.id === data.labTestId)?.name
+      : "";
     setIsLoading(true);
-    const validateData = createTransactionSchema.safeParse(data);
-    if (validateData.success) {
-      const result = await createTransaction(validateData.data);
-      if (result) {
-        console.log(result);
-        router.push(`/transaction/success?ref=${result.customerNumber}`);
-      }
-    } else {
-      console.log(validateData.error);
-    }
+    await mutate(data);
+    router.push(`/transaction/success?ref=${data.customerNumber}&test=${test}`);
   };
 
   return (
@@ -126,6 +125,33 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                 <Input placeholder="John Doe" {...field} />
               </FormControl>
               <FormDescription>Input patient name</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="labTestId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Lab Test</FormLabel>
+              <FormControl>
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your lab test" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {labTests !== undefined &&
+                      labTests.map((data) => (
+                        <SelectItem value={data.id} key={data.id}>
+                          {data.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { late, z } from "zod";
 
 export const createAgentSchema = z.object({
   name: z.string().min(1, { message: "Please enter your name" }),
@@ -26,4 +26,5 @@ export const createTransactionSchema = z.object({
       message: "Number must start with 0",
     }),
   customerLocation: z.string().min(1, { message: "Please input your address" }),
+  labTestId: z.string().min(1, { message: "Please select a lab test" }),
 });

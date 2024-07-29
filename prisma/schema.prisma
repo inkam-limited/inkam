@@ -69,6 +69,19 @@ model Transaction {
   customerNumber   String
   customerName     String
   customerLocation String
+  labTest          LabTest  @relation(fields: [labTestId], references: [id])
+  labTestId        String
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+}
+
+model LabTest {
+  id             String        @id @default(uuid())
+  name           String        @unique
+  commissionRate String
+  commission     String
+  price          String
+  Transaction    Transaction[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 }

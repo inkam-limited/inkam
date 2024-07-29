@@ -15,7 +15,6 @@ const GeneratePharmacyLeadPage = async ({
     return <div>Pharmacy not found</div>;
   }
 
-  console.log(pharmacy);
   return <LeadFrom pharmacy={pharmacy} />;
 };
 

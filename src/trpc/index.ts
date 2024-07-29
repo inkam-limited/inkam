@@ -3,7 +3,9 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "./trpc";
 import prisma from "@/db";
-import { User } from "@prisma/client";
+import { User, Transaction } from "@prisma/client";
+import { createTransactionSchema } from "@/lib/schema";
+import { redirect } from "next/navigation";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -30,11 +32,30 @@ export const appRouter = router({
     const users: User[] = await prisma.user.findMany();
     return users;
   }),
-  hello: publicProcedure.query(async () => {
-    const users = await prisma.user.findMany();
-    console.log(users);
-    return { message: "hello", success: true };
+  getLabTests: publicProcedure.query(async () => {
+    const labTests = await prisma.labTest.findMany();
+    return labTests;
   }),
+  createTransaction: protectedProcedure
+    .input(createTransactionSchema)
+    .mutation(async ({ input }) => {
+      try {
+        await prisma.transaction.create({
+          data: {
+            agentId: input.agentId,
+            agentName: input.agentName,
+            customerNumber: input.customerNumber,
+            customerName: input.customerName,
+            customerLocation: input.customerLocation,
+            labTestId: input.labTestId,
+          },
+        });
+
+        return { success: true };
+      } catch (error) {
+        throw new TRPCError({ code: "BAD_REQUEST" });
+      }
+    }),
 });
 
 export type AppRouter = typeof appRouter;

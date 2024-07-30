@@ -33,7 +33,9 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { CheckIcon } from "lucide-react";
+import useMediaQuery from "@custom-react-hooks/use-media-query";
 
 export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const { data: labTests, isLoading: isLabTestsLoading } =
@@ -43,6 +45,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const { mutate } = trpc.createTransaction.useMutation();
+  const isWide = useMediaQuery("(min-width: 600px)");
 
   const form = useForm<z.infer<typeof createTransactionSchema>>({
     resolver: zodResolver(createTransactionSchema),
@@ -145,7 +148,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
             </FormItem>
           )}
         />
-        {labTests !== undefined && !isLabTestsLoading ? (
+        {isWide && labTests !== undefined && !isLabTestsLoading ? (
           <FormField
             control={form.control}
             name="labTestId"
@@ -220,6 +223,85 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                     </Command>
                   </PopoverContent>
                 </Popover>
+                <FormDescription>
+                  Select the lab test that you want to use.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ) : !isWide && labTests !== undefined && !isLabTestsLoading ? (
+          <FormField
+            control={form.control}
+            name="labTestId"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Select test</FormLabel>
+                <Drawer open={open} onOpenChange={setOpen}>
+                  <DrawerTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "justify-between",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value
+                          ? labTests.find(
+                              (language) => language.id === field.value
+                            )?.name
+                          : "Select test"}
+                        <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </DrawerTrigger>
+                  <DrawerContent className="min-w-[200px] md:min-w-[500px]">
+                    <Command>
+                      <CommandInput
+                        placeholder="Search test..."
+                        className="h-9"
+                      />
+                      <CommandList>
+                        <CommandEmpty>No tests found.</CommandEmpty>
+                        <CommandGroup>
+                          {labTests.map((language) => (
+                            <CommandItem
+                              asChild
+                              value={language.name}
+                              key={language.name}
+                              onSelect={() => {
+                                setCurrentTestId(language.id);
+                              }}
+                            >
+                              <>
+                                <Button
+                                  variant="ghost"
+                                  className="text-left w-full"
+                                  onClick={() => {
+                                    setCurrentTestId(language.id);
+                                    setOpen(false);
+                                  }}
+                                >
+                                  {language.name}
+                                </Button>
+                                <CheckIcon
+                                  className={cn(
+                                    "ml-auto h-4 w-4",
+                                    language.name === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                              </>
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </DrawerContent>
+                </Drawer>
                 <FormDescription>
                   Select the lab test that you want to use.
                 </FormDescription>

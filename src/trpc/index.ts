@@ -50,7 +50,7 @@ export const appRouter = router({
             labTestId: input.labTestId,
           },
         });
-
+        console.log(input);
         return { success: true };
       } catch (error) {
         throw new TRPCError({ code: "BAD_REQUEST" });

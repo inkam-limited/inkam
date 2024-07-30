@@ -15,7 +15,14 @@ const GeneratePharmacyLeadPage = async ({
     return <div>Pharmacy not found</div>;
   }
 
-  return <LeadFrom pharmacy={pharmacy} />;
+  return (
+    <main className="py-12 overflow-hidden">
+      <h2 className="text-xl mb-4">
+        Generate Lead for <span className="font-bold">{pharmacy.name}</span>
+      </h2>
+      <LeadFrom pharmacy={pharmacy} />
+    </main>
+  );
 };
 
 export default GeneratePharmacyLeadPage;

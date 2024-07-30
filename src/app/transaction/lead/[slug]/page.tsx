@@ -16,7 +16,7 @@ const GeneratePharmacyLeadPage = async ({
   }
 
   return (
-    <main className="py-12 overflow-hidden">
+    <main className="py-12">
       <h2 className="text-xl mb-4">
         Generate Lead for <span className="font-bold">{pharmacy.name}</span>
       </h2>

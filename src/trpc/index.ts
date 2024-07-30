@@ -6,6 +6,7 @@ import prisma from "@/db";
 import { User, Transaction } from "@prisma/client";
 import { createAgentSchema, createTransactionSchema } from "@/lib/schema";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -32,6 +33,38 @@ export const appRouter = router({
     const users: User[] = await prisma.user.findMany();
     return users;
   }),
+  changeUserRole: protectedProcedure
+    .input(
+      z.object({ id: z.string(), role: z.enum(["ADMIN", "AGENT", "USER"]) })
+    )
+    .mutation(async ({ input }) => {
+      try {
+        const user = await prisma.user.findUnique({
+          where: {
+            id: input.id,
+          },
+        });
+
+        if (!user) {
+          throw new TRPCError({ code: "BAD_REQUEST" });
+        }
+
+        await prisma.user.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            role: input.role,
+          },
+        });
+      } catch (error) {
+        throw new TRPCError({ code: "BAD_REQUEST" });
+      } finally {
+        revalidatePath("/dashboard");
+      }
+
+      return { success: true };
+    }),
   getLabTests: publicProcedure.query(async () => {
     const labTests = await prisma.labTest.findMany();
     return labTests;

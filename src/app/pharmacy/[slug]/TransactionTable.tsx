@@ -27,7 +27,7 @@ const TransactionTable = ({
     const newOffset = (event.selected * itemsPerPage) % transactions.length;
     setItemOffset(newOffset);
   };
-
+  console.log(transactions);
   return (
     <div>
       <div>
@@ -39,6 +39,7 @@ const TransactionTable = ({
               <TableHead>Customer Number</TableHead>
               <TableHead>Customer Location</TableHead>
               <TableHead className="text-right">Date</TableHead>
+              <TableHead className="text-right">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -52,6 +53,9 @@ const TransactionTable = ({
                   <TableCell>{transaction.customerLocation}</TableCell>
                   <TableCell className="text-right">
                     {transaction.updatedAt.toLocaleDateString()}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {transaction.status}
                   </TableCell>
                 </TableRow>
               );

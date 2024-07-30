@@ -10,15 +10,15 @@ function PharmacyQR({ link }: { link: string }) {
     <Image
       text={link}
       options={{
-        type: "image/jpeg",
+        type: "image/jpeg ",
         quality: 0.3,
         errorCorrectionLevel: "M",
         margin: 3,
         scale: 2,
         width: 500,
         color: {
-          dark: "#010599FF",
-          light: "#FFBF60FF",
+          dark: "#333",
+          light: "#fff",
         },
       }}
     />

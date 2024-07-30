@@ -61,18 +61,25 @@ model Agent {
   Transaction Transaction[]
 }
 
+enum TransactionStatus {
+  PENDING
+  SCHEDULED
+  FAILED
+}
+
 model Transaction {
-  id               String   @id @default(uuid())
-  agent            Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  id               String            @id @default(uuid())
+  agent            Agent             @relation(fields: [agentId], references: [id], onDelete: Cascade)
   agentId          String
   agentName        String
   customerNumber   String
   customerName     String
   customerLocation String
-  labTest          LabTest  @relation(fields: [labTestId], references: [id])
+  labTest          LabTest           @relation(fields: [labTestId], references: [id])
   labTestId        String
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  status           TransactionStatus @default(PENDING)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
 }
 
 model LabTest {

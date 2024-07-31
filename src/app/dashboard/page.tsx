@@ -1,10 +1,13 @@
-"use client";
-import React from "react";
-import { trpc } from "../_trpc/client";
-import DashboardPage from "@/components/dashboard/DashboardPage";
+import React, { Suspense } from "react";
+import { DashboardPage } from "./DashboardPage";
+import SuspenseLoader from "@/components/SuspenseLoader";
 
 const Dashboard = () => {
-  return <DashboardPage />;
+  return (
+    <SuspenseLoader>
+      <DashboardPage />
+    </SuspenseLoader>
+  );
 };
 
 export default Dashboard;

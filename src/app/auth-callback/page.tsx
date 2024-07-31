@@ -20,7 +20,7 @@ const Page = () => {
   }
   if (data?.success) {
     // user is synced to db
-    router.push(origin ? `/${origin}` : "/pharmacy/dashboard");
+    router.push(origin ? `/${origin}` : "/dashboard");
   }
 
   return (

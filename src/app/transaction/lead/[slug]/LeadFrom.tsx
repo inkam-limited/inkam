@@ -50,7 +50,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const form = useForm<z.infer<typeof createTransactionSchema>>({
     resolver: zodResolver(createTransactionSchema),
     defaultValues: {
-      agentId: pharmacy.id,
+      agentId: pharmacy.agentId,
       agentName: pharmacy.name,
       customerName: "",
       customerNumber: "",
@@ -66,11 +66,13 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const onSubmit = async (data: z.infer<typeof createTransactionSchema>) => {
     console.log(data);
     const test = data.labTestId
-      ? labTests && labTests.find((test) => test.id === data.labTestId)?.name
+      ? labTests &&
+        labTests.find((test) => test.testId === data.labTestId)?.name
       : "";
     setIsLoading(true);
+    console.log(data);
     await mutate(data);
-    router.push(`/transaction/success?ref=${data.customerNumber}&test=${test}`);
+    // router.push(`/transaction/success?ref=${data.customerNumber}&test=${test}`);
   };
 
   return (
@@ -168,7 +170,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                       >
                         {field.value
                           ? labTests.find(
-                              (language) => language.id === field.value
+                              (language) => language.testId === field.value
                             )?.name
                           : "Select test"}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -193,7 +195,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                               value={language.name}
                               key={language.name}
                               onSelect={() => {
-                                setCurrentTestId(language.id);
+                                setCurrentTestId(language.testId);
                               }}
                             >
                               <>
@@ -201,7 +203,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                                   variant="ghost"
                                   className="text-left w-full"
                                   onClick={() => {
-                                    setCurrentTestId(language.id);
+                                    setCurrentTestId(language.testId);
                                     setOpen(false);
                                   }}
                                 >
@@ -250,7 +252,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                       >
                         {field.value
                           ? labTests.find(
-                              (language) => language.id === field.value
+                              (language) => language.testId === field.value
                             )?.name
                           : "Select test"}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -272,7 +274,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                               value={language.name}
                               key={language.name}
                               onSelect={() => {
-                                setCurrentTestId(language.id);
+                                setCurrentTestId(language.testId);
                               }}
                             >
                               <>
@@ -280,7 +282,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                                   variant="ghost"
                                   className="text-left w-full"
                                   onClick={() => {
-                                    setCurrentTestId(language.id);
+                                    setCurrentTestId(language.testId);
                                     setOpen(false);
                                   }}
                                 >

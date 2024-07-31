@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/db";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 const pharmacies = [
   {
@@ -55,23 +56,22 @@ const pharmacies = [
   },
 ];
 
-// export const seed = async () => {
-// const divisions = await getDivisions();
-// if (divisions) {
-//   try {
-//     for (const division of divisions) {
-//       console.log(division);
-//       await prisma.division.create({
-//         data: {
-//           name: division.division,
-//           nameBn: division.divisionbn,
-//         },
-//       });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+export const seed = async () => {
+  console.log("Seeding pharmacies...");
+  for (const pharmacy of pharmacies) {
+    try {
+      await prisma.agent.create({
+        data: {
+          name: pharmacy.pharmacyName,
+          number: pharmacy.ownerPhoneNumber,
+          location: pharmacy.pharmacyAddress,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
 
 // const divisions = await prisma.division.findMany();
 // await prisma.district.deleteMany();
@@ -89,19 +89,6 @@ const pharmacies = [
 //     console.log(newDistrict);
 //   }
 // }
-
-export const seed = async () => {
-  for (const pharmacy of pharmacies) {
-    const newPharmacy = await prisma.agent.create({
-      data: {
-        name: pharmacy.pharmacyName,
-        number: pharmacy.ownerPhoneNumber,
-        location: pharmacy.pharmacyAddress,
-      },
-    });
-    console.log(newPharmacy);
-  }
-};
 
 const labTests = [
   {
@@ -581,6 +568,7 @@ const labTests = [
 ];
 
 // export const seed = async () => {
+//   console.log("Seeding...");
 //   labTests.forEach(async (labTest) => {
 //     const testExists = await prisma.labTest.findUnique({
 //       where: {

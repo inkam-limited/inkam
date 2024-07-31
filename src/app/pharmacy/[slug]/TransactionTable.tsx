@@ -27,7 +27,7 @@ const TransactionTable = ({
     const newOffset = (event.selected * itemsPerPage) % transactions.length;
     setItemOffset(newOffset);
   };
-  console.log(transactions);
+
   return (
     <div>
       <div>
@@ -45,7 +45,7 @@ const TransactionTable = ({
           <TableBody>
             {transactions.map(function (transaction) {
               return (
-                <TableRow key={transaction.id}>
+                <TableRow key={transaction.transactionId}>
                   <TableCell className="font-medium">
                     {transaction.customerName}
                   </TableCell>

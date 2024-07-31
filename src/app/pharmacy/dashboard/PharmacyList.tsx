@@ -15,7 +15,7 @@ const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
   return (
     <div>
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableCaption>A list of your recent pharmacies.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Name</TableHead>
@@ -27,13 +27,13 @@ const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
         <TableBody>
           {pharmacies.map(function (pharmacy) {
             return (
-              <TableRow key={pharmacy.id}>
+              <TableRow key={pharmacy.agentId}>
                 <TableCell className="font-medium">{pharmacy.name}</TableCell>
                 <TableCell>{pharmacy.number}</TableCell>
                 <TableCell>{pharmacy.location}</TableCell>
                 <TableCell className="text-right">
                   <Link
-                    href={`/pharmacy/${pharmacy.id}`}
+                    href={`/pharmacy/${pharmacy.agentId}`}
                     className={buttonVariants({ variant: "link" })}
                   >
                     Generate QR

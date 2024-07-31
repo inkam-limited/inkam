@@ -1,12 +1,9 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "./trpc";
 import prisma from "@/db";
-import { User, Transaction } from "@prisma/client";
+import { User } from "@prisma/client";
 import { createAgentSchema, createTransactionSchema } from "@/lib/schema";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -23,6 +20,7 @@ export const appRouter = router({
         data: {
           id: user.id,
           email: user.email,
+          name: user.given_name,
         },
       });
     }
@@ -33,38 +31,7 @@ export const appRouter = router({
     const users: User[] = await prisma.user.findMany();
     return users;
   }),
-  changeUserRole: protectedProcedure
-    .input(
-      z.object({ id: z.string(), role: z.enum(["ADMIN", "AGENT", "USER"]) })
-    )
-    .mutation(async ({ input }) => {
-      try {
-        const user = await prisma.user.findUnique({
-          where: {
-            id: input.id,
-          },
-        });
 
-        if (!user) {
-          throw new TRPCError({ code: "BAD_REQUEST" });
-        }
-
-        await prisma.user.update({
-          where: {
-            id: input.id,
-          },
-          data: {
-            role: input.role,
-          },
-        });
-      } catch (error) {
-        throw new TRPCError({ code: "BAD_REQUEST" });
-      } finally {
-        revalidatePath("/dashboard");
-      }
-
-      return { success: true };
-    }),
   getLabTests: publicProcedure.query(async () => {
     const labTests = await prisma.labTest.findMany();
     return labTests;
@@ -72,8 +39,9 @@ export const appRouter = router({
   createTransaction: protectedProcedure
     .input(createTransactionSchema)
     .mutation(async ({ input }) => {
+      console.log(input);
       try {
-        await prisma.transaction.create({
+        const transaction = await prisma.transaction.create({
           data: {
             agentId: input.agentId,
             agentName: input.agentName,
@@ -83,9 +51,10 @@ export const appRouter = router({
             labTestId: input.labTestId,
           },
         });
-        console.log(input);
+        console.log(transaction);
         return { success: true };
       } catch (error) {
+        console.log(error);
         throw new TRPCError({ code: "BAD_REQUEST" });
       }
     }),

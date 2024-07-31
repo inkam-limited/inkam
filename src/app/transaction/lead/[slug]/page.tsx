@@ -8,7 +8,7 @@ const GeneratePharmacyLeadPage = async ({
   params: { slug: string };
 }) => {
   const pharmacy = await prisma.agent.findUnique({
-    where: { id: params.slug },
+    where: { agentId: params.slug },
   });
 
   if (!pharmacy) {

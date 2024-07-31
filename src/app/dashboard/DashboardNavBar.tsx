@@ -20,7 +20,7 @@ const DashboardNavbar = ({ user }: { user: KindeUser | null }) => {
   const pathName = usePathname();
 
   return (
-    <div className="flex items-center justify-between py-2">
+    <div className="flex border-b border-gray-200 items-center justify-between py-2">
       <div className="relative w-[100px] h-[50px]">
         <Image alt="inkam-logo" className="object-cover" fill src="/logo.png" />
       </div>

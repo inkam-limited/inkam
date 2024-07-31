@@ -15,8 +15,15 @@ datasource db {
 
 enum Role {
   ADMIN
-  USER
-  AGENT
+  MODERATOR
+  PARTNER
+}
+
+enum AGENTTYPE {
+  PHARMACY
+  RESTURANT
+  INDIVIDUAL
+  MERCHANT
 }
 
 model Division {
@@ -46,19 +53,20 @@ model User {
   email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  role      Role     @default(USER)
+  role      Role     @default(MODERATOR)
 }
 
 model Agent {
-  id          String        @id @default(uuid())
+  agentId     String        @id @default(uuid())
   name        String
-  number      String
+  number      String        @unique
   division    String?
   district    String?
   location    String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   Transaction Transaction[]
+  AgentType   AGENTTYPE     @default(MERCHANT)
 }
 
 enum TransactionStatus {
@@ -68,22 +76,22 @@ enum TransactionStatus {
 }
 
 model Transaction {
-  id               String            @id @default(uuid())
-  agent            Agent             @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  transactionId    String            @id @default(uuid())
+  agent            Agent             @relation(fields: [agentId], references: [agentId], onDelete: Cascade)
   agentId          String
   agentName        String
   customerNumber   String
   customerName     String
   customerLocation String
-  labTest          LabTest           @relation(fields: [labTestId], references: [id])
   labTestId        String
   status           TransactionStatus @default(PENDING)
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
+  labTest          LabTest           @relation(fields: [labTestId], references: [testId])
 }
 
 model LabTest {
-  id             String        @id @default(uuid())
+  testId         String        @id @default(uuid())
   name           String        @unique
   commissionRate String
   commission     String

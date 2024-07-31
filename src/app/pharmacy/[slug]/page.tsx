@@ -8,7 +8,7 @@ import TransactionTable from "./TransactionTable";
 const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
   const shop = await prisma.agent.findUnique({
     where: {
-      id: params.slug,
+      agentId: params.slug,
     },
   });
 
@@ -17,7 +17,7 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
   }
   const transactions = await prisma.transaction.findMany({
     where: {
-      agentId: shop.id,
+      agentId: shop.agentId,
     },
     orderBy: {
       createdAt: "desc",
@@ -32,9 +32,9 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
           <h1 className="text-2xl font-bold">{shop.name}</h1>
           <p>{shop.number}</p>
           <PharmacyQR
-            link={`${process.env.NEXT_PUBLIC_URL}/transaction/lead/${shop.id}`}
+            link={`${process.env.NEXT_PUBLIC_URL}/transaction/lead/${shop.agentId}`}
           />
-          <Link href={`/transaction/lead/${shop.id}`}>
+          <Link href={`/transaction/lead/${shop.agentId}`}>
             <Button variant="outline">Generate Lead</Button>
           </Link>
         </div>

@@ -16,7 +16,7 @@ const page = async () => {
     },
   });
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-[calc(100svh - 1rem)]">
       <AgentMap agents={agents} />
     </div>
   );

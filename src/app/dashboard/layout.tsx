@@ -33,6 +33,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     },
   });
 
+  console.log(dbUser?.role);
   if (dbUser?.role !== Role.ADMIN) {
     return (
       <div className="flex flex-col items-center justify-center h-[100svh]">

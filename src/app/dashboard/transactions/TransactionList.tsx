@@ -17,21 +17,6 @@ import DomLoaded from "@/components/DomLoaded";
 import { Button } from "@/components/ui/button";
 
 const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
-  const itemsPerPage = 10;
-
-  const [itemOffset, setItemOffset] = useState(0);
-  const endOffset = itemOffset + itemsPerPage;
-  const currentItems = transactions.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(transactions.length / itemsPerPage);
-
-  const handlePageClick = (event: any) => {
-    const newOffset = (event.selected * itemsPerPage) % transactions.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
-    setItemOffset(newOffset);
-  };
-
   return (
     <div>
       <Table>
@@ -47,8 +32,8 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
         </TableHeader>
         <DomLoaded>
           <TableBody>
-            {currentItems &&
-              currentItems.map(async function (transaction) {
+            {transactions &&
+              transactions.map(async function (transaction) {
                 return (
                   <TableRow key={transaction.transactionId}>
                     <TableCell className="font-medium">
@@ -63,16 +48,6 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
           </TableBody>
         </DomLoaded>
       </Table>
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel={<Button>Next</Button>}
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        className="flex gap-4 justify-between items-center w-fit mx-auto mt-4"
-        pageCount={pageCount}
-        previousLabel={<Button>Previous</Button>}
-        renderOnZeroPageCount={null}
-      />
     </div>
   );
 };

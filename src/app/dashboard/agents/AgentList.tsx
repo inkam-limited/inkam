@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { getLabTest } from "../action";
 import { buttonVariants } from "@/components/ui/button";
 
 const AgentList = ({ agents }: { agents: Agent[] }) => {
@@ -38,9 +37,7 @@ const AgentList = ({ agents }: { agents: Agent[] }) => {
               </TableCell>
               <TableCell>{agent.number}</TableCell>
               <TableCell>{agent.district}</TableCell>
-              <TableCell className="">
-                {agent.createdAt.toDateString()}
-              </TableCell>
+              <TableCell>{agent.createdAt.toDateString()}</TableCell>
             </TableRow>
           );
         })}

@@ -17,6 +17,7 @@ const Sidebar = () => {
     { field: "agents", value: "agents" },
     { field: "transactions", value: "transactions" },
     { field: "settings", value: "settings" },
+    { field: "pharmacies", value: "pharmacies" },
   ];
   return (
     <div className="col-span-3 space-y-2 flex flex-col pe-4">

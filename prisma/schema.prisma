@@ -66,7 +66,7 @@ model Agent {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   Transaction Transaction[]
-  AgentType   AGENTTYPE     @default(MERCHANT)
+  AgentType   AGENTTYPE     @default(INDIVIDUAL)
 }
 
 enum TransactionStatus {

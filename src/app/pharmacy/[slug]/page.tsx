@@ -27,7 +27,7 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
   return (
     <div>
       <h2 className="text-2xl font-bold py-4">Pharmacy Leads</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-7xl mx-auto px-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-7xl mx-auto">
         <div className="flex justify-center flex-col gap-4">
           <h1 className="text-2xl font-bold">{shop.name}</h1>
           <p>{shop.number}</p>

@@ -23,8 +23,8 @@ function MapsComponent({
 }) {
   console.log(agents);
   const { isLoaded } = useJsApiLoader({
-    id: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+    id: process.env.GOOGLE_MAPS_API_KEY!,
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY!,
   });
 
   const [map, setMap] = React.useState<google.maps.Map | null>(null);

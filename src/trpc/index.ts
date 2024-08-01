@@ -4,6 +4,7 @@ import { protectedProcedure, publicProcedure, router } from "./trpc";
 import prisma from "@/db";
 import { User } from "@prisma/client";
 import { createAgentSchema, createTransactionSchema } from "@/lib/schema";
+import { redirect } from "next/navigation";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -39,9 +40,17 @@ export const appRouter = router({
   createTransaction: protectedProcedure
     .input(createTransactionSchema)
     .mutation(async ({ input }) => {
-      console.log(input);
+      const labTests = await prisma.labTest.findUnique({
+        where: {
+          testId: input.labTestId,
+        },
+      });
+
+      if (!labTests) {
+        throw new TRPCError({ code: "BAD_REQUEST" });
+      }
       try {
-        const transaction = await prisma.transaction.create({
+        await prisma.transaction.create({
           data: {
             agentId: input.agentId,
             agentName: input.agentName,
@@ -51,11 +60,15 @@ export const appRouter = router({
             labTestId: input.labTestId,
           },
         });
-        console.log(transaction);
+
         return { success: true };
       } catch (error) {
         console.log(error);
         throw new TRPCError({ code: "BAD_REQUEST" });
+      } finally {
+        redirect(
+          `/transaction/lead/${labTests.testId}?ref=${input.customerNumber}&test=${labTests.name}`
+        );
       }
     }),
   createAgent: publicProcedure

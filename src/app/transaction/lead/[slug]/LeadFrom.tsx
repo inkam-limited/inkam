@@ -36,6 +36,7 @@ import {
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { CheckIcon } from "lucide-react";
 import useMediaQuery from "@custom-react-hooks/use-media-query";
+import { createTransaction } from "./actions";
 
 export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const { data: labTests, isLoading: isLabTestsLoading } =
@@ -71,7 +72,14 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
       : "";
     setIsLoading(true);
     console.log(data);
-    await mutate(data);
+    const { success } = await createTransaction(data);
+    if (success) {
+      router.push(
+        `/transaction/success?ref=${data.customerNumber}&test=${test}`
+      );
+    } else {
+      setIsLoading(false);
+    }
     // router.push(`/transaction/success?ref=${data.customerNumber}&test=${test}`);
   };
 
@@ -312,7 +320,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
             )}
           />
         ) : null}
-        <Button type="submit">{isLoading ? "submitting..." : "Submit"}</Button>
+        <Button type="submit">{isLoading ? "Submitting..." : "Submit"}</Button>
       </form>
     </Form>
   );

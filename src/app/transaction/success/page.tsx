@@ -3,11 +3,13 @@ import { CheckCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import React, { Suspense } from "react";
 
-const PhoneNumber = () => {
-  const searchParams = useSearchParams();
-  const number = searchParams.get("ref");
-  const labTest = searchParams.get("test");
-
+const PhoneNumber = ({
+  number,
+  labTest,
+}: {
+  number: string;
+  labTest: string;
+}) => {
   return (
     <div className="flex flex-col items-center gap-2 p-4 border  rounded-lg">
       <p>
@@ -22,7 +24,12 @@ const PhoneNumber = () => {
   );
 };
 
-const TransactionSuccess = () => {
+const TransactionSuccess = ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+  console.log(searchParams);
   return (
     <div className="flex flex-col items-center justify-center h-[100svh]">
       <div className="flex flex-col items-center gap-2">
@@ -33,7 +40,10 @@ const TransactionSuccess = () => {
       </div>
 
       <Suspense fallback={<span>Loading...</span>}>
-        <PhoneNumber />
+        <PhoneNumber
+          number={searchParams.ref as string}
+          labTest={searchParams.test as string}
+        />
       </Suspense>
     </div>
   );

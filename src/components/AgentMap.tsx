@@ -21,10 +21,9 @@ function MapsComponent({
     "AgentType" | "name" | "latitude" | "longitude" | "agentId"
   >[];
 }) {
-  console.log(agents);
   const { isLoaded } = useJsApiLoader({
-    id: process.env.GOOGLE_MAPS_API_KEY!,
-    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY!,
+    id: process.env.GOOGLE_MAPS_ID,
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
   });
 
   const [map, setMap] = React.useState<google.maps.Map | null>(null);

@@ -1,7 +1,7 @@
 import PharmacyList from "@/app/pharmacy/dashboard/PharmacyList";
 import prisma from "@/db";
 import { Agent } from "@prisma/client";
-import Link from "next/link";
+
 import React from "react";
 import {
   Pagination,
@@ -23,7 +23,6 @@ const PharmacyDashboard = async ({
 }) => {
   const page = Number(searchParams["page"] ?? "1");
   const per_page = Number(searchParams["per_page"] ?? "10");
-  console.log({ page, per_page });
 
   const skip = (page - 1) * per_page;
 

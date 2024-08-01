@@ -25,19 +25,6 @@ const DashboardNavbar = ({ user }: { user: KindeUser | null }) => {
         <Image alt="inkam-logo" className="object-cover" fill src="/logo.png" />
       </div>
       <div className="space-x-2 flex items-center">
-        {DATA.map(function (d) {
-          return (
-            <Link
-              key={d.title}
-              className={buttonVariants({
-                variant: pathName === d.link ? "default" : "secondary",
-              })}
-              href={d.link}
-            >
-              {d.title}
-            </Link>
-          );
-        })}
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger className="focus:outline-none">

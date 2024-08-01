@@ -15,6 +15,8 @@ export const createAgentSchema = z.object({
     .optional(),
   division: z.string().optional(),
   district: z.string().optional(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
 });
 
 export const createTransactionSchema = z.object({

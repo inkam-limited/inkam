@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import OnboardingForm from "./OnboardingForm";
 import Image from "next/image";
 const page = () => {
@@ -9,6 +9,7 @@ const page = () => {
           <Image src="/logo.png" className="object-cover" alt="logo" fill />
         </div>
         <h1 className="text-xl font-bold">Lets get started..</h1>
+
         <OnboardingForm />
       </div>
     </div>

@@ -57,7 +57,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
         <div className="col-span-3 pt-8 border-r border-gray-200">
           <Sidebar />
         </div>
-        <div className="col-span-9 pt-8">{children}</div>
+        <div className="col-span-9">{children}</div>
       </div>
     </div>
   );

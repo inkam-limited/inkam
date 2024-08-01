@@ -1,4 +1,3 @@
-"use client";
 import { LabTest, Transaction } from "@prisma/client";
 import React, { useState } from "react";
 import {
@@ -10,11 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Link from "next/link";
-import ReactPaginate from "react-paginate";
+
 import SuspenseLoader from "@/components/SuspenseLoader";
 import DomLoaded from "@/components/DomLoaded";
-import { Button } from "@/components/ui/button";
+import prisma from "@/db";
 
 const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
   return (
@@ -34,15 +32,27 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
           <TableBody>
             {transactions &&
               transactions.map(async function (transaction) {
+                const testName = await prisma.labTest.findUnique({
+                  where: {
+                    testId: transaction.labTestId,
+                  },
+                  select: {
+                    name: true,
+                  },
+                });
+
                 return (
-                  <TableRow key={transaction.transactionId}>
-                    <TableCell className="font-medium">
-                      {transaction.customerName}
-                    </TableCell>
-                    <TableCell>{transaction.customerNumber}</TableCell>
-                    <TableCell>{transaction.customerLocation}</TableCell>
-                    <TableCell className="">{transaction.agentName}</TableCell>
-                  </TableRow>
+                  <SuspenseLoader>
+                    <TableRow key={transaction.transactionId}>
+                      <TableCell className="font-medium">
+                        {transaction.customerName}
+                      </TableCell>
+                      <TableCell>{transaction.customerNumber}</TableCell>
+                      <TableCell>{transaction.customerLocation}</TableCell>
+                      <TableCell>{transaction.agentName}</TableCell>
+                      <TableCell>{testName?.name}</TableCell>
+                    </TableRow>
+                  </SuspenseLoader>
                 );
               })}
           </TableBody>

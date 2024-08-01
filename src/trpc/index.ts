@@ -82,6 +82,8 @@ export const appRouter = router({
             division: input.division,
             district: input.district,
             location: input.location,
+            latitude: input.latitude ? input.latitude : null,
+            longitude: input.longitude ? input.longitude : null,
           },
         });
         return { success: true };

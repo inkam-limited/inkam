@@ -1,5 +1,5 @@
 import prisma from "@/db";
-import React, { Suspense } from "react";
+import React from "react";
 import TransactionList from "./TransactionList";
 import {
   Pagination,
@@ -10,6 +10,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import SuspenseLoader from "@/components/SuspenseLoader";
 
 const TransactionPage = async ({
   searchParams,
@@ -40,9 +41,9 @@ const TransactionPage = async ({
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">All Transactions</h2>
-      <Suspense fallback={<div>Loading...</div>}>
+      <SuspenseLoader>
         <TransactionList transactions={transactions} />
-      </Suspense>
+      </SuspenseLoader>
       <Pagination>
         <PaginationContent>
           <PaginationItem>

@@ -25,8 +25,18 @@ import { getDistricts, getDivisions } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { createAgentSchema } from "../../lib/schema";
 import { trpc } from "../_trpc/client";
+import { useGeolocated } from "react-geolocated";
 
 export default function OnboardingForm() {
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+
+      userDecisionTimeout: 5000,
+    });
+
   const router = useRouter();
   const [divisions, setDivisions] = useState<{ division: string }[]>([]);
   const [districts, setDistricts] = useState<{ district: string }[]>([]);
@@ -37,10 +47,17 @@ export default function OnboardingForm() {
       number: "",
       division: "",
       district: "",
+      latitude: coords?.latitude,
+      longitude: coords?.longitude,
     },
   });
   const selectedDivision = form.watch("division");
   const { mutate, isLoading } = trpc.createAgent.useMutation();
+
+  if (isGeolocationAvailable) {
+    form.setValue("latitude", coords?.latitude);
+    form.setValue("longitude", coords?.longitude);
+  }
 
   useEffect(() => {
     getDivisions().then((data) => {
@@ -56,6 +73,7 @@ export default function OnboardingForm() {
   const onSubmit = async (data: z.infer<typeof createAgentSchema>) => {
     try {
       mutate(data);
+      console.log(data);
     } catch (error) {
       console.log(error);
     } finally {

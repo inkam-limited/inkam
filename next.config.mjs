@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+import withPWAInit from "@ducanh2912/next-pwa";
+const withPWA = withPWAInit({
+  dest: "public",
+});
 const nextConfig = {
   images: {
     remotePatterns: [{ hostname: "lh3.googleusercontent.com" }],
@@ -8,8 +12,7 @@ const nextConfig = {
   },
   env: {
     GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
-    GOOGLE_MAPS_ID: process.env.GOOGLE_MAPS_ID,
   },
 };
 
-export default nextConfig;
+export default withPWA(nextConfig);

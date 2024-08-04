@@ -5,7 +5,7 @@ import { Agent } from "@prisma/client";
 
 const containerStyle = {
   width: "100%",
-  height: "90svh",
+  height: "calc(100svh - 4rem)",
 };
 
 const center = {

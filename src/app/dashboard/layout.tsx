@@ -50,14 +50,14 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div className="w-full max-w-7xl h-[100svh] mx-auto px-4">
+    <div className="w-full max-w-7xl  mx-auto px-4">
       <DashboardNavbar user={user} />
 
-      <div className="grid grid-cols-12 h-full px-4 gap-4">
-        <div className="col-span-3 pt-8 border-r border-gray-200">
+      <div className="md:grid min-h-[calc(100svh-4rem)] grid-cols-4  px-4 gap-4">
+        <div className="col-span-1 pt-8 border-r border-gray-200">
           <Sidebar />
         </div>
-        <div className="col-span-9">{children}</div>
+        <div className="col-span-3 pt-8">{children}</div>
       </div>
     </div>
   );

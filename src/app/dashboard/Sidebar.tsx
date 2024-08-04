@@ -28,7 +28,7 @@ const Sidebar = () => {
             key={col.field}
             href={`/dashboard/${col.field}`}
             className={cn(
-              "text-lg  font-semibold capitalize w-full text-start hover:text-neutral-500/70 p-4 rounded-lg",
+              "font-semibold capitalize w-full text-start hover:text-neutral-500/70 px-4 py-2 rounded-lg",
               isActive(col.field)
             )}
           >

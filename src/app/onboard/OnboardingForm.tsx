@@ -26,6 +26,40 @@ import { useRouter } from "next/navigation";
 import { createAgentSchema } from "../../lib/schema";
 import { trpc } from "../_trpc/client";
 import { useGeolocated } from "react-geolocated";
+import { Label } from "recharts";
+import { Autocomplete, useLoadScript } from "@react-google-maps/api";
+import { Skeleton } from "@/components/ui/skeleton";
+const AutoCompleteWrapper = ({ children }: { children: React.ReactChild }) => {
+  const [searchResult, setSearchResult] =
+    useState<google.maps.places.Autocomplete>();
+  const { isLoaded } = useLoadScript({
+    id: process.env.GOOGLE_MAPS_ID,
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
+    libraries: ["places"],
+  });
+
+  function onLoad(autocomplete: google.maps.places.Autocomplete) {
+    setSearchResult(autocomplete);
+  }
+
+  function locationSelected() {
+    if (searchResult) {
+      const place = searchResult.getPlace();
+      console.log("Search : ", place);
+    }
+  }
+  return isLoaded ? (
+    <>
+      <Autocomplete onLoad={onLoad} onPlaceChanged={locationSelected}>
+        {children}
+      </Autocomplete>
+    </>
+  ) : (
+    <>
+      <Skeleton className="w-full h-8" />
+    </>
+  );
+};
 
 export default function OnboardingForm() {
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
@@ -117,6 +151,10 @@ export default function OnboardingForm() {
             </FormItem>
           )}
         />
+        <Label>Location</Label>
+        <AutoCompleteWrapper>
+          <Input placeholder="Search for a location" />
+        </AutoCompleteWrapper>
         <FormField
           control={form.control}
           name="division"

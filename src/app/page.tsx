@@ -1,8 +1,16 @@
 import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const { getUser } = await getKindeServerSession();
+  const user = await getUser();
+  if (user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">

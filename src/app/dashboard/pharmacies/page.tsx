@@ -52,7 +52,7 @@ const PharmacyDashboard = async ({
               {page > 1 && (
                 <PaginationPrevious
                   href={{
-                    pathname: "/dashboard/agents",
+                    pathname: "/dashboard/pharmacies",
                     query: {
                       page: page - 1,
                       per_page: per_page,
@@ -71,7 +71,7 @@ const PharmacyDashboard = async ({
               {page < totalPages && (
                 <PaginationNext
                   href={{
-                    pathname: "/dashboard/agents",
+                    pathname: "/dashboard/pharmacies",
                     query: {
                       page: page + 1,
                       per_page: per_page,

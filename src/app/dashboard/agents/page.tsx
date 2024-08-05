@@ -1,4 +1,3 @@
-import PharmacyList from "@/app/pharmacy/dashboard/PharmacyList";
 import prisma from "@/db";
 import { Agent } from "@prisma/client";
 

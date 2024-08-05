@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
-import { Agent } from "@prisma/client";
+import { Agent, Prisma } from "@prisma/client";
 
 const containerStyle = {
   width: "100%",
@@ -51,15 +51,23 @@ function MapsComponent({
     >
       {/* Child components, such as markers, info windows, etc. */}
       {agents.map((agent) => {
-        if (agent.latitude === null || agent.longitude === null) return null;
-        return (
-          <MarkerF
-            key={agent.agentId}
-            position={{ lat: agent.latitude, lng: agent.longitude }}
-            title={agent.name}
-            label={agent.name}
-          />
-        );
+        if (
+          agent?.latitude &&
+          agent?.longitude &&
+          typeof agent?.latitude === "number" &&
+          typeof agent?.longitude === "number"
+        )
+          return (
+            <MarkerF
+              key={agent.agentId}
+              position={{
+                lat: agent.latitude,
+                lng: agent.longitude,
+              }}
+              title={agent.name}
+              label={agent.name}
+            />
+          );
       })}
     </GoogleMap>
   ) : (

@@ -30,7 +30,6 @@ const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
               <TableRow key={pharmacy.agentId}>
                 <TableCell className="font-medium">{pharmacy.name}</TableCell>
                 <TableCell>{pharmacy.number}</TableCell>
-                <TableCell>{pharmacy.location}</TableCell>
                 <TableCell className="text-right">
                   <Link
                     href={`/pharmacy/${pharmacy.agentId}`}

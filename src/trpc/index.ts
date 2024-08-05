@@ -74,20 +74,32 @@ export const appRouter = router({
   createAgent: publicProcedure
     .input(createAgentSchema)
     .mutation(async ({ input }) => {
+      const numberExists = await prisma.agent.findFirst({
+        where: {
+          number: input.number,
+        },
+      });
+      if (numberExists) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Number already exists",
+        });
+      }
       try {
         await prisma.agent.create({
           data: {
             name: input.name,
             number: input.number,
-            division: input.division,
-            district: input.district,
-            location: input.location,
-            latitude: input.latitude ? input.latitude : null,
-            longitude: input.longitude ? input.longitude : null,
+            address: input.address,
+            latitude: input.latitude,
+            longitude: input.longitude,
+            managerName: input.managerName ?? "",
+            ownerNumber: input.ownerNumber ?? "",
           },
         });
         return { success: true };
       } catch (error) {
+        console.log(error);
         throw new TRPCError({ code: "BAD_REQUEST" });
       }
     }),

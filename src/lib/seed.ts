@@ -64,7 +64,6 @@ export const seed = async () => {
         data: {
           name: pharmacy.pharmacyName,
           number: pharmacy.ownerPhoneNumber,
-          location: pharmacy.pharmacyAddress,
         },
       });
     } catch (error) {

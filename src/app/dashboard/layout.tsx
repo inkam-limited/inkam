@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import Sidebar from "./Sidebar";
 import { Role } from "@prisma/client";
 import prisma from "@/db";
+import { redirect } from "next/navigation";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const { getUser } = await getKindeServerSession();
@@ -19,7 +20,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
         <h1 className="text-center text-3xl font-bold mb-3">
           You need to login to continue
         </h1>
-        <LoginLink postLoginRedirectURL="/auth-callback?origin=pharmacy/dashboard">
+        <LoginLink postLoginRedirectURL="/auth-callback?origin=dashboard">
           <Button size="lg" variant="default">
             Login
           </Button>
@@ -33,14 +34,17 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     },
   });
 
-  console.log(dbUser?.role);
+  if (!dbUser) {
+    redirect("/auth-callback?origin=dashboard");
+  }
+
   if (dbUser?.role !== Role.ADMIN) {
     return (
       <div className="flex flex-col items-center justify-center h-[100svh]">
         <h1 className="text-center text-3xl font-bold mb-3">
           You need to be an admin to continue
         </h1>
-        <LoginLink postLoginRedirectURL="/auth-callback?origin=pharmacy/dashboard">
+        <LoginLink postLoginRedirectURL="/auth-callback?origin=dashboard">
           <Button size="lg" variant="default">
             Login
           </Button>

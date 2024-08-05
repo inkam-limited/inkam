@@ -26,17 +26,53 @@ import { useRouter } from "next/navigation";
 import { createAgentSchema } from "../../lib/schema";
 import { trpc } from "../_trpc/client";
 import { useGeolocated } from "react-geolocated";
-import { Label } from "recharts";
-import { Autocomplete, useLoadScript } from "@react-google-maps/api";
+import { Autocomplete, Libraries, useLoadScript } from "@react-google-maps/api";
 import { Skeleton } from "@/components/ui/skeleton";
-const AutoCompleteWrapper = ({ children }: { children: React.ReactChild }) => {
+import { toast } from "sonner";
+const libraries = ["places"] as Libraries;
+export default function OnboardingForm() {
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      userDecisionTimeout: 5000,
+    });
+
+  const router = useRouter();
   const [searchResult, setSearchResult] =
     useState<google.maps.places.Autocomplete>();
   const { isLoaded } = useLoadScript({
     id: process.env.GOOGLE_MAPS_ID,
     googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
-    libraries: ["places"],
+    libraries,
   });
+
+  const form = useForm<z.infer<typeof createAgentSchema>>({
+    resolver: zodResolver(createAgentSchema),
+    defaultValues: {
+      name: "",
+      number: "",
+      latitude: 0,
+      longitude: 0,
+    },
+  });
+
+  const { mutate, isLoading, error } = trpc.createAgent.useMutation();
+
+  if (error) {
+    toast.error(error.message);
+  }
+  useEffect(() => {
+    if (isGeolocationAvailable) {
+      const geoLocation = {
+        latitude: coords?.latitude,
+        longitude: coords?.longitude,
+      };
+      form.setValue("latitude", geoLocation.latitude);
+      form.setValue("longitude", geoLocation.longitude);
+    }
+  }, [coords, isGeolocationAvailable]);
 
   function onLoad(autocomplete: google.maps.places.Autocomplete) {
     setSearchResult(autocomplete);
@@ -45,73 +81,27 @@ const AutoCompleteWrapper = ({ children }: { children: React.ReactChild }) => {
   function locationSelected() {
     if (searchResult) {
       const place = searchResult.getPlace();
-      console.log("Search : ", place);
+      const geoLatitude = place.geometry?.location?.lat();
+      const geoLongitude = place.geometry?.location?.lng();
+      if (!isGeolocationAvailable || !isGeolocationEnabled) {
+        form.setValue("latitude", geoLatitude);
+        form.setValue("longitude", geoLongitude);
+      }
+      const address = place.address_components;
+      if (address) {
+        form.setValue("address", address);
+      }
     }
   }
-  return isLoaded ? (
-    <>
-      <Autocomplete onLoad={onLoad} onPlaceChanged={locationSelected}>
-        {children}
-      </Autocomplete>
-    </>
-  ) : (
-    <>
-      <Skeleton className="w-full h-8" />
-    </>
-  );
-};
-
-export default function OnboardingForm() {
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
-    useGeolocated({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-
-      userDecisionTimeout: 5000,
-    });
-
-  const router = useRouter();
-  const [divisions, setDivisions] = useState<{ division: string }[]>([]);
-  const [districts, setDistricts] = useState<{ district: string }[]>([]);
-  const form = useForm<z.infer<typeof createAgentSchema>>({
-    resolver: zodResolver(createAgentSchema),
-    defaultValues: {
-      name: "",
-      number: "",
-      division: "",
-      district: "",
-      latitude: coords?.latitude,
-      longitude: coords?.longitude,
-    },
-  });
-  const selectedDivision = form.watch("division");
-  const { mutate, isLoading } = trpc.createAgent.useMutation();
-
-  if (isGeolocationAvailable) {
-    form.setValue("latitude", coords?.latitude);
-    form.setValue("longitude", coords?.longitude);
-  }
-
-  useEffect(() => {
-    getDivisions().then((data) => {
-      setDivisions(data);
-    });
-    if (selectedDivision) {
-      getDistricts(selectedDivision).then((data) => {
-        setDistricts(data);
-      });
-    }
-  }, [selectedDivision]);
 
   const onSubmit = async (data: z.infer<typeof createAgentSchema>) => {
     try {
       mutate(data);
-      console.log(data);
+      router.push("onboard/success");
+      toast.success("Agent created successfully");
     } catch (error) {
       console.log(error);
-    } finally {
-      router.push("onboard/success");
+      toast.error("Error creating agent");
     }
   };
 
@@ -151,65 +141,17 @@ export default function OnboardingForm() {
             </FormItem>
           )}
         />
-        <Label>Location</Label>
-        <AutoCompleteWrapper>
-          <Input placeholder="Search for a location" />
-        </AutoCompleteWrapper>
-        <FormField
-          control={form.control}
-          name="division"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel>Division</FormLabel>
-                <Select onValueChange={field.onChange}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select your division" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {divisions.map((data) => (
-                      <SelectItem value={data.division} key={data.division}>
-                        {data.division}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-        {selectedDivision && (
-          <FormField
-            control={form.control}
-            name="district"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>District</FormLabel>
-                  <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your division" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {districts.map((data) => (
-                        <SelectItem value={data.district} key={data.district}>
-                          {data.district}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-        )}
-        <Button type="submit">{isLoading ? "submitting..." : "Submit"}</Button>
+        <FormItem>
+          <FormLabel>Location</FormLabel>
+          {isLoaded ? (
+            <Autocomplete onLoad={onLoad} onPlaceChanged={locationSelected}>
+              <Input placeholder="Search for a location" />
+            </Autocomplete>
+          ) : (
+            <Skeleton className="w-full h-8" />
+          )}
+        </FormItem>
+        <Button type="submit">{isLoading ? "Submitting..." : "Submit"}</Button>
       </form>
     </Form>
   );

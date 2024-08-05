@@ -10,9 +10,9 @@ const page = async () => {
     select: {
       AgentType: true,
       name: true,
+      agentId: true,
       latitude: true,
       longitude: true,
-      agentId: true,
     },
   });
   return (

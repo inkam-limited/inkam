@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "./_trpc/Provider";
+import { Toaster } from "@/components/ui/sonner";
 const APP_NAME = "Inkam";
 const APP_DEFAULT_TITLE = "Inkam Leads";
 const APP_TITLE_TEMPLATE = "%s - PWA App";
@@ -59,7 +60,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <main>
+            {children}
+            <Toaster />
+          </main>
+        </Providers>
       </body>
     </html>
   );

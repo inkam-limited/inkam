@@ -1,5 +1,4 @@
 "use client";
-import { buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,16 +13,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-const DATA = [{ title: "Pharmacy Dashboard", link: "/pharmacy/dashboard" }];
-
 const DashboardNavbar = ({ user }: { user: KindeUser | null }) => {
   const pathName = usePathname();
 
   return (
     <div className="flex border-b border-gray-200 items-center justify-between h-[4rem]">
-      <div className="relative w-[100px] h-[50px]">
+      <Link href="/dashboard" className="relative w-[100px] h-[50px]">
         <Image alt="inkam-logo" className="object-cover" fill src="/logo.png" />
-      </div>
+      </Link>
       <div className="space-x-2 flex items-center">
         {user ? (
           <DropdownMenu>

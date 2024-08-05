@@ -18,27 +18,72 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { createAgentSchema } from "@/lib/schema";
 import { trpc } from "@/app/_trpc/client";
+import { Autocomplete, Libraries, useLoadScript } from "@react-google-maps/api";
+import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
+const libraries = ["places"] as Libraries;
 
 const AddPharmacyForm = () => {
   const router = useRouter();
-  const { mutate, isLoading } = trpc.createAgent.useMutation();
+  const [searchResult, setSearchResult] =
+    useState<google.maps.places.Autocomplete>();
+  const { isLoaded } = useLoadScript({
+    id: process.env.GOOGLE_MAPS_ID,
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
+    libraries,
+  });
+  const { mutate, isLoading } = trpc.createAgent.useMutation({
+    onSuccess: () => {
+      toast.success("Pharmacy created successfully");
+      router.push("/dashboard/pharmacies");
+    },
+    onError: (error: any) => {
+      toast.error(`Error: ${error.shape?.message ?? error.message}`);
+      console.log(error);
+    },
+  });
 
   const form = useForm<z.infer<typeof createAgentSchema>>({
     resolver: zodResolver(createAgentSchema),
     defaultValues: {
       name: "",
       number: "",
-      location: "",
+      latitude: 0,
+      longitude: 0,
+      ownerNumber: "",
+      managerName: "",
+      address: [],
     },
   });
+
+  function onLoad(autocomplete: google.maps.places.Autocomplete) {
+    setSearchResult(autocomplete);
+  }
+
+  function locationSelected() {
+    if (searchResult) {
+      const place = searchResult.getPlace();
+      const geoLatitude = place.geometry?.location?.lat();
+      const geoLongitude = place.geometry?.location?.lng();
+      form.setValue("latitude", geoLatitude || 0);
+      form.setValue("longitude", geoLongitude || 0);
+      const address = place.address_components;
+      if (address) {
+        form.setValue("address", address);
+      }
+    }
+  }
 
   const onSubmit = async (data: z.infer<typeof createAgentSchema>) => {
     try {
       mutate(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      router.push("/pharmacy/dashboard");
+    } catch (error: any) {
+      if (error.shape?.code === "CONFLICT") {
+        form.setError("number", {
+          type: "conflict",
+          message: "Manager Number already exists",
+        });
+      }
     }
   };
 
@@ -61,24 +106,23 @@ const AddPharmacyForm = () => {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="location"
+          name="managerName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Pharmacy address</FormLabel>
+              <FormLabel>Manager Name</FormLabel>
               <FormControl>
-                <Input placeholder="input address" {...field} />
+                <Input placeholder="Manager name" {...field} />
               </FormControl>
-              <FormDescription>Input address</FormDescription>
+              <FormDescription>This is your manager name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="number"
+          name="ownerNumber"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Owner Phone Number</FormLabel>
@@ -90,8 +134,33 @@ const AddPharmacyForm = () => {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="number"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Managers Phone Number</FormLabel>
+              <FormControl>
+                <Input placeholder="Manager phone number" {...field} />
+              </FormControl>
+              <FormDescription>Input managers phone number</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Button type="submit">{isLoading ? "submitting..." : "Submit"}</Button>
+        <FormItem>
+          <FormLabel>Location</FormLabel>
+          {isLoaded ? (
+            <Autocomplete onLoad={onLoad} onPlaceChanged={locationSelected}>
+              <Input placeholder="Search for a location" />
+            </Autocomplete>
+          ) : (
+            <Skeleton className="w-full h-8" />
+          )}
+        </FormItem>
+
+        <Button type="submit">{isLoading ? "Submitting..." : "Submit"}</Button>
       </form>
     </Form>
   );

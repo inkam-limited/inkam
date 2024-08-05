@@ -1,7 +1,5 @@
-import PharmacyList from "@/app/pharmacy/dashboard/PharmacyList";
 import prisma from "@/db";
 import { Agent } from "@prisma/client";
-import Link from "next/link";
 import React from "react";
 import {
   Pagination,
@@ -13,6 +11,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import SuspenseLoader from "@/components/SuspenseLoader";
+import PharmacyList from "./PharmacyLIst";
 
 const PharmacyDashboard = async ({
   searchParams,

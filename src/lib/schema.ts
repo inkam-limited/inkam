@@ -1,4 +1,4 @@
-import { late, z } from "zod";
+import { z } from "zod";
 
 export const createAgentSchema = z.object({
   name: z.string().min(1, { message: "Please enter your name" }),
@@ -9,12 +9,15 @@ export const createAgentSchema = z.object({
     .refine((val) => val.startsWith("0"), {
       message: "Number must start with 0",
     }),
-  location: z
+  address: z.any(),
+  managerName: z
     .string()
-    .min(3, { message: "Please input your address" })
+    .min(1, { message: "Please enter your manager name" })
     .optional(),
-  division: z.string().optional(),
-  district: z.string().optional(),
+  ownerNumber: z
+    .string()
+    .min(1, { message: "Please enter your phone number" })
+    .optional(),
   latitude: z.number().optional(),
   longitude: z.number().optional(),
 });

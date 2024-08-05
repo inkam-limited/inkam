@@ -39,6 +39,7 @@
     "mongoose": "^8.4.4",
     "next": "14.2.4",
     "next-qrcode": "^2.5.1",
+    "next-themes": "^0.3.0",
     "nodemailer": "^6.9.14",
     "react": "^18",
     "react-dom": "^18",
@@ -46,6 +47,7 @@
     "react-hook-form": "^7.52.1",
     "react-paginate": "^8.2.0",
     "recharts": "^2.12.7",
+    "sonner": "^1.5.0",
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
@@ -53,6 +55,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@hookform/devtools": "^4.3.1",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.15",
     "@types/react": "^18",

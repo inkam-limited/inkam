@@ -4,8 +4,8 @@ export const createAgentSchema = z.object({
   name: z.string().min(1, { message: "Please enter your name" }),
   number: z
     .string()
-    .min(1, { message: "Please enter your phone number" })
-    .max(11, { message: "Valid phone number is 11 digits" })
+    .min(11, { message: "Phone number must be 11 digits" })
+    .max(11, { message: "Phone number must be 11 digits" })
     .refine((val) => val.startsWith("0"), {
       message: "Number must start with 0",
     }),
@@ -33,6 +33,7 @@ export const createTransactionSchema = z.object({
     .refine((val) => val.startsWith("0"), {
       message: "Number must start with 0",
     }),
+  agentNumber: z.string().min(1, { message: "Please enter agent number" }),
   customerLocation: z.string().min(1, { message: "Please input your address" }),
   labTestId: z.string().min(1, { message: "Please select a lab test" }),
 });

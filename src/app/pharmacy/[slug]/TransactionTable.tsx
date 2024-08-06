@@ -64,12 +64,12 @@ const TransactionTable = ({
         </Table>
         <ReactPaginate
           breakLabel="..."
-          nextLabel={<Button variant="outline">Next</Button>}
+          nextLabel={<Button variant="ghost">Next</Button>}
           onPageChange={handlePageClick}
           pageRangeDisplayed={5}
           pageCount={pageCount}
           className="flex justify-center gap-4 items-center my-2"
-          previousLabel={<Button variant="outline">Previous</Button>}
+          previousLabel={<Button variant="ghost">Previous</Button>}
           renderOnZeroPageCount={null}
         />
       </div>

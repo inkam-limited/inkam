@@ -1,4 +1,4 @@
-import { Agent } from "@prisma/client";
+import { Agent, Prisma } from "@prisma/client";
 import {
   Table,
   TableBody,
@@ -9,7 +9,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const AgentList = ({ agents }: { agents: Agent[] }) => {
   return (
@@ -25,6 +31,18 @@ const AgentList = ({ agents }: { agents: Agent[] }) => {
       </TableHeader>
       <TableBody>
         {agents.map(async function (agent) {
+          let address;
+          if (
+            agent?.address &&
+            typeof agent?.address === "object" &&
+            Array.isArray(agent?.address)
+          ) {
+            const addressObj = agent?.address as Prisma.JsonArray;
+
+            address = addressObj;
+            console.log(address);
+          }
+
           return (
             <TableRow key={agent.agentId}>
               <TableCell className="font-medium">
@@ -36,8 +54,30 @@ const AgentList = ({ agents }: { agents: Agent[] }) => {
                 </Link>
               </TableCell>
               <TableCell>{agent.number}</TableCell>
-              <TableCell>{agent.district}</TableCell>
+              <TableCell className="max-w-9">
+                {agent.address?.toString().replaceAll(",", ", ")}
+              </TableCell>
               <TableCell>{agent.createdAt.toDateString()}</TableCell>
+              <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="w-full">
+                      Actions
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>
+                      <Link href={`/pharmacy/${agent.agentId}`}>View</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href={`/pharmacy/${agent.agentId}`}>Edit</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href={`/pharmacy/${agent.agentId}`}>Delete</Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
             </TableRow>
           );
         })}

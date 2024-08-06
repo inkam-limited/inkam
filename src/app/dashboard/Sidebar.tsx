@@ -5,6 +5,7 @@ import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 const Sidebar = () => {
   const pathName = usePathname();
 
@@ -20,6 +21,7 @@ const Sidebar = () => {
     { field: "pharmacies", value: "pharmacies" },
     { field: "maps", value: "maps" },
   ];
+
   return (
     <div className="col-span-3 space-y-2 flex flex-col pe-4">
       {cols.map((col) => {

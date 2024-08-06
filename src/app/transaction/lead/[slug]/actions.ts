@@ -11,6 +11,7 @@ export const createTransaction = async ({
   customerName,
   customerLocation,
   agentName,
+  agentNumber,
 }: {
   agentName: string;
   labTestId: string;
@@ -18,6 +19,7 @@ export const createTransaction = async ({
   customerNumber: string;
   customerName: string;
   customerLocation: string;
+  agentNumber: string;
 }) => {
   debugger;
   const labTests = await prisma.labTest.findUnique({
@@ -31,6 +33,7 @@ export const createTransaction = async ({
   try {
     await prisma.transaction.create({
       data: {
+        agentNumber,
         agentId,
         agentName,
         customerNumber,

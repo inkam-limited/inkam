@@ -67,8 +67,9 @@ const AddPharmacyForm = () => {
       const geoLongitude = place.geometry?.location?.lng();
       form.setValue("latitude", geoLatitude || 0);
       form.setValue("longitude", geoLongitude || 0);
-      const address = place.address_components;
-      if (address) {
+      const mapAddress = place.address_components;
+      if (mapAddress) {
+        const address = mapAddress.map((address) => address.short_name);
         form.setValue("address", address);
       }
     }

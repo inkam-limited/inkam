@@ -56,21 +56,21 @@ const pharmacies = [
   },
 ];
 
-export const seed = async () => {
-  console.log("Seeding pharmacies...");
-  for (const pharmacy of pharmacies) {
-    try {
-      await prisma.agent.create({
-        data: {
-          name: pharmacy.pharmacyName,
-          number: pharmacy.ownerPhoneNumber,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-};
+// export const seed = async () => {
+//   console.log("Seeding pharmacies...");
+//   for (const pharmacy of pharmacies) {
+//     try {
+//       await prisma.agent.create({
+//         data: {
+//           name: pharmacy.pharmacyName,
+//           number: pharmacy.ownerPhoneNumber,
+//         },
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+// };
 
 // const divisions = await prisma.division.findMany();
 // await prisma.district.deleteMany();
@@ -566,28 +566,28 @@ const labTests = [
   { name: "PT/INR", price: 500, commissionRate: "40%", commission: 200 },
 ];
 
-// export const seed = async () => {
-//   console.log("Seeding...");
-//   labTests.forEach(async (labTest) => {
-//     const testExists = await prisma.labTest.findUnique({
-//       where: {
-//         name: labTest.name,
-//       },
-//     });
-//     if (testExists) {
-//       console.log("Test already exists");
-//       return;
-//     } else {
-//       console.log("Creating test");
-//       const newLabTest = await prisma.labTest.create({
-//         data: {
-//           name: labTest.name,
-//           commissionRate: labTest.commissionRate,
-//           commission: labTest.commission.toString(),
-//           price: labTest.price.toString(),
-//         },
-//       });
-//       console.log(newLabTest);
-//     }
-//   });
-// };
+export const seed = async () => {
+  console.log("Seeding...");
+  labTests.forEach(async (labTest) => {
+    const testExists = await prisma.labTest.findUnique({
+      where: {
+        name: labTest.name,
+      },
+    });
+    if (testExists) {
+      console.log("Test already exists");
+      return;
+    } else {
+      console.log("Creating test");
+      const newLabTest = await prisma.labTest.create({
+        data: {
+          name: labTest.name,
+          commissionRate: labTest.commissionRate,
+          commission: labTest.commission.toString(),
+          price: labTest.price.toString(),
+        },
+      });
+      console.log(newLabTest);
+    }
+  });
+};

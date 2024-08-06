@@ -1,6 +1,6 @@
 "use client";
-import { User } from "@prisma/client";
-import React, { Suspense, useState } from "react";
+import { Role, User } from "@prisma/client";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -10,15 +10,29 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Link from "next/link";
 import ReactPaginate from "react-paginate";
 import DomLoaded from "@/components/DomLoaded";
-import { Button } from "@react-email/components";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { updateUserRole } from "./actions";
+import { useRouter } from "next/navigation";
 
 const UserSettings = ({ users }: { users: User[] }) => {
+  const router = useRouter();
   const itemsPerPage = 10;
 
   const [itemOffset, setItemOffset] = useState(0);
+  const [userRoles, setUserRoles] = useState<Record<string, Role>>(
+    Object.fromEntries(users.map((user) => [user.id, user.role]))
+  );
 
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = users.slice(itemOffset, endOffset);
@@ -31,10 +45,18 @@ const UserSettings = ({ users }: { users: User[] }) => {
     );
     setItemOffset(newOffset);
   };
+
+  const handleRoleChange = (userId: string, value: string) => {
+    const newRole = value as Role;
+    updateUserRole(userId, newRole);
+    setUserRoles((prevRoles) => ({ ...prevRoles, [userId]: newRole }));
+    router.refresh();
+  };
+
   return (
     <>
       <Table>
-        <TableCaption>A list of your recent pharmacies.</TableCaption>
+        <TableCaption>A list of your recent users.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Name</TableHead>
@@ -46,18 +68,42 @@ const UserSettings = ({ users }: { users: User[] }) => {
         <DomLoaded>
           <TableBody>
             {currentItems &&
-              currentItems.map(async function (user) {
-                return (
-                  <TableRow key={user.id}>
-                    <TableCell className="font-medium">{user.name}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.role}</TableCell>
-                    <TableCell className="">
-                      {user.createdAt.toDateString()}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              currentItems.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell className="font-medium">{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline">{user.role}</Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-56">
+                        <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuRadioGroup
+                          value={userRoles[user.id]}
+                          onValueChange={(value) =>
+                            handleRoleChange(user.id, value)
+                          }
+                        >
+                          <DropdownMenuRadioItem value={Role.ADMIN}>
+                            Admin
+                          </DropdownMenuRadioItem>
+                          <DropdownMenuRadioItem value={Role.MODERATOR}>
+                            Moderator
+                          </DropdownMenuRadioItem>
+                          <DropdownMenuRadioItem value={Role.PARTNER}>
+                            Partner
+                          </DropdownMenuRadioItem>
+                        </DropdownMenuRadioGroup>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                  <TableCell>
+                    {new Date(user.createdAt).toDateString()}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </DomLoaded>
       </Table>

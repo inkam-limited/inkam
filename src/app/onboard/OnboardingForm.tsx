@@ -87,8 +87,9 @@ export default function OnboardingForm() {
         form.setValue("latitude", geoLatitude);
         form.setValue("longitude", geoLongitude);
       }
-      const address = place.address_components;
-      if (address) {
+      const mapAddress = place.address_components;
+      if (mapAddress) {
+        const address = mapAddress.map((address) => address.short_name);
         form.setValue("address", address);
       }
     }

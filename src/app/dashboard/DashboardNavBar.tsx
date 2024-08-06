@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +23,11 @@ const DashboardNavbar = ({ user }: { user: KindeUser | null }) => {
         <Image alt="inkam-logo" className="object-cover" fill src="/logo.png" />
       </Link>
       <div className="space-x-2 flex items-center">
+        {pathName === "/dashboard/pharmacies" && (
+          <Link href="/dashboard/pharmacies/add">
+            <Button variant="default">New Pharmacy</Button>
+          </Link>
+        )}
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger className="focus:outline-none">

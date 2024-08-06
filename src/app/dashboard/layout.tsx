@@ -3,6 +3,7 @@ import DashboardNavbar from "./DashboardNavBar";
 import {
   getKindeServerSession,
   LoginLink,
+  LogoutLink,
 } from "@kinde-oss/kinde-auth-nextjs/server";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 import { Button } from "@/components/ui/button";
@@ -44,11 +45,13 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
         <h1 className="text-center text-3xl font-bold mb-3">
           You need to be an admin to continue
         </h1>
-        <LoginLink postLoginRedirectURL="/auth-callback?origin=dashboard">
-          <Button size="lg" variant="default">
-            Login
-          </Button>
-        </LoginLink>
+        <div className="flex gap-2">
+          <LogoutLink postLogoutRedirectURL="/">
+            <Button size="lg" variant="outline">
+              Logout
+            </Button>
+          </LogoutLink>
+        </div>
       </div>
     );
   }

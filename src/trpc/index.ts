@@ -5,6 +5,7 @@ import prisma from "@/db";
 import { User } from "@prisma/client";
 import { createAgentSchema, createTransactionSchema } from "@/lib/schema";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -52,6 +53,7 @@ export const appRouter = router({
       try {
         await prisma.transaction.create({
           data: {
+            agentNumber: input.agentNumber,
             agentId: input.agentId,
             agentName: input.agentName,
             customerNumber: input.customerNumber,
@@ -102,6 +104,16 @@ export const appRouter = router({
         console.log(error);
         throw new TRPCError({ code: "BAD_REQUEST" });
       }
+    }),
+  getAgentTransactions: publicProcedure
+    .input(z.object({ agentNumber: z.string() }))
+    .query(async ({ input }) => {
+      const transactions = await prisma.transaction.findMany({
+        where: {
+          agentNumber: input.agentNumber,
+        },
+      });
+      return transactions;
     }),
 });
 

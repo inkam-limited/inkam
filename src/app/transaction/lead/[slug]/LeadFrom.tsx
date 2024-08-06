@@ -37,6 +37,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { CheckIcon } from "lucide-react";
 import useMediaQuery from "@custom-react-hooks/use-media-query";
 import { createTransaction } from "./actions";
+import { seed } from "@/lib/seed";
 
 export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const { data: labTests, isLoading: isLabTestsLoading } =
@@ -57,6 +58,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
       customerNumber: "",
       customerLocation: "",
       labTestId: currentTestId,
+      agentNumber: pharmacy.number,
     },
   });
 
@@ -71,7 +73,6 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
         labTests.find((test) => test.testId === data.labTestId)?.name
       : "";
     setIsLoading(true);
-    console.log(data);
     const { success } = await createTransaction(data);
     if (success) {
       router.push(
@@ -80,11 +81,11 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
     } else {
       setIsLoading(false);
     }
-    // router.push(`/transaction/success?ref=${data.customerNumber}&test=${test}`);
   };
 
   return (
     <Form {...form}>
+      <Button onClick={() => seed()}>Back</Button>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 flex flex-col "

@@ -22,7 +22,12 @@ const Page = () => {
   const handleClick = async () => {
     const result = await agentTransaction.refetch();
     if (result.data && result.data.length > 0) {
-      setTransactions(result.data);
+      const parsedTransactions = result.data.map((transaction) => ({
+        ...transaction,
+        createdAt: new Date(transaction.createdAt),
+        updatedAt: new Date(transaction.updatedAt),
+      }));
+      setTransactions(parsedTransactions);
       setNoData(false);
     } else {
       setTransactions([]);
@@ -32,7 +37,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col gap-4 h-[100svh] w-full">
-      <Card className="pt-20">
+      <Card>
         <Input
           placeholder="Enter Agent Number"
           value={agentNumber}

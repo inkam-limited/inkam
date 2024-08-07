@@ -29,7 +29,6 @@ const TransactionSuccess = ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  console.log(searchParams);
   return (
     <div className="flex flex-col items-center justify-center h-[100svh]">
       <div className="flex flex-col items-center gap-2">

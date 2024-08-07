@@ -2,49 +2,31 @@
 
 import prisma from "@/db";
 import { TRPCError } from "@trpc/server";
-import { redirect } from "next/navigation";
 
-export const createTransaction = async ({
-  labTestId,
-  agentId,
-  customerNumber,
-  customerName,
-  customerLocation,
-  agentName,
-  agentNumber,
-}: {
-  agentName: string;
-  labTestId: string;
-  agentId: string;
-  customerNumber: string;
-  customerName: string;
-  customerLocation: string;
-  agentNumber: string;
-}) => {
-  debugger;
-  const labTests = await prisma.labTest.findUnique({
-    where: {
-      testId: labTestId,
-    },
-  });
-  if (!labTests) {
-    throw new TRPCError({ code: "BAD_REQUEST" });
-  }
+export const createTransaction = async (data: { [key: string]: string }) => {
   try {
     await prisma.transaction.create({
       data: {
-        agentNumber,
-        agentId,
-        agentName,
-        customerNumber,
-        customerName,
-        customerLocation,
-        labTestId,
+        agentNumber: data.agentNumber,
+        agentId: data.agentId,
+        agentName: data.agentName,
+        customerName: data.customerName,
+        customerNumber: data.customerNumber,
+        customerLocation: data.customerLocation,
+        labTestId: data.labTestId,
       },
     });
-    return { success: true };
-  } catch (error) {
-    console.log(error);
-    throw new TRPCError({ code: "BAD_REQUEST" });
+  } catch (error: any) {
+    if (error.code === "P2002") {
+      throw new TRPCError({
+        code: "CONFLICT",
+        message: "Agent Number already exists",
+      });
+    }
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "Something went wrong",
+    });
   }
+  return { success: true };
 };

@@ -85,7 +85,7 @@ model Transaction {
   transactionId    String            @id @default(uuid())
   agent            Agent             @relation(fields: [agentId], references: [agentId], onDelete: Cascade)
   agentId          String
-  agentNumber      String            @unique
+  agentNumber      String
   agentName        String
   customerNumber   String
   customerName     String

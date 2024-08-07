@@ -38,6 +38,7 @@ import { CheckIcon } from "lucide-react";
 import useMediaQuery from "@custom-react-hooks/use-media-query";
 import { createTransaction } from "./actions";
 import { seed } from "@/lib/seed";
+import { sendMail } from "@/lib/mailer";
 
 export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const { data: labTests, isLoading: isLabTestsLoading } =
@@ -46,7 +47,6 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const [currentTestId, setCurrentTestId] = useState<string>("");
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const { mutate } = trpc.createTransaction.useMutation();
   const isWide = useMediaQuery("(min-width: 600px)");
 
   const form = useForm<z.infer<typeof createTransactionSchema>>({
@@ -54,9 +54,9 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
     defaultValues: {
       agentId: pharmacy.agentId,
       agentName: pharmacy.name,
-      customerName: "",
-      customerNumber: "",
-      customerLocation: "",
+      customerName: "Sarah",
+      customerNumber: "0181234567",
+      customerLocation: "123 Main Street, New York, NY 10010",
       labTestId: currentTestId,
       agentNumber: pharmacy.number,
     },
@@ -67,7 +67,6 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   }, [currentTestId]);
 
   const onSubmit = async (data: z.infer<typeof createTransactionSchema>) => {
-    console.log(data);
     const test = data.labTestId
       ? labTests &&
         labTests.find((test) => test.testId === data.labTestId)?.name
@@ -75,6 +74,8 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
     setIsLoading(true);
     const { success } = await createTransaction(data);
     if (success) {
+      const res = await sendMail();
+      console.log(res);
       router.push(
         `/transaction/success?ref=${data.customerNumber}&test=${test}`
       );
@@ -85,7 +86,6 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
 
   return (
     <Form {...form}>
-      <Button onClick={() => seed()}>Back</Button>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 flex flex-col "

@@ -40,7 +40,6 @@ const AgentList = ({ agents }: { agents: Agent[] }) => {
             const addressObj = agent?.address as Prisma.JsonArray;
 
             address = addressObj;
-            console.log(address);
           }
 
           return (

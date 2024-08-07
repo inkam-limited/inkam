@@ -1,27 +1,23 @@
-import { render } from "@react-email/components";
-import nodemailer from "nodemailer";
-import { Html, Button } from "@react-email/components";
+"use server";
 import { Email } from "./email";
+import { Resend } from "resend";
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.forwardemail.net",
-  port: 465,
-  secure: true,
-  auth: {
-    user: "my_user",
-    pass: "my_password",
-  },
-});
-
-const emailHtml = render(Email({ url: "https://example.com" }));
-
-const options = {
-  from: "you@example.com",
-  to: "user@gmail.com",
-  subject: "Hello World",
-  html: emailHtml,
-};
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendMail = async () => {
-  await transporter.sendMail(options);
+  try {
+    const { data, error } = await resend.emails.send({
+      from: "Acme <onboarding@resend.dev>",
+      to: ["inkamlimited@gmail.com"],
+      subject: "Test mail",
+      react: Email({ url: "John@inkam.app" }) as React.ReactElement,
+    });
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(data);
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };

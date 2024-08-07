@@ -6,6 +6,13 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import {
+  CurrencyIcon,
+  MapIcon,
+  Settings,
+  StoreIcon,
+  User2Icon,
+} from "lucide-react";
 const Sidebar = () => {
   const pathName = usePathname();
 
@@ -15,11 +22,11 @@ const Sidebar = () => {
       : "";
   };
   const cols = [
-    { field: "agents", value: "agents" },
-    { field: "transactions", value: "transactions" },
-    { field: "settings", value: "settings" },
-    { field: "pharmacies", value: "pharmacies" },
-    { field: "maps", value: "maps" },
+    { field: "agents", value: "agents", icon: User2Icon },
+    { field: "transactions", value: "transactions", icon: CurrencyIcon },
+    { field: "settings", value: "settings", icon: Settings },
+    { field: "pharmacies", value: "pharmacies", icon: StoreIcon },
+    { field: "maps", value: "maps", icon: MapIcon },
   ];
 
   return (
@@ -30,11 +37,11 @@ const Sidebar = () => {
             key={col.field}
             href={`/dashboard/${col.field}`}
             className={cn(
-              "font-semibold capitalize w-full text-start hover:text-neutral-500/70 px-4 py-2 rounded-lg",
+              "font-semibold capitalize flex items-center w-full text-start hover:text-neutral-500/70 px-4 py-2 rounded-lg gap-2",
               isActive(col.field)
             )}
           >
-            {col.value}
+            <col.icon /> <span>{col.value}</span>
           </Link>
         );
       })}

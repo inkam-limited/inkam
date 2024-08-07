@@ -3,36 +3,59 @@
 import { useState } from "react";
 import { trpc } from "../_trpc/client";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Transaction } from "@prisma/client";
 
-const page = () => {
-  const [number, setNumber] = useState<string>("");
-  const {
-    data: transactions,
-    isLoading: isTransactionsLoading,
-    isError,
-  } = trpc.getAgentTransactions.useQuery({
-    agentNumber: "0812345678",
-  });
+const Page = () => {
+  const [agentNumber, setAgentNumber] = useState<string>("");
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [noData, setNoData] = useState<boolean>(false);
+
+  const agentTransaction = trpc.getAgentTransactions.useQuery(
+    { agentNumber: agentNumber },
+    {
+      enabled: false, // Disable automatic fetching
+    }
+  );
+
+  const handleClick = async () => {
+    const result = await agentTransaction.refetch();
+    if (result.data && result.data.length > 0) {
+      setTransactions(result.data);
+      setNoData(false);
+    } else {
+      setTransactions([]);
+      setNoData(true);
+    }
+  };
 
   return (
-    <div>
-      <Input
-        placeholder="Enter Agent Number"
-        value={number}
-        onChange={(e) => setNumber(e.target.value)}
-      />
-      <button
-        onClick={() =>
-          trpc.getAgentTransactions.useQuery({ agentNumber: number })
-        }
-      >
-        Search
-      </button>
-      {isTransactionsLoading && <div>Loading...</div>}
-      {transactions && <div>Transactions</div>}
-      {isError && <div>Error</div>}
+    <div className="flex flex-col gap-4 h-[100svh] w-full">
+      <Card className="pt-20">
+        <Input
+          placeholder="Enter Agent Number"
+          value={agentNumber}
+          onChange={(e) => setAgentNumber(e.target.value)}
+        />
+        <Button variant="default" onClick={handleClick}>
+          Search
+        </Button>
+        {transactions.length > 0 && (
+          <div className="flex flex-col gap-4">
+            {transactions.map((transaction) => (
+              <div key={transaction.transactionId}>
+                <div>{transaction.agentNumber}</div>
+                <div>{transaction.customerNumber}</div>
+                <div>{transaction.labTestId}</div>
+              </div>
+            ))}
+          </div>
+        )}
+        {noData && <div>No transactions found</div>}
+      </Card>
     </div>
   );
 };
 
-export default page;
+export default Page;

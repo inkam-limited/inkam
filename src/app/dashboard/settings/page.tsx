@@ -5,6 +5,8 @@ import { Loader2 } from "lucide-react";
 import React, { Suspense } from "react";
 import UserSettings from "./UserSetting";
 import SuspenseLoader from "@/components/SuspenseLoader";
+import { seed } from "@/lib/seed";
+import { Button } from "@/components/ui/button";
 
 const SettingsPage = async () => {
   const { getUser } = await getKindeServerSession();
@@ -43,9 +45,12 @@ const SettingsPage = async () => {
   const users = await prisma.user.findMany();
 
   return (
-    <SuspenseLoader>
-      <UserSettings users={users} />
-    </SuspenseLoader>
+    <div className="flex flex-col gap-4">
+      <h1 className="text-2xl font-bold">Settings</h1>
+      <SuspenseLoader>
+        <UserSettings users={users} />
+      </SuspenseLoader>
+    </div>
   );
 };
 

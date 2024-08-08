@@ -28,35 +28,31 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
             <TableHead className="">Lab Test</TableHead>
           </TableRow>
         </TableHeader>
-        <DomLoaded>
-          <TableBody>
-            {transactions &&
-              transactions.map(async function (transaction) {
-                const testName = await prisma.labTest.findUnique({
-                  where: {
-                    testId: transaction.labTestId,
-                  },
-                  select: {
-                    name: true,
-                  },
-                });
+        <TableBody>
+          {transactions &&
+            transactions.map(async function (transaction) {
+              const testName = await prisma.labTest.findUnique({
+                where: {
+                  testId: transaction.labTestId,
+                },
+                select: {
+                  name: true,
+                },
+              });
 
-                return (
-                  <SuspenseLoader>
-                    <TableRow key={transaction.transactionId}>
-                      <TableCell className="font-medium">
-                        {transaction.customerName}
-                      </TableCell>
-                      <TableCell>{transaction.customerNumber}</TableCell>
-                      <TableCell>{transaction.customerLocation}</TableCell>
-                      <TableCell>{transaction.agentName}</TableCell>
-                      <TableCell>{testName?.name}</TableCell>
-                    </TableRow>
-                  </SuspenseLoader>
-                );
-              })}
-          </TableBody>
-        </DomLoaded>
+              return (
+                <TableRow key={transaction.transactionId}>
+                  <TableCell className="font-medium">
+                    {transaction.customerName}
+                  </TableCell>
+                  <TableCell>{transaction.customerNumber}</TableCell>
+                  <TableCell>{transaction.customerLocation}</TableCell>
+                  <TableCell>{transaction.agentName}</TableCell>
+                  <TableCell>{testName?.name}</TableCell>
+                </TableRow>
+              );
+            })}
+        </TableBody>
       </Table>
     </div>
   );

@@ -188,7 +188,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                   </PopoverTrigger>
                   <PopoverContent
                     align="start"
-                    className="min-w-[200px] md:min-w-[500px]"
+                    className="min-w-[300px] md:min-w-[500px]"
                   >
                     <Command>
                       <CommandInput
@@ -198,30 +198,35 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                       <CommandList>
                         <CommandEmpty>No tests found.</CommandEmpty>
                         <CommandGroup>
-                          {labTests.map((language) => (
+                          {labTests.map((test) => (
                             <CommandItem
                               asChild
-                              value={language.name}
-                              key={language.name}
+                              value={test.name}
+                              key={test.name}
                               onSelect={() => {
-                                setCurrentTestId(language.testId);
+                                setCurrentTestId(test.testId);
                               }}
                             >
                               <>
                                 <Button
                                   variant="ghost"
-                                  className="text-left w-full"
+                                  className="text-left w-full flex justify-between gap-2"
                                   onClick={() => {
-                                    setCurrentTestId(language.testId);
+                                    setCurrentTestId(test.testId);
                                     setOpen(false);
                                   }}
                                 >
-                                  {language.name}
+                                  <span className="text-left overflow-hidden text-ellipsis whitespace-nowrap">
+                                    {test.name}
+                                  </span>
+                                  <span className="px-2 py-1 rounded-md bg-green-100 text-xs">
+                                    BDT {test.price}
+                                  </span>
                                 </Button>
                                 <CheckIcon
                                   className={cn(
                                     "ml-auto h-4 w-4",
-                                    language.name === field.value
+                                    test.name === field.value
                                       ? "opacity-100"
                                       : "opacity-0"
                                   )}
@@ -277,30 +282,35 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                       <CommandList>
                         <CommandEmpty>No tests found.</CommandEmpty>
                         <CommandGroup>
-                          {labTests.map((language) => (
+                          {labTests.map((test) => (
                             <CommandItem
                               asChild
-                              value={language.name}
-                              key={language.name}
+                              value={test.name}
+                              key={test.name}
                               onSelect={() => {
-                                setCurrentTestId(language.testId);
+                                setCurrentTestId(test.testId);
                               }}
                             >
                               <>
                                 <Button
                                   variant="ghost"
-                                  className="text-left w-full"
+                                  className="text-left w-full flex justify-between gap-2"
                                   onClick={() => {
-                                    setCurrentTestId(language.testId);
+                                    setCurrentTestId(test.testId);
                                     setOpen(false);
                                   }}
                                 >
-                                  {language.name}
+                                  <span className="text-left overflow-hidden text-ellipsis whitespace-nowrap">
+                                    {test.name}
+                                  </span>
+                                  <span className="px-2 py-1 rounded-md bg-green-100 text-xs">
+                                    BDT {test.price}
+                                  </span>
                                 </Button>
                                 <CheckIcon
                                   className={cn(
                                     "ml-auto h-4 w-4",
-                                    language.name === field.value
+                                    test.name === field.value
                                       ? "opacity-100"
                                       : "opacity-0"
                                   )}

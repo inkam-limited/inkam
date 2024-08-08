@@ -71,10 +71,18 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
       ? labTests &&
         labTests.find((test) => test.testId === data.labTestId)?.name
       : "";
+    if (!test) {
+      return;
+    }
     setIsLoading(true);
     const { success } = await createTransaction(data);
     if (success) {
-      const res = await sendMail();
+      const res = await sendMail({
+        patientName: data.customerName,
+        patientNumber: data.customerNumber,
+        testName: test,
+        address: data.customerLocation,
+      });
       console.log(res);
       router.push(
         `/transaction/success?ref=${data.customerNumber}&test=${test}`

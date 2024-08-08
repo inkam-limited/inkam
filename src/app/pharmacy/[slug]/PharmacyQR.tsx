@@ -1,27 +1,37 @@
 "use client";
-
-import React from "react";
-import { useQRCode } from "next-qrcode";
+import { Button } from "@/components/ui/button";
+import { LegacyRef, RefObject, useRef } from "react";
+import { QRCode } from "react-qrcode-logo";
 
 function PharmacyQR({ link }: { link: string }) {
-  const { Image } = useQRCode();
+  const ref = useRef<QRCode | null>(null);
+
+  const download = () => {
+    if (ref.current) {
+      ref.current.download("png", "pharmacy-qr.png");
+    }
+  };
 
   return (
-    <Image
-      text={link}
-      options={{
-        type: "image/jpeg ",
-        quality: 0.3,
-        errorCorrectionLevel: "M",
-        margin: 3,
-        scale: 2,
-        width: 500,
-        color: {
-          dark: "#333",
-          light: "#fff",
-        },
-      }}
-    />
+    <div className="flex flex-col items-center justify-center">
+      <QRCode
+        style={{ width: "100%", height: "100%" }}
+        logoImage="/amarlab-logo.png"
+        value={link}
+        size={500}
+        ecLevel="H"
+        bgColor="#ffffff"
+        fgColor="#2596be"
+        logoHeight={200}
+        logoWidth={200}
+        qrStyle="dots"
+        enableCORS={true}
+        ref={ref}
+      />
+      <Button className="w-full mt-4" onClick={download}>
+        Download QR Code
+      </Button>
+    </div>
   );
 }
 

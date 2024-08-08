@@ -24,7 +24,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { updateUserRole } from "./actions";
 import { useRouter } from "next/navigation";
-import { seed } from "@/lib/seed";
 
 const UserSettings = ({ users }: { users: User[] }) => {
   const router = useRouter();

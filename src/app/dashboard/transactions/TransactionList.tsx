@@ -13,6 +13,7 @@ import {
 import SuspenseLoader from "@/components/SuspenseLoader";
 import DomLoaded from "@/components/DomLoaded";
 import prisma from "@/db";
+import TransactionStatus from "./TransactionStatus";
 
 const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
   return (
@@ -26,6 +27,7 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
             <TableHead>Address</TableHead>
             <TableHead className="">Agent</TableHead>
             <TableHead className="">Lab Test</TableHead>
+            <TableHead className="">Status</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -49,6 +51,9 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
                   <TableCell>{transaction.customerLocation}</TableCell>
                   <TableCell>{transaction.agentName}</TableCell>
                   <TableCell>{testName?.name}</TableCell>
+                  <TableCell>
+                    <TransactionStatus status={transaction.status} />
+                  </TableCell>
                 </TableRow>
               );
             })}

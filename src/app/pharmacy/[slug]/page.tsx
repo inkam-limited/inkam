@@ -37,7 +37,7 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
           />
           <Link
             href={`/transaction/lead/${shop.agentId}`}
-            className={cn(buttonVariants({ variant: "default" }))}
+            className={cn(buttonVariants({ variant: "secondary" }))}
           >
             Generate Lead
           </Link>

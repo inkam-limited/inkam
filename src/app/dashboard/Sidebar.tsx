@@ -4,7 +4,7 @@ import Link from "next/link";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import {
   CurrencyIcon,
@@ -13,7 +13,8 @@ import {
   StoreIcon,
   User2Icon,
 } from "lucide-react";
-const Sidebar = () => {
+import { Role, User } from "@prisma/client";
+const Sidebar = ({ dbUser }: { dbUser: User | null }) => {
   const pathName = usePathname();
 
   const isActive = (field: string) => {
@@ -22,16 +23,29 @@ const Sidebar = () => {
       : "";
   };
   const cols = [
-    { field: "agents", value: "agents", icon: User2Icon },
-    { field: "transactions", value: "transactions", icon: CurrencyIcon },
-    { field: "settings", value: "settings", icon: Settings },
-    { field: "pharmacies", value: "pharmacies", icon: StoreIcon },
-    { field: "maps", value: "maps", icon: MapIcon },
+    { field: "agents", value: "agents", icon: User2Icon, protect: true },
+    {
+      field: "transactions",
+      value: "transactions",
+      icon: CurrencyIcon,
+      protect: false,
+    },
+    { field: "settings", value: "settings", icon: Settings, protect: false },
+    {
+      field: "pharmacies",
+      value: "pharmacies",
+      icon: StoreIcon,
+      protect: false,
+    },
+    { field: "maps", value: "maps", icon: MapIcon, protect: false },
   ];
 
   return (
     <div className="col-span-3 space-y-2 flex flex-col pe-4">
       {cols.map((col) => {
+        if (dbUser?.role === Role.PARTNER && col.protect) {
+          return null;
+        }
         return (
           <Link
             key={col.field}

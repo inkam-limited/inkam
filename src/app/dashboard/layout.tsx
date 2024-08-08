@@ -8,7 +8,6 @@ import {
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 import { Button } from "@/components/ui/button";
 import Sidebar from "./Sidebar";
-import { Role } from "@prisma/client";
 import prisma from "@/db";
 import { redirect } from "next/navigation";
 
@@ -39,22 +38,22 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     redirect("/auth-callback?origin=dashboard");
   }
 
-  if (dbUser?.role !== Role.ADMIN) {
-    return (
-      <div className="flex flex-col items-center justify-center h-[100svh]">
-        <h1 className="text-center text-3xl font-bold mb-3">
-          You need to be an admin to continue
-        </h1>
-        <div className="flex gap-2">
-          <LogoutLink postLogoutRedirectURL="/">
-            <Button size="lg" variant="outline">
-              Logout
-            </Button>
-          </LogoutLink>
-        </div>
-      </div>
-    );
-  }
+  // if (dbUser?.role !== Role.ADMIN) {
+  //   return (
+  //     <div className="flex flex-col items-center justify-center h-[100svh]">
+  //       <h1 className="text-center text-3xl font-bold mb-3">
+  //         You need to be an admin to continue
+  //       </h1>
+  //       <div className="flex gap-2">
+  //         <LogoutLink postLogoutRedirectURL="/">
+  //           <Button size="lg" variant="outline">
+  //             Logout
+  //           </Button>
+  //         </LogoutLink>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="w-full max-w-7xl  mx-auto px-4">
@@ -62,7 +61,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
 
       <div className="md:grid min-h-[calc(100svh-4rem)] grid-cols-4  px-4 gap-4">
         <div className="col-span-1 pt-8 border-r border-gray-200">
-          <Sidebar />
+          <Sidebar dbUser={dbUser} />
         </div>
         <div className="col-span-3 pt-8">{children}</div>
       </div>

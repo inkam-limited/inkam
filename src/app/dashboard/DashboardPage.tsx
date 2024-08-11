@@ -14,10 +14,23 @@ import prisma from "@/db";
 export async function DashboardPage() {
   const numberOfPharmacies = await prisma.agent.count();
   const numberOfTransactions = await prisma.transaction.count();
+  const transactionAmount = await prisma.transaction.findMany({
+    select: {
+      labTest: {
+        select: {
+          commission: true,
+        },
+      },
+    },
+  });
+  const totalCommission = transactionAmount
+    .map((t) => parseFloat(t.labTest?.commission)) // Convert commission to a float
+    .reduce((acc, curr) => acc + curr, 0);
 
   const data = [
     { name: "Pharmacies", value: numberOfPharmacies },
     { name: "Transactions", value: numberOfTransactions },
+    { name: "Total Commission", value: `${totalCommission}$` },
   ];
 
   return (

@@ -9,9 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import SuspenseLoader from "@/components/SuspenseLoader";
-import DomLoaded from "@/components/DomLoaded";
 import prisma from "@/db";
 import TransactionStatus from "./TransactionStatus";
 
@@ -52,7 +49,10 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
                   <TableCell>{transaction.agentName}</TableCell>
                   <TableCell>{testName?.name}</TableCell>
                   <TableCell>
-                    <TransactionStatus status={transaction.status} />
+                    <TransactionStatus
+                      currentStatus={transaction.status}
+                      transactionId={transaction.transactionId}
+                    />
                   </TableCell>
                 </TableRow>
               );

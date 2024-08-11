@@ -11,12 +11,17 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import SuspenseLoader from "@/components/SuspenseLoader";
+import { TransactionStatus } from "@prisma/client";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+import StatusSorter from "./StatusSorter";
 
 const TransactionPage = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
+  const tStatus = searchParams["status"] as TransactionStatus;
   const page = Number(searchParams["page"] ?? "1");
   const per_page = Number(searchParams["per_page"] ?? "10");
 
@@ -27,6 +32,9 @@ const TransactionPage = async ({
   const totalPages = Math.ceil(totalAgents / per_page);
 
   const transactions = await prisma.transaction.findMany({
+    where: {
+      status: tStatus,
+    },
     orderBy: {
       createdAt: "desc",
     },
@@ -40,6 +48,7 @@ const TransactionPage = async ({
 
   return (
     <div className="space-y-4">
+      <StatusSorter page={page} per_page={per_page} status={tStatus} />
       <h2 className="text-2xl font-bold">All Transactions</h2>
       <SuspenseLoader>
         <TransactionList transactions={transactions} />

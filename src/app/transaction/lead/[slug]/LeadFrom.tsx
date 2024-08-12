@@ -96,7 +96,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 flex flex-col "
+        className="space-y-4 flex flex-col"
       >
         <FormField
           control={form.control}

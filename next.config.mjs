@@ -5,7 +5,10 @@ const withPWA = withPWAInit({
 });
 const nextConfig = {
   images: {
-    remotePatterns: [{ hostname: "lh3.googleusercontent.com" }],
+    remotePatterns: [
+      { hostname: "lh3.googleusercontent.com" },
+      { hostname: "scontent.whatsapp.net" },
+    ],
   },
   experimental: {
     missingSuspenseWithCSRBailout: false,

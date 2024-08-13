@@ -13,30 +13,30 @@ const footerData = [
     ],
   },
   {
-    name: "What we do",
+    name: "Who we are",
     sub: [
-      { name: "Features", href: "#" },
-      { name: "Blog", href: "#" },
-      { name: "Security", href: "#" },
-      { name: "For Business", href: "#" },
+      { name: "About us", href: "#" },
+      { name: "Careers", href: "#" },
+      { name: "Brand Center", href: "#" },
+      { name: "Privacy", href: "#" },
     ],
   },
   {
-    name: "What we do",
+    name: "Use WhatsApp",
     sub: [
-      { name: "Features", href: "#" },
-      { name: "Blog", href: "#" },
-      { name: "Security", href: "#" },
-      { name: "For Business", href: "#" },
+      { name: "Android", href: "#" },
+      { name: "iPhone", href: "#" },
+      { name: "Mac/PC", href: "#" },
+      { name: "WhatsApp Web", href: "#" },
     ],
   },
   {
-    name: "What we do",
+    name: "Need help?",
     sub: [
-      { name: "Features", href: "#" },
-      { name: "Blog", href: "#" },
-      { name: "Security", href: "#" },
-      { name: "For Business", href: "#" },
+      { name: "Contact Us", href: "#" },
+      { name: "Help Center", href: "#" },
+      { name: "Download", href: "#" },
+      { name: "Security Advisories", href: "#" },
     ],
   },
 ];
@@ -56,17 +56,14 @@ const Footer = () => {
             src="https://static.whatsapp.net/rsrc.php/ya/r/GjxmhIpug9B.svg"
           />
         </div>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 mt-4">
           {footerData.map((item, index) => (
             <div key={index}>
-              <p className="text-white text-sm md:text-base">{item.name}</p>
-              <ul className="flex flex-col gap-2 md:gap-4">
+              <p className="text-white/90 text-sm md:text-base">{item.name}</p>
+              <ul className="flex flex-col gap-2 md:gap-4 pt-4">
                 {item.sub.map((sub, index) => (
                   <li key={index}>
-                    <a
-                      className="text-white text-sm md:text-base"
-                      href={sub.href}
-                    >
+                    <a className="text-white" href={sub.href}>
                       {sub.name}
                     </a>
                   </li>

@@ -12,7 +12,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import prisma from "@/db";
 
 export async function DashboardPage() {
-  const numberOfPharmacies = await prisma.agent.count();
+  const numberOfPharmacies = await prisma.agent.count({
+    where: { AgentType: "PHARMACY" },
+  });
   const numberOfTransactions = await prisma.transaction.count();
   const transactionAmount = await prisma.transaction.findMany({
     select: {

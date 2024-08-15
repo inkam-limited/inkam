@@ -30,12 +30,10 @@ const TransactionSuccess = ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center h-[100svh]">
+    <div className="flex flex-col items-center w-full justify-center h-[100svh]">
       <div className="flex flex-col items-center gap-2">
         <CheckCircle className="h-16 w-16 text-green-500 transition-all animate-in ease-in" />
-        <h1 className="text-3xl font-bold text-blue-700">
-          Transaction Successful
-        </h1>
+        <h1 className="text-3xl font-bold text-blue-700">Order Successful</h1>
       </div>
 
       <Suspense fallback={<span>Loading...</span>}>

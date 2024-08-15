@@ -36,8 +36,16 @@ export async function DashboardPage() {
   const data = [
     { name: "Pharmacies", value: numberOfPharmacies },
     { name: "Transactions", value: numberOfTransactions },
-    { name: "Total Sales", value: `BDT ${totalPrice}` },
-    { name: "Total Commission", value: `BDT ${totalCommission}` },
+    {
+      name: "Total Sales",
+      value: `BDT ${totalPrice}`,
+      gradient: "bg-gradient-to-r from-blue-600 to-violet-600 text-white",
+    },
+    {
+      name: "Total Commission",
+      value: `BDT ${totalCommission}`,
+      gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
+    },
   ];
 
   return (
@@ -47,7 +55,7 @@ export async function DashboardPage() {
           key={d.name}
           fallback={<Skeleton className="h-full w-full" />}
         >
-          <Card key={d.name}>
+          <Card key={d.name} className={d.gradient}>
             <CardHeader>
               <CardTitle>{d.name}</CardTitle>
               <CardContent className="text-5xl font-bold">

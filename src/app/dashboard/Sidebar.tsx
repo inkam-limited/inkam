@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import {
   CurrencyIcon,
+  HomeIcon,
   MapIcon,
   Settings,
   StoreIcon,
@@ -23,21 +24,22 @@ const Sidebar = ({ dbUser }: { dbUser: User | null }) => {
       : "";
   };
   const cols = [
+    { field: "", value: "Home", icon: HomeIcon, protect: false },
     { field: "agents", value: "agents", icon: User2Icon, protect: true },
-    {
-      field: "transactions",
-      value: "transactions",
-      icon: CurrencyIcon,
-      protect: false,
-    },
-    { field: "settings", value: "settings", icon: Settings, protect: false },
     {
       field: "pharmacies",
       value: "pharmacies",
       icon: StoreIcon,
       protect: false,
     },
+    {
+      field: "transactions",
+      value: "transactions",
+      icon: CurrencyIcon,
+      protect: false,
+    },
     { field: "maps", value: "maps", icon: MapIcon, protect: false },
+    { field: "settings", value: "settings", icon: Settings, protect: false },
   ];
 
   return (

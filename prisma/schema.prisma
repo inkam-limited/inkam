@@ -70,7 +70,7 @@ model Agent {
   createdAt            DateTime      @default(now())
   updatedAt            DateTime      @updatedAt
   Transaction          Transaction[]
-  AgentType            AGENTTYPE     @default(INDIVIDUAL)
+  AgentType            AGENTTYPE     @default(PHARMACY)
   geoLocationLatitude  Float?
   geoLocationLongitude Float?
 }

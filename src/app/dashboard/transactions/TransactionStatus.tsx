@@ -36,10 +36,22 @@ const TransactionStatusDropdown: React.FC<TransactionStatusDropdownProps> = ({
     }
   };
 
+  const getButtonVariant = (status: TransactionStatus) => {
+    if (status === TransactionStatus.PENDING) {
+      return "secondary";
+    } else if (status === TransactionStatus.SCHEDULED) {
+      return "default";
+    } else if (status === TransactionStatus.FAILED) {
+      return "destructive";
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">{currentStatus}</Button>
+        <Button variant={getButtonVariant(currentStatus)}>
+          {currentStatus}
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Transaction Status</DropdownMenuLabel>

@@ -1,4 +1,4 @@
-import { Agent } from "@prisma/client";
+import { Agent, Prisma } from "@prisma/client";
 import {
   Table,
   TableBody,
@@ -19,12 +19,22 @@ const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
         <TableRow>
           <TableHead className="w-[100px]">Name</TableHead>
           <TableHead>Number</TableHead>
-          <TableHead>District</TableHead>
+          <TableHead>Address</TableHead>
           <TableHead className="">Joined</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {pharmacies.map(async function (agent) {
+          let address;
+          if (
+            agent?.address &&
+            typeof agent?.address === "object" &&
+            Array.isArray(agent?.address)
+          ) {
+            const addressObj = agent?.address as Prisma.JsonArray;
+
+            address = addressObj;
+          }
           return (
             <TableRow key={agent.agentId}>
               <TableCell className="font-medium">
@@ -36,7 +46,7 @@ const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
                 </Link>
               </TableCell>
               <TableCell>{agent.number}</TableCell>
-              <TableCell>{agent.district}</TableCell>
+              <TableCell>{address?.toString().replaceAll(",", ", ")}</TableCell>
               <TableCell>{agent.createdAt.toDateString()}</TableCell>
             </TableRow>
           );

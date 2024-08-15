@@ -18,6 +18,7 @@ export async function DashboardPage() {
     select: {
       labTest: {
         select: {
+          price: true,
           commission: true,
         },
       },
@@ -26,11 +27,15 @@ export async function DashboardPage() {
   const totalCommission = transactionAmount
     .map((t) => parseFloat(t.labTest?.commission)) // Convert commission to a float
     .reduce((acc, curr) => acc + curr, 0);
+  const totalPrice = transactionAmount
+    .map((t) => parseFloat(t.labTest?.price)) // Convert commission to a float
+    .reduce((acc, curr) => acc + curr, 0);
 
   const data = [
     { name: "Pharmacies", value: numberOfPharmacies },
     { name: "Transactions", value: numberOfTransactions },
-    { name: "Total Commission", value: `${totalCommission}$` },
+    { name: "Total Sales", value: `BDT ${totalPrice}` },
+    { name: "Total Commission", value: `BDT ${totalCommission}` },
   ];
 
   return (

@@ -53,7 +53,7 @@ model User {
   email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  role      Role     @default(MODERATOR)
+  role      Role     @default(PARTNER)
 }
 
 model Agent {

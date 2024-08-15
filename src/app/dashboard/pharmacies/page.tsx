@@ -41,7 +41,7 @@ const PharmacyDashboard = async ({
   return (
     <div>
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">All Agents</h2>
+        <h2 className="text-2xl font-bold">All Pharmacies</h2>
         <SuspenseLoader>
           <PharmacyList pharmacies={pharmacies} />
         </SuspenseLoader>

@@ -38,11 +38,13 @@ const TransactionStatusDropdown: React.FC<TransactionStatusDropdownProps> = ({
 
   const getButtonVariant = (status: TransactionStatus) => {
     if (status === TransactionStatus.PENDING) {
-      return "secondary";
+      return "outline";
     } else if (status === TransactionStatus.SCHEDULED) {
-      return "default";
+      return "secondary";
     } else if (status === TransactionStatus.FAILED) {
       return "destructive";
+    } else if (status === TransactionStatus.PROVIDED) {
+      return "default";
     }
   };
 
@@ -68,6 +70,9 @@ const TransactionStatusDropdown: React.FC<TransactionStatusDropdownProps> = ({
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value={TransactionStatus.FAILED}>
             Failed
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value={TransactionStatus.PROVIDED}>
+            Provided
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>

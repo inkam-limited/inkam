@@ -60,6 +60,22 @@ const StatusSorter = ({
       >
         Failed
       </Link>
+      <Link
+        className={buttonVariants({
+          variant:
+            status === TransactionStatus.PROVIDED ? "default" : "outline",
+        })}
+        href={{
+          pathname: "/dashboard/transactions",
+          query: {
+            status: TransactionStatus.PROVIDED,
+            page: page,
+            per_page: per_page,
+          },
+        }}
+      >
+        Provided
+      </Link>
     </div>
   );
 };

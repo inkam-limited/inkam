@@ -45,6 +45,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
     trpc.getLabTests.useQuery();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentTestId, setCurrentTestId] = useState<string>("");
+  const [amount, setAmount] = useState<number>(0);
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const isWide = useMediaQuery("(min-width: 600px)");
@@ -59,11 +60,13 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
       customerLocation: "123 Main Street, New York, NY 10010",
       labTestId: currentTestId,
       agentNumber: pharmacy.number,
+      amount: 0,
     },
   });
 
   useEffect(() => {
     form.setValue("labTestId", currentTestId);
+    form.setValue("amount", amount);
   }, [currentTestId]);
 
   const onSubmit = async (data: z.infer<typeof createTransactionSchema>) => {
@@ -213,6 +216,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                               key={test.name}
                               onSelect={() => {
                                 setCurrentTestId(test.testId);
+                                setAmount(parseFloat(test.price));
                               }}
                             >
                               <>
@@ -221,6 +225,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                                   className="text-left w-full flex justify-between gap-2"
                                   onClick={() => {
                                     setCurrentTestId(test.testId);
+                                    setAmount(parseFloat(test.price));
                                     setOpen(false);
                                   }}
                                 >
@@ -297,6 +302,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                               key={test.name}
                               onSelect={() => {
                                 setCurrentTestId(test.testId);
+                                setAmount(parseFloat(test.price));
                               }}
                             >
                               <>
@@ -305,6 +311,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                                   className="text-left w-full flex justify-between gap-2"
                                   onClick={() => {
                                     setCurrentTestId(test.testId);
+                                    setAmount(parseFloat(test.price));
                                     setOpen(false);
                                   }}
                                 >

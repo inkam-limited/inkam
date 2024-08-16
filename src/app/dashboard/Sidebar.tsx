@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import {
+  Currency,
   CurrencyIcon,
   HomeIcon,
   MapIcon,
@@ -40,6 +41,7 @@ const Sidebar = ({ dbUser }: { dbUser: User | null }) => {
     },
     { field: "maps", value: "maps", icon: MapIcon, protect: false },
     { field: "settings", value: "settings", icon: Settings, protect: false },
+    { field: "payments", value: "Payments", icon: Currency, protect: false },
   ];
 
   return (

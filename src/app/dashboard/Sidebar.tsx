@@ -10,6 +10,7 @@ import {
   Currency,
   CurrencyIcon,
   HomeIcon,
+  InfoIcon,
   MapIcon,
   Settings,
   StoreIcon,
@@ -41,7 +42,12 @@ const Sidebar = ({ dbUser }: { dbUser: User | null }) => {
     },
     { field: "maps", value: "maps", icon: MapIcon, protect: false },
     { field: "settings", value: "settings", icon: Settings, protect: false },
-    { field: "payments", value: "Payments", icon: Currency, protect: false },
+    {
+      field: "payments",
+      value: "Payments",
+      icon: InfoIcon,
+      protect: false,
+    },
   ];
 
   return (

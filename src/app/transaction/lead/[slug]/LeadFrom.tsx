@@ -46,10 +46,10 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentTestId, setCurrentTestId] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
+  const [inkam, setInkam] = useState<number>(0);
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const isWide = useMediaQuery("(min-width: 600px)");
-
   const form = useForm<z.infer<typeof createTransactionSchema>>({
     resolver: zodResolver(createTransactionSchema),
     defaultValues: {
@@ -61,13 +61,15 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
       labTestId: currentTestId,
       agentNumber: pharmacy.number,
       amount: 0,
+      inkam: 0,
     },
   });
 
   useEffect(() => {
     form.setValue("labTestId", currentTestId);
     form.setValue("amount", amount);
-  }, [currentTestId]);
+    form.setValue("inkam", inkam);
+  }, [currentTestId, inkam, amount]);
 
   const onSubmit = async (data: z.infer<typeof createTransactionSchema>) => {
     const test = data.labTestId
@@ -216,6 +218,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                               key={test.name}
                               onSelect={() => {
                                 setCurrentTestId(test.testId);
+                                setInkam(parseFloat(test.commission));
                                 setAmount(parseFloat(test.price));
                               }}
                             >
@@ -226,6 +229,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                                   onClick={() => {
                                     setCurrentTestId(test.testId);
                                     setAmount(parseFloat(test.price));
+                                    setInkam(parseFloat(test.commission));
                                     setOpen(false);
                                   }}
                                 >
@@ -303,6 +307,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                               onSelect={() => {
                                 setCurrentTestId(test.testId);
                                 setAmount(parseFloat(test.price));
+                                setInkam(parseFloat(test.commission));
                               }}
                             >
                               <>
@@ -312,6 +317,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                                   onClick={() => {
                                     setCurrentTestId(test.testId);
                                     setAmount(parseFloat(test.price));
+                                    setInkam(parseFloat(test.commission));
                                     setOpen(false);
                                   }}
                                 >

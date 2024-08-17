@@ -1,4 +1,4 @@
-import { LabTest, Transaction } from "@prisma/client";
+import { LabTest, Transaction, TransactionStatus } from "@prisma/client";
 import React, { useState } from "react";
 import {
   Table,
@@ -10,7 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "@/db";
-import TransactionStatus from "./TransactionStatus";
+import TransactionStatusDropdown from "./TransactionStatus";
+import { Button } from "@/components/ui/button";
 
 const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
   return (
@@ -49,11 +50,19 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
                   <TableCell>{transaction.agentName}</TableCell>
                   <TableCell>{testName?.name}</TableCell>
                   <TableCell>
-                    <TransactionStatus
+                    <TransactionStatusDropdown
+                      agentId={transaction.agentId}
+                      amount={transaction.amount}
                       currentStatus={transaction.status}
                       transactionId={transaction.transactionId}
                     />
                   </TableCell>
+                  {transaction.status === TransactionStatus.PROVIDED &&
+                    transaction.isPaid === false && (
+                      <TableCell className="text-right">
+                        <Button variant="destructive">Payment pending</Button>
+                      </TableCell>
+                    )}
                 </TableRow>
               );
             })}

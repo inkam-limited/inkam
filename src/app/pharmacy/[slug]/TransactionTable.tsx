@@ -1,5 +1,5 @@
 "use client";
-import { Transaction } from "@prisma/client";
+import { Transaction, TransactionStatus } from "@prisma/client";
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import {
@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import TransactionStatusDropdown from "@/app/dashboard/transactions/TransactionStatus";
 const itemsPerPage = 10;
 const TransactionTable = ({
   transactions,
@@ -35,11 +36,12 @@ const TransactionTable = ({
           <TableCaption>Total {transactions.length} transactions</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Customer Name</TableHead>
+              <TableHead>Customer Name</TableHead>
+              <TableHead>Test value</TableHead>
               <TableHead>Customer Number</TableHead>
               <TableHead>Customer Location</TableHead>
-              <TableHead className="text-right">Date</TableHead>
-              <TableHead className="text-right">Status</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Test Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -49,14 +51,28 @@ const TransactionTable = ({
                   <TableCell className="font-medium">
                     {transaction.customerName}
                   </TableCell>
+                  <TableCell className="font-medium">
+                    {transaction.amount}
+                  </TableCell>
                   <TableCell>{transaction.customerNumber}</TableCell>
                   <TableCell>{transaction.customerLocation}</TableCell>
                   <TableCell className="text-right">
                     {transaction.updatedAt.toLocaleDateString()}
                   </TableCell>
                   <TableCell className="text-right">
-                    {transaction.status}
+                    <TransactionStatusDropdown
+                      agentId={transaction.agentId}
+                      amount={transaction.amount}
+                      currentStatus={transaction.status}
+                      transactionId={transaction.transactionId}
+                    />
                   </TableCell>
+                  {transaction.status === TransactionStatus.PROVIDED &&
+                    transaction.isPaid === false && (
+                      <TableCell className="text-right">
+                        <Button variant="destructive">Payment pending</Button>
+                      </TableCell>
+                    )}
                 </TableRow>
               );
             })}

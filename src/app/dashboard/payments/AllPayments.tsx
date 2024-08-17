@@ -1,4 +1,4 @@
-import { Transaction } from "@prisma/client";
+import { Payment, Transaction } from "@prisma/client";
 import {
   Table,
   TableBody,
@@ -12,13 +12,13 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 
 const AllPayments = ({
-  transactions,
+  agents,
 }: {
-  transactions: {
-    _sum: { amount: number | null };
-    _count: { amount: number };
+  agents: {
     agentId: string;
-    agentName: string;
+    name: string;
+    number: string;
+    Payment: Payment[];
   }[];
 }) => {
   return (
@@ -31,9 +31,7 @@ const AllPayments = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {transactions.map(async function (agent) {
-          // console.log(totalTransactions);
-
+        {agents.map(async function (agent) {
           return (
             <TableRow key={agent.agentId}>
               <TableCell className="font-medium">
@@ -41,10 +39,12 @@ const AllPayments = ({
                   href={`/pharmacy/${agent.agentId}`}
                   className={buttonVariants({ variant: "link" })}
                 >
-                  {agent.agentName}
+                  {agent.name}
                 </Link>
               </TableCell>
-              <TableCell>{agent._sum?.amount}</TableCell>
+              <TableCell>
+                {agent.Payment.reduce((a, b) => a + b.inkam, 0)}
+              </TableCell>
 
               {/* <TableCell> */}
               {/* <DropdownMenu>

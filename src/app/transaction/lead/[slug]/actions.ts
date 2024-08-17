@@ -1,7 +1,6 @@
 "use server";
 
 import prisma from "@/db";
-import { Transaction } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 
 export type ICreateTransaction = {
@@ -13,6 +12,7 @@ export type ICreateTransaction = {
   customerLocation: string;
   labTestId: string;
   amount: number;
+  inkam: number;
 };
 
 export const createTransaction = async (data: ICreateTransaction) => {
@@ -27,6 +27,10 @@ export const createTransaction = async (data: ICreateTransaction) => {
         customerLocation: data.customerLocation,
         labTestId: data.labTestId,
         amount: data.amount,
+        inkam: data.inkam,
+      },
+      include: {
+        Payment: true,
       },
     });
   } catch (error: any) {

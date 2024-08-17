@@ -34,6 +34,7 @@ export const createTransactionSchema = z.object({
       message: "Number must start with 0",
     }),
   amount: z.number().min(1, { message: "Please enter amount" }),
+  inkam: z.number().min(1, { message: "Please enter inkam" }),
   agentNumber: z.string().min(1, { message: "Please enter agent number" }),
   customerLocation: z.string().min(1, { message: "Please input your address" }),
   labTestId: z.string().min(1, { message: "Please select a lab test" }),

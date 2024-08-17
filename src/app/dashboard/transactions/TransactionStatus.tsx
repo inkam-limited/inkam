@@ -13,11 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { TransactionStatus } from "@prisma/client"; // Importing the enum from Prisma
-import {
-  createPayment,
-  updateAgentPayment,
-  updateTransactionStatus,
-} from "./actions";
+import { updateAgentPayment, updateTransactionStatus } from "./actions";
 import { toast } from "sonner";
 
 interface TransactionStatusDropdownProps {
@@ -37,12 +33,6 @@ const TransactionStatusDropdown: React.FC<TransactionStatusDropdownProps> = ({
 
   const handleStatusChange = async (value: string) => {
     const newStatus = value as TransactionStatus;
-    if (newStatus === TransactionStatus.PROVIDED) {
-      const res = await createPayment({ transactionId, agentId });
-      if (res.success || res.message) {
-        toast.success(res.message);
-      }
-    }
     const res = await updateTransactionStatus(transactionId, newStatus);
     if (res.success) {
       router.refresh(); // Refresh the page or data to reflect changes

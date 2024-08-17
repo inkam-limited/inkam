@@ -14,6 +14,8 @@ import {
 
 import SuspenseLoader from "@/components/SuspenseLoader";
 import AllPayments from "./AllPayments";
+import PaymentControls from "./PaymentControls";
+import GenerateInvoice from "./GenerateInvoice";
 
 const PharmacyDashboard = async ({
   searchParams,
@@ -31,9 +33,10 @@ const PharmacyDashboard = async ({
 
   const agents = await prisma.agent.findMany({
     where: {
-      Payment: {
+      transaction: {
         some: {
-          status: "PENDING",
+          isPaid: false,
+          status: "PROVIDED",
         },
       },
     },
@@ -46,15 +49,19 @@ const PharmacyDashboard = async ({
       agentId: true,
       name: true,
       number: true,
-      Payment: true,
+      transaction: true,
     },
   });
 
-  console.log(agents);
+  const invoices = await prisma.invoice.findMany({
+    where: {
+      disbursed: false,
+    },
+  });
 
   return (
-    <div>
-      <div className="space-y-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-7xl mx-auto">
+      <div className="space-y-4 col-span-2">
         <h2 className="text-2xl font-bold">All Payments</h2>
         <SuspenseLoader>
           <AllPayments agents={agents} />
@@ -95,6 +102,18 @@ const PharmacyDashboard = async ({
             </PaginationItem>
           </PaginationContent>
         </Pagination>
+      </div>
+      <div className="space-y-4 col-span-1">
+        <PaymentControls />
+        {invoices && invoices.length > 0 && (
+          <div>
+            {invoices.map((invoice) => (
+              <div key={invoice.id}>
+                <GenerateInvoice invoice={invoice} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

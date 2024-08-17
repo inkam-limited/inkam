@@ -6,7 +6,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import TransactionTable from "./TransactionTable";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { PaymentStatus, TransactionStatus } from "@prisma/client";
+import { TransactionStatus } from "@prisma/client";
 
 const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
   const shop = await prisma.agent.findUnique({
@@ -30,16 +30,17 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
     },
   });
 
-  const paymentAmount = await prisma.payment.aggregate({
+  const paymentAmount = await prisma.transaction.aggregate({
     _sum: {
       amount: true,
       inkam: true,
     },
     where: {
+      isPaid: false,
       agentId: shop.agentId,
+      status: TransactionStatus.PROVIDED,
     },
   });
-  console.log(paymentAmount);
 
   return (
     <div>

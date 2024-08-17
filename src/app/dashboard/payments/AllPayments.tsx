@@ -1,4 +1,4 @@
-import { Payment, Transaction } from "@prisma/client";
+import { Transaction } from "@prisma/client";
 import {
   Table,
   TableBody,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import SubmitInvoice from "./GenerateInvoice";
 
 const AllPayments = ({
   agents,
@@ -18,7 +19,7 @@ const AllPayments = ({
     agentId: string;
     name: string;
     number: string;
-    Payment: Payment[];
+    transaction: Transaction[];
   }[];
 }) => {
   return (
@@ -43,29 +44,8 @@ const AllPayments = ({
                 </Link>
               </TableCell>
               <TableCell>
-                {agent.Payment.reduce((a, b) => a + b.inkam, 0)}
+                {agent.transaction.reduce((a, b) => a + b.inkam, 0)}
               </TableCell>
-
-              {/* <TableCell> */}
-              {/* <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full">
-                      Actions
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <Link href={`/pharmacy/${agent.agentId}`}>View</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href={`/pharmacy/${agent.agentId}`}>Edit</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href={`/pharmacy/${agent.agentId}`}>Delete</Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu> */}
-              {/* </TableCell> */}
             </TableRow>
           );
         })}

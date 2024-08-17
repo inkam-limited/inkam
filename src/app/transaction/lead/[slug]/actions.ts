@@ -29,9 +29,6 @@ export const createTransaction = async (data: ICreateTransaction) => {
         amount: data.amount,
         inkam: data.inkam,
       },
-      include: {
-        Payment: true,
-      },
     });
   } catch (error: any) {
     if (error.code === "P2002") {

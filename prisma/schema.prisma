@@ -75,7 +75,6 @@ model Agent {
   AgentType            AGENTTYPE     @default(PHARMACY)
   geoLocationLatitude  Float?
   geoLocationLongitude Float?
-  Payment              Payment[]
 }
 
 enum TransactionStatus {
@@ -102,7 +101,6 @@ model Transaction {
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   labTest          LabTest           @relation(fields: [labTestId], references: [testId])
-  Payment          Payment[]
 }
 
 model LabTest {
@@ -121,16 +119,11 @@ enum PaymentStatus {
   PAID
 }
 
-model Payment {
-  amount        Float
-  inkam         Float         @default(0.00)
-  agentId       String
-  status        PaymentStatus @default(PENDING)
-  agent         Agent         @relation(fields: [agentId], references: [agentId])
-  transactionId String
-  transaction   Transaction   @relation(fields: [transactionId], references: [transactionId])
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-
-  @@id([transactionId, agentId])
+model Invoice {
+  id        String   @id @default(uuid())
+  data      Json
+  amount    Float
+  disbursed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -8,7 +8,7 @@ import {
 import prisma from "@/db";
 import React from "react";
 import AgentTransactionList from "./AgentTransactionList";
-import { Payment, Transaction } from "@prisma/client";
+import { Transaction } from "@prisma/client";
 import CreatePayment from "./CreatePayment";
 
 const page = async ({ params }: { params: { agentNumber: string } }) => {
@@ -17,11 +17,6 @@ const page = async ({ params }: { params: { agentNumber: string } }) => {
       number: params.agentNumber,
     },
     include: {
-      Payment: {
-        where: {
-          status: "PENDING",
-        },
-      },
       transaction: {
         where: {
           isPaid: false,
@@ -54,8 +49,8 @@ const page = async ({ params }: { params: { agentNumber: string } }) => {
               inkam:{" "}
               <span>
                 {agentData &&
-                  agentData?.Payment?.reduce(
-                    (a: number, b: Payment) => a + b.inkam,
+                  agentData?.transaction?.reduce(
+                    (a: number, b: Transaction) => a + b.inkam,
                     0
                   ) * 0.2}
               </span>

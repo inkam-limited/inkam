@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
-import SubmitInvoice from "./GenerateInvoice";
 
 const AllPayments = ({
   agents,

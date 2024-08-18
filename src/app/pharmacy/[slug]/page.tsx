@@ -61,7 +61,7 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
               </CardContent>
             </Card>
             <Card>
-              <CardHeader className="font-bold">Payment</CardHeader>
+              <CardHeader className="font-bold">Due amount</CardHeader>
               <CardContent className="text-4xl font-bold text-primary">
                 {paymentAmount._sum.inkam ?? 0}
               </CardContent>

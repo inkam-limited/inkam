@@ -1,13 +1,11 @@
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import prisma from "@/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Role } from "@prisma/client";
 import { Loader2, MailWarningIcon } from "lucide-react";
-import React, { Suspense } from "react";
-import UserSettings from "./UserSetting";
-import SuspenseLoader from "@/components/SuspenseLoader";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import React, { PropsWithChildren } from "react";
 
-const SettingsPage = async () => {
+const layout = async ({ children }: PropsWithChildren) => {
   const { getUser } = await getKindeServerSession();
   const loggedInUser = await getUser();
   if (!loggedInUser) {
@@ -34,7 +32,7 @@ const SettingsPage = async () => {
     );
   }
 
-  if (dbUser.role !== Role.ADMIN) {
+  if (dbUser.role !== Role.ADMIN && dbUser.role !== Role.MODERATOR) {
     return (
       <div className="w-full h-full">
         <Card>
@@ -49,16 +47,7 @@ const SettingsPage = async () => {
       </div>
     );
   }
-  const users = await prisma.user.findMany();
-
-  return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">Settings</h1>
-      <SuspenseLoader>
-        <UserSettings users={users} />
-      </SuspenseLoader>
-    </div>
-  );
+  return <div>{children}</div>;
 };
 
-export default SettingsPage;
+export default layout;

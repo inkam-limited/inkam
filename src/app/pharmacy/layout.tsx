@@ -37,7 +37,11 @@ const ProtectedPharmacyLayout = async ({
     },
   });
 
-  if (dbUser?.role !== Role.ADMIN && dbUser?.role !== Role.PARTNER) {
+  if (
+    dbUser?.role !== Role.ADMIN &&
+    dbUser?.role !== Role.PARTNER &&
+    dbUser?.role !== Role.MODERATOR
+  ) {
     return (
       <div className="flex flex-col items-center justify-center h-[100svh]">
         <h1 className="text-center text-3xl font-bold mb-3">

@@ -1,5 +1,5 @@
 import SuspenseLoader from "@/components/SuspenseLoader";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import prisma from "@/db";
+import Link from "next/link";
 
 export async function DashboardPage() {
   const numberOfPharmacies = await prisma.agent.count({
@@ -40,11 +41,19 @@ export async function DashboardPage() {
       name: "Total Sales",
       value: `BDT ${totalPrice}`,
       gradient: "bg-gradient-to-r from-blue-600 to-violet-600 text-white",
+      detail: {
+        link: "/dashboard/transactions",
+        title: "View Transactions",
+      },
     },
     {
       name: "Total Commission",
       value: `BDT ${totalCommission}`,
       gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
+      detail: {
+        link: "/dashboard/payments",
+        title: "View Payments",
+      },
     },
   ];
 
@@ -58,10 +67,18 @@ export async function DashboardPage() {
           <Card key={d.name} className={d.gradient}>
             <CardHeader>
               <CardTitle>{d.name}</CardTitle>
-              <CardContent className="text-5xl font-bold">
-                {d.value}
-              </CardContent>
             </CardHeader>
+            <CardContent className="text-5xl font-bold">{d.value}</CardContent>
+            {d.detail && (
+              <CardFooter>
+                <Link
+                  className={buttonVariants({ variant: "secondary" })}
+                  href={d.detail.link}
+                >
+                  {d.detail.title}
+                </Link>
+              </CardFooter>
+            )}
           </Card>
         </SuspenseLoader>
       ))}

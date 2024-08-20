@@ -2,7 +2,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { TRPCError } from "@trpc/server";
 import { protectedProcedure, publicProcedure, router } from "./trpc";
 import prisma from "@/db";
-import { User } from "@prisma/client";
+import { AGENTTYPE, User } from "@prisma/client";
 import { createAgentSchema, createTransactionSchema } from "@/lib/schema";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -97,6 +97,39 @@ export const appRouter = router({
             longitude: input.longitude,
             managerName: input.managerName ?? "",
             ownerNumber: input.ownerNumber ?? "",
+          },
+        });
+        return { success: true };
+      } catch (error) {
+        console.log(error);
+        throw new TRPCError({ code: "BAD_REQUEST" });
+      }
+    }),
+  createPharmacy: publicProcedure
+    .input(createAgentSchema)
+    .mutation(async ({ input }) => {
+      const numberExists = await prisma.agent.findFirst({
+        where: {
+          number: input.number,
+        },
+      });
+      if (numberExists) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Number already exists",
+        });
+      }
+      try {
+        await prisma.agent.create({
+          data: {
+            name: input.name,
+            number: input.number,
+            address: input.address,
+            latitude: input.latitude,
+            longitude: input.longitude,
+            managerName: input.managerName ?? "",
+            ownerNumber: input.ownerNumber ?? "",
+            AgentType: AGENTTYPE.PHARMACY,
           },
         });
         return { success: true };

@@ -38,6 +38,7 @@ const TransactionTable = ({
             <TableRow>
               <TableHead>Customer Name</TableHead>
               <TableHead>Test value</TableHead>
+              <TableHead>Commission</TableHead>
               <TableHead>Customer Number</TableHead>
               <TableHead>Customer Location</TableHead>
               <TableHead>Date</TableHead>
@@ -54,6 +55,9 @@ const TransactionTable = ({
                   <TableCell className="font-medium">
                     {transaction.amount}
                   </TableCell>
+                  <TableCell className="font-medium">
+                    {transaction.inkam}
+                  </TableCell>
                   <TableCell>{transaction.customerNumber}</TableCell>
                   <TableCell>{transaction.customerLocation}</TableCell>
                   <TableCell className="text-right">
@@ -61,18 +65,13 @@ const TransactionTable = ({
                   </TableCell>
                   <TableCell className="text-right">
                     <TransactionStatusDropdown
+                      isPaid={transaction.isPaid}
                       agentId={transaction.agentId}
                       amount={transaction.amount}
                       currentStatus={transaction.status}
                       transactionId={transaction.transactionId}
                     />
                   </TableCell>
-                  {transaction.status === TransactionStatus.PROVIDED &&
-                    transaction.isPaid === false && (
-                      <TableCell className="text-right">
-                        <Button variant="destructive">Payment pending</Button>
-                      </TableCell>
-                    )}
                 </TableRow>
               );
             })}

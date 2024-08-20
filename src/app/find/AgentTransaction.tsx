@@ -1,4 +1,4 @@
-import { LabTest, Transaction } from "@prisma/client";
+import { Transaction } from "@prisma/client";
 import React, { useState } from "react";
 import {
   Table,

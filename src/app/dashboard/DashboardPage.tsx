@@ -10,36 +10,63 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import prisma from "@/db";
+import { TransactionStatus } from "@prisma/client";
 import Link from "next/link";
 
 export async function DashboardPage() {
-  const numberOfPharmacies = await prisma.agent.count({
-    where: { AgentType: "PHARMACY" },
-  });
-  const numberOfTransactions = await prisma.transaction.count();
-  const transactionAmount = await prisma.transaction.findMany({
-    select: {
-      labTest: {
-        select: {
-          price: true,
-          commission: true,
-        },
+  const totalSales = await prisma.transaction.aggregate({
+    where: {
+      status: {
+        in: [TransactionStatus.PROVIDED],
       },
     },
+    _sum: {
+      inkam: true,
+      amount: true,
+    },
+    _count: {
+      amount: true,
+      inkam: true,
+    },
   });
-  const totalCommission = transactionAmount
-    .map((t) => parseFloat(t.labTest?.commission)) // Convert commission to a float
-    .reduce((acc, curr) => acc + curr, 0);
-  const totalPrice = transactionAmount
-    .map((t) => parseFloat(t.labTest?.price)) // Convert commission to a float
-    .reduce((acc, curr) => acc + curr, 0);
+  const orderPending = await prisma.transaction.aggregate({
+    where: {
+      isPaid: false,
+      status: {
+        in: [TransactionStatus.PENDING, TransactionStatus.SCHEDULED],
+      },
+    },
+    _sum: {
+      amount: true,
+      inkam: true,
+    },
+    _count: {
+      amount: true,
+      inkam: true,
+    },
+  });
+
+  const orderFailed = await prisma.transaction.aggregate({
+    where: {
+      status: {
+        in: [TransactionStatus.FAILED],
+      },
+    },
+    _sum: {
+      amount: true,
+      inkam: true,
+    },
+    _count: {
+      amount: true,
+      inkam: true,
+    },
+  });
 
   const data = [
-    { name: "Pharmacies", value: numberOfPharmacies },
-    { name: "Transactions", value: numberOfTransactions },
     {
-      name: "Total Sales",
-      value: `BDT ${totalPrice}`,
+      name: "Total Orders",
+      value: `BDT ${totalSales._sum.amount ?? 0}`,
+      qty: totalSales._count.amount,
       gradient: "bg-gradient-to-r from-blue-600 to-violet-600 text-white",
       detail: {
         link: "/dashboard/transactions",
@@ -48,17 +75,50 @@ export async function DashboardPage() {
     },
     {
       name: "Total Commission",
-      value: `BDT ${totalCommission}`,
+      value: `BDT ${totalSales._sum.inkam ?? 0}`,
+      qty: totalSales._count.inkam,
       gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
       detail: {
         link: "/dashboard/payments",
         title: "View Payments",
       },
     },
+    {
+      name: "Service Pending",
+      value: `BDT ${orderPending._sum.amount}`,
+      qty: orderPending._count.amount,
+      gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
+      detail: {
+        link: "/dashboard/transactions",
+        title: "View Transactions",
+      },
+    },
+    {
+      name: "Commission Pending",
+      value: `BDT ${orderPending._sum.inkam}`,
+      qty: orderPending._count.inkam,
+      gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
+      detail: {
+        link: "/dashboard/invoices",
+        title: "View Invoices",
+      },
+    },
+    {
+      name: "Order Failed",
+      value: `BDT ${orderFailed._sum.amount || 0}`,
+      qty: orderFailed._count.inkam,
+      gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
+    },
+    {
+      name: "Commission Failed",
+      value: `BDT ${orderFailed._sum.inkam || 0}`,
+      qty: orderFailed._count.inkam,
+      gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
+    },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2  gap-4">
       {data.map((d) => (
         <SuspenseLoader
           key={d.name}
@@ -68,8 +128,15 @@ export async function DashboardPage() {
             <CardHeader>
               <CardTitle>{d.name}</CardTitle>
             </CardHeader>
-            <CardContent className="text-5xl font-bold">{d.value}</CardContent>
-            {d.detail && (
+            <CardContent className="text-3xl font-bold">{d.value}</CardContent>
+            {d.qty ? (
+              <CardFooter>
+                <span className="text-sm text-neutral-50">
+                  From {d.qty} orders
+                </span>
+              </CardFooter>
+            ) : null}
+            {d.detail ? (
               <CardFooter>
                 <Link
                   className={buttonVariants({ variant: "secondary" })}
@@ -78,7 +145,7 @@ export async function DashboardPage() {
                   {d.detail.title}
                 </Link>
               </CardFooter>
-            )}
+            ) : null}
           </Card>
         </SuspenseLoader>
       ))}

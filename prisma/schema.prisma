@@ -121,6 +121,7 @@ enum PaymentStatus {
 
 model Invoice {
   id        String   @id @default(uuid())
+  name      Int      @default(autoincrement())
   data      Json
   amount    Float
   disbursed Boolean  @default(false)

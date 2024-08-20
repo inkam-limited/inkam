@@ -1,9 +1,30 @@
 "use server";
 
 import prisma from "@/db";
-import { Prisma } from "@prisma/client";
+import { sendInvoice } from "@/lib/mailer";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { Prisma, Role } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 export const createInvoice = async () => {
+  const { getUser } = await getKindeServerSession();
+  const user = await getUser();
+  if (!user) {
+    return { success: false, message: "You need to login to continue" };
+  }
+  const dbUser = await prisma.user.findUnique({
+    where: {
+      id: user.id,
+    },
+  });
+  if (!dbUser) {
+    redirect("/auth-callback?origin=dashboard/payments");
+  }
+
+  if (dbUser?.role !== Role.PARTNER) {
+    return { success: true, message: "Only Amarlab can create invoices" };
+  }
+
   const transactions = await prisma.transaction.groupBy({
     by: ["agentId", "agentName"],
     where: {
@@ -15,9 +36,8 @@ export const createInvoice = async () => {
     },
   });
 
-  console.log(transactions);
   if (transactions.length === 0 && transactions === null) {
-    return { success: false, message: "No transactions to invoice" };
+    return { success: true, message: "No transactions to invoice" };
   }
   const invoice = await prisma.invoice.create({
     data: {
@@ -37,7 +57,10 @@ export const createInvoice = async () => {
       isPaid: true,
     },
   });
+  await sendInvoice({
+    invoice,
+  });
 
   console.log(invoice);
-  return { success: true };
+  return { success: true, message: "Invoice created successfully" };
 };

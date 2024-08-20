@@ -7,24 +7,89 @@ import {
 } from "@/components/ui/card";
 import prisma from "@/db";
 import React from "react";
-import AgentTransactionList from "./AgentTransactionList";
-import { Transaction } from "@prisma/client";
-import CreatePayment from "./CreatePayment";
+import AgentTransactionList, {
+  agentCommissionRate,
+} from "./AgentTransactionList";
+import { Transaction, TransactionStatus } from "@prisma/client";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
-const page = async ({ params }: { params: { agentNumber: string } }) => {
+const page = async ({
+  params,
+  searchParams,
+}: {
+  params: { agentNumber: string };
+  searchParams: { [key: string]: string };
+}) => {
+  const tStatus = searchParams["status"] as TransactionStatus;
+  const page = Number(searchParams["page"] ?? "1");
+  const per_page = Number(searchParams["per_page"] ?? "10");
+
+  const skip = (page - 1) * per_page;
+
+  // Fetch total count of agents to determine the last page
+  const totalTransactions = await prisma.transaction.count({
+    where: {
+      agentNumber: params.agentNumber,
+      status: {
+        in: [
+          TransactionStatus.PROVIDED,
+          TransactionStatus.FAILED,
+          TransactionStatus.PENDING,
+          TransactionStatus.SCHEDULED,
+        ],
+      },
+    },
+  });
+  const totalPages = Math.ceil(totalTransactions / per_page);
   const agentData = await prisma.agent.findUnique({
     where: {
       number: params.agentNumber,
     },
     include: {
       transaction: {
-        where: {
-          isPaid: false,
-        },
         orderBy: {
           createdAt: "desc",
         },
+        skip: 0,
+        take: 10,
       },
+    },
+  });
+
+  const totalPayments = await prisma.transaction.aggregate({
+    where: {
+      agentNumber: params.agentNumber,
+      status: {
+        in: [TransactionStatus.PROVIDED],
+      },
+    },
+    _sum: {
+      inkam: true,
+    },
+    _count: {
+      inkam: true,
+    },
+  });
+
+  const pendingPayments = await prisma.transaction.aggregate({
+    where: {
+      agentNumber: params.agentNumber,
+      status: TransactionStatus.PROVIDED,
+      isPaid: true,
+    },
+    _sum: {
+      inkam: true,
+    },
+    _count: {
+      inkam: true,
     },
   });
 
@@ -35,29 +100,34 @@ const page = async ({ params }: { params: { agentNumber: string } }) => {
         <CardHeader className="font-bold">Agent Details</CardHeader>
         <CardContent className="grid grid-cols-2 gap-4  items-center">
           <div className="border border-neutral-500 p-4 rounded-md">
-            <p>
-              Name <span>{agentData?.name}</span>
+            <p className="flex items-center gap-2">
+              Name: <span>{agentData?.name}</span>
             </p>
           </div>
           <div className="border border-neutral-500 p-4 rounded-md">
-            <p>
+            <p className="flex items-center gap-2">
               Number: <span>{agentData?.number}</span>
             </p>
           </div>
           <div className="border border-neutral-500 p-4 rounded-md">
-            <p>
-              inkam:{" "}
+            <p className="flex items-center gap-2">
+              Total inkam:
               <span>
-                {agentData &&
-                  agentData?.transaction?.reduce(
-                    (a: number, b: Transaction) => a + b.inkam,
-                    0
-                  ) * 0.2}
+                {totalPayments &&
+                  (totalPayments._sum.inkam as number) * agentCommissionRate}
               </span>
             </p>
           </div>
-
-          <CreatePayment agentId={agentData?.agentId as string} />
+          <div className="border border-neutral-500 p-4 rounded-md">
+            <p className="flex items-center gap-2">
+              Pending inkam:
+              <span>
+                {pendingPayments._sum.inkam
+                  ? pendingPayments._sum.inkam * agentCommissionRate
+                  : 0}
+              </span>
+            </p>
+          </div>
         </CardContent>
       </Card>
 
@@ -69,6 +139,40 @@ const page = async ({ params }: { params: { agentNumber: string } }) => {
       ) : (
         <div>No transactions found</div>
       )}
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            {page > 1 && (
+              <PaginationPrevious
+                href={{
+                  pathname: `find/${params.agentNumber}`,
+                  query: {
+                    page: page - 1,
+                    per_page: per_page,
+                  },
+                }}
+              />
+            )}
+          </PaginationItem>
+
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            {page < totalPages && (
+              <PaginationNext
+                href={{
+                  pathname: `find/${params.agentNumber}`,
+                  query: {
+                    page: page + 1,
+                    per_page: per_page,
+                  },
+                }}
+              />
+            )}
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };

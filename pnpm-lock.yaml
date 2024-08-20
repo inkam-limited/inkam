@@ -125,6 +125,9 @@ importers:
       react-qrcode-logo:
         specifier: ^3.0.0
         version: 3.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-to-print:
+        specifier: ^2.15.1
+        version: 2.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       recharts:
         specifier: ^2.12.7
         version: 2.12.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3241,6 +3244,12 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  react-to-print@2.15.1:
+    resolution: {integrity: sha512-1foogIFbCpzAVxydkhBiDfMiFYhIMphiagDOfcG4X/EcQ+fBPqJ0rby9Wv/emzY1YLkIQy/rEgOrWQT+rBKhjw==}
+    peerDependencies:
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
 
   react-transition-group@4.4.5:
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
@@ -7077,6 +7086,11 @@ snapshots:
       tslib: 2.6.3
     optionalDependencies:
       '@types/react': 18.3.3
+
+  react-to-print@2.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   react-transition-group@4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:

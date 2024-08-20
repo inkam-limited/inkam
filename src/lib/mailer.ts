@@ -1,6 +1,9 @@
 "use server";
 import { Resend } from "resend";
 import DiagnosticConfirmationEmail from "./email";
+import InvoiceEmail from "./InvoiceEmail";
+import { Invoice } from "@prisma/client";
+import { AgentTransactionSummary } from "@/app/dashboard/(mods)/invoices/[invoiceId]/InvoiceBody";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -25,6 +28,29 @@ export const sendMail = async ({
         patientNumber,
         testName,
         address,
+      }) as React.ReactElement,
+    });
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(data);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const sendInvoice = async ({ invoice }: { invoice: Invoice }) => {
+  const agentData = invoice?.data as AgentTransactionSummary[];
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: "Inkam <onboarding@resend.dev>",
+      to: ["inkamlimited@gmail.com"],
+      subject: "Test mail",
+      react: InvoiceEmail({
+        invoice,
+        agentData,
       }) as React.ReactElement,
     });
     if (error) {

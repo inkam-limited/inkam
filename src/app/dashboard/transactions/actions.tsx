@@ -1,60 +1,54 @@
 "use server";
-
 import prisma from "@/db";
-import { TransactionStatus, Transaction } from "@prisma/client";
-
-// if (!transaction) {
-//   return { success: false };
-// }
-// if (transaction.status === TransactionStatus.PROVIDED) {
-//   const payment = await prisma.payment.create({
-//     data: {
-//       amount: transaction.amount,
-//       agentId,
-//       status: PaymentStatus.PENDING,
-//       transactionId: transaction.transactionId,
-//     },
-//   });
-//   return {
-//     success: true,
-//     message: "Payment created successfully",
-//   };
-// }
-
-export const updateAgentPayment = async (
-  agentId: string,
-  newAmount: number
-) => {
-  try {
-    console.log("updateAgentPayment", newAmount);
-    const updatedData = await prisma.agent.update({
-      where: {
-        agentId: agentId,
-      },
-      data: {
-        payment: {
-          increment: newAmount,
-        },
-        agentPayment: {
-          increment: newAmount * 0.2,
-        },
-      },
-    });
-    console.log(updatedData);
-    return {
-      success: true,
-      message: "Agent payment updated successfully",
-    };
-  } catch (error) {
-    console.log(error);
-    return { success: false };
-  }
-};
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { Role, TransactionStatus } from "@prisma/client";
 
 export const updateTransactionStatus = async (
   transactionId: string,
   newStatus: TransactionStatus
 ) => {
+  const { getUser } = await getKindeServerSession();
+  const user = await getUser();
+
+  if (!user) {
+    return {
+      success: true,
+      message: "You must be logged in to update the transaction status",
+    };
+  }
+
+  const dbUser = await prisma.user.findUnique({
+    where: {
+      id: user.id,
+    },
+    select: {
+      role: true,
+    },
+  });
+
+  if (dbUser?.role !== Role.PARTNER) {
+    return {
+      success: true,
+      message: "You must be Amarlab to update the transaction status",
+    };
+  }
+
+  const isProvided = await prisma.transaction.findUnique({
+    where: {
+      transactionId: transactionId,
+    },
+    select: {
+      status: true,
+    },
+  });
+
+  if (isProvided?.status === TransactionStatus.PROVIDED) {
+    return {
+      success: true,
+      message: "Service already provided",
+    };
+  }
+
   try {
     await prisma.transaction.update({
       where: {

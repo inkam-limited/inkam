@@ -12,13 +12,12 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 
 const AllPayments = ({
-  agents,
+  transactions,
 }: {
-  agents: {
+  transactions: {
     agentId: string;
-    name: string;
-    number: string;
-    transaction: Transaction[];
+    agentName: string;
+    _sum: { inkam: number | null };
   }[];
 }) => {
   return (
@@ -26,25 +25,23 @@ const AllPayments = ({
       <TableCaption>A list of your recent pharmacies.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Name</TableHead>
-          <TableHead>Amount</TableHead>
+          <TableHead>Name</TableHead>
+          <TableHead>Due Amount</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {agents.map(async function (agent) {
+        {transactions.map(async function (transaction) {
           return (
-            <TableRow key={agent.agentId}>
+            <TableRow key={transaction.agentId}>
               <TableCell className="font-medium">
                 <Link
-                  href={`/pharmacy/${agent.agentId}`}
+                  href={`/pharmacy/${transaction.agentId}`}
                   className={buttonVariants({ variant: "link" })}
                 >
-                  {agent.name}
+                  {transaction.agentName}
                 </Link>
               </TableCell>
-              <TableCell>
-                {agent.transaction.reduce((a, b) => a + b.inkam, 0)}
-              </TableCell>
+              <TableCell>{transaction._sum.inkam}</TableCell>
             </TableRow>
           );
         })}

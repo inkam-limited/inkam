@@ -76,7 +76,7 @@ const Sidebar = ({ dbUser }: { dbUser: User | null }) => {
   ];
 
   return (
-    <div className="col-span-3 space-y-2 flex flex-col pe-4">
+    <div className="md:col-span-3 space-y-2 grid grid-cols-3 md:flex md:flex-col md:pe-4">
       {cols.map((col) => {
         if (!dbUser || !col.roles.includes(dbUser.role)) {
           return null;
@@ -90,7 +90,7 @@ const Sidebar = ({ dbUser }: { dbUser: User | null }) => {
               isActive(col.field)
             )}
           >
-            <col.icon /> <span>{col.value}</span>
+            <col.icon className="w-5 h-5 shrink-0" /> <span>{col.value}</span>
           </Link>
         );
       })}

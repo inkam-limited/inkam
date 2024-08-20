@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "@/db";
+export const agentCommissionRate = 0.25;
 
 const AgentTransactionList = ({
   transactions,
@@ -56,7 +57,7 @@ const AgentTransactionList = ({
                         : "text-center"
                     }
                   >
-                    {transaction.inkam * 0.2}
+                    {transaction.inkam * agentCommissionRate}
                   </TableCell>
                 </TableRow>
               );

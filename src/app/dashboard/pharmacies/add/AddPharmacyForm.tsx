@@ -32,7 +32,7 @@ const AddPharmacyForm = () => {
     googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
     libraries,
   });
-  const { mutate, isLoading } = trpc.createAgent.useMutation({
+  const { mutate, isLoading } = trpc.createPharmacy.useMutation({
     onSuccess: () => {
       toast.success("Pharmacy created successfully");
       router.push("/dashboard/pharmacies");

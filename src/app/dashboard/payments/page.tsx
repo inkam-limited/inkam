@@ -52,18 +52,23 @@ const PharmacyDashboard = async ({
     },
   });
 
-  const invoices = await prisma.invoice.findMany({
+  const transactions = await prisma.transaction.groupBy({
+    by: ["agentId", "agentName"],
     where: {
-      disbursed: false,
+      status: "PROVIDED",
+      isPaid: false,
+    },
+    _sum: {
+      inkam: true,
     },
   });
 
   return (
-    <div className=" w-full max-w-7xl mx-auto">
+    <div className="w-full max-w-7xl mx-auto">
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">All Payments</h2>
         <SuspenseLoader>
-          <AllPayments agents={agents} />
+          <AllPayments transactions={transactions} />
         </SuspenseLoader>
         <Pagination>
           <PaginationContent>
@@ -80,9 +85,7 @@ const PharmacyDashboard = async ({
                 />
               )}
             </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
+            <PaginationItem></PaginationItem>
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
@@ -103,7 +106,11 @@ const PharmacyDashboard = async ({
         </Pagination>
       </div>
 
-      <PaymentControls />
+      {transactions.length > 0 ? (
+        <PaymentControls />
+      ) : (
+        "No transactions to invoice"
+      )}
     </div>
   );
 };

@@ -4,6 +4,7 @@ const withPWA = withPWAInit({
   dest: "public",
 });
 const nextConfig = {
+  output: "standalone",
   images: {
     remotePatterns: [
       { hostname: "lh3.googleusercontent.com" },

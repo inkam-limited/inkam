@@ -67,6 +67,7 @@ const page = async ({
   const totalPayments = await prisma.transaction.aggregate({
     where: {
       agentNumber: params.agentNumber,
+      isPaid: true,
       status: {
         in: [TransactionStatus.PROVIDED],
       },
@@ -83,7 +84,7 @@ const page = async ({
     where: {
       agentNumber: params.agentNumber,
       status: TransactionStatus.PROVIDED,
-      isPaid: true,
+      isPaid: false,
     },
     _sum: {
       inkam: true,

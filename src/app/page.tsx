@@ -38,6 +38,12 @@ export default async function Home() {
           <LoginLink className="px-6 py-4 border w-56 text-center border-gray-700 font-bold rounded-sm">
             Login to Dashboard
           </LoginLink>
+          <Link
+            href="/find"
+            className="px-6 py-4 border w-56 text-center text-neutral-50 bg-blue-700 border-gray-700 font-bold rounded-sm"
+          >
+            See agent Transactions
+          </Link>
         </div>
       </div>
     </div>

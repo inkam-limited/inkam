@@ -12,7 +12,6 @@ import prisma from "@/db";
 import TransactionStatusDropdown from "./TransactionStatus";
 
 const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
-  console.log(transactions);
   return (
     <div>
       <Table>
@@ -40,8 +39,6 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
                   name: true,
                 },
               });
-              console.log(transaction.isPaid);
-
               return (
                 <TableRow key={transaction.transactionId}>
                   <TableCell className="font-medium">

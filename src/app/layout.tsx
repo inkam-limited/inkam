@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "./_trpc/Provider";
+import { ThemeProvider } from "@/components/theme-provider";
+
 import { Toaster } from "@/components/ui/sonner";
 const APP_NAME = "Inkam";
 const APP_DEFAULT_TITLE = "Inkam Leads";
@@ -59,14 +61,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={font.className}>
-        <Providers>
-          <main>
-            {children}
-            <Toaster />
-          </main>
-        </Providers>
-      </body>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <body className={font.className}>
+          <Providers>
+            <main>
+              {children}
+              <Toaster />
+            </main>
+          </Providers>
+        </body>
+      </ThemeProvider>
     </html>
   );
 }

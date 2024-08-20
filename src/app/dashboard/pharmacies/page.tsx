@@ -60,9 +60,7 @@ const PharmacyDashboard = async ({
                 />
               )}
             </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
+            <PaginationItem></PaginationItem>
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>

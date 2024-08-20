@@ -1,4 +1,5 @@
 "use client";
+import { ModeToggle } from "@/components/ModeToggle";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -28,6 +29,7 @@ const DashboardNavbar = ({ user }: { user: KindeUser | null }) => {
             <Button variant="default">New Pharmacy</Button>
           </Link>
         )}
+        <ModeToggle />
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger className="focus:outline-none">

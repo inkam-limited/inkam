@@ -39,7 +39,7 @@ const StatusSorter = ({
             status === TransactionStatus.SCHEDULED ? "default" : "outline",
         })}
         href={{
-          pathname: "/dashboard/transactions",
+          pathname: pathName,
           query: {
             status: TransactionStatus.SCHEDULED,
             page: page,
@@ -54,7 +54,7 @@ const StatusSorter = ({
           variant: status === TransactionStatus.FAILED ? "default" : "outline",
         })}
         href={{
-          pathname: "/dashboard/transactions",
+          pathname: pathName,
           query: {
             status: TransactionStatus.FAILED,
             page: page,

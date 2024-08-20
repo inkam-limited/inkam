@@ -30,6 +30,11 @@ const PharmacyDashboard = async ({
   const totalPages = Math.ceil(totalAgents / per_page);
 
   const agents: Agent[] = await prisma.agent.findMany({
+    where: {
+      AgentType: {
+        not: "PHARMACY",
+      },
+    },
     orderBy: {
       createdAt: "desc",
     },
@@ -59,9 +64,7 @@ const PharmacyDashboard = async ({
                 />
               )}
             </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
+            <PaginationItem></PaginationItem>
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>

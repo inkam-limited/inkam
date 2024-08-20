@@ -2,11 +2,35 @@ import prisma from "@/db";
 import InvoiceList from "./InvoiceList";
 import { ArrowLeftSquare } from "lucide-react";
 import Link from "next/link";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
-const page = async () => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+  const page = Number(searchParams["page"] ?? "1");
+  const per_page = Number(searchParams["per_page"] ?? "10");
+
+  const skip = (page - 1) * per_page;
+
+  // Fetch total count of agents to determine the last page
+  const totalInvoices = await prisma.invoice.count();
+  const totalPages = Math.ceil(totalInvoices / per_page);
   const invoices = await prisma.invoice.findMany({
     where: {
       disbursed: false,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
 
@@ -14,6 +38,40 @@ const page = async () => {
     <div>
       <h1>Invoices</h1>
       <InvoiceList invoices={invoices} />
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            {page > 1 && (
+              <PaginationPrevious
+                href={{
+                  pathname: "/dashboard/invoices",
+                  query: {
+                    page: page - 1,
+                    per_page: per_page,
+                  },
+                }}
+              />
+            )}
+          </PaginationItem>
+          <PaginationItem></PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            {page < totalPages && (
+              <PaginationNext
+                href={{
+                  pathname: "/dashboard/invoices",
+                  query: {
+                    page: page + 1,
+                    per_page: per_page,
+                  },
+                }}
+              />
+            )}
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };

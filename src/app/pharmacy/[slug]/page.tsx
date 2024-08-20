@@ -3,12 +3,40 @@ import React from "react";
 import PharmacyQR from "./PharmacyQR";
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
-import TransactionTable from "./TransactionTable";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { TransactionStatus } from "@prisma/client";
+import StatusSorter from "@/app/dashboard/transactions/StatusSorter";
+import SuspenseLoader from "@/components/SuspenseLoader";
+import TransactionList from "@/app/dashboard/transactions/TransactionList";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
-const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
+const PharmacyPage = async ({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+  const tStatus = searchParams["status"] as TransactionStatus;
+  const page = Number(searchParams["page"] ?? "1");
+  const per_page = Number(searchParams["per_page"] ?? "10");
+
+  const skip = (page - 1) * per_page;
+
+  // Fetch total count of agents to determine the last page
+  const totalTransactions = await prisma.transaction.count({
+    where: { agentId: params.slug, status: tStatus },
+  });
+  const totalPages = Math.ceil(totalTransactions / per_page);
   const shop = await prisma.agent.findUnique({
     where: {
       agentId: params.slug,
@@ -28,6 +56,8 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
     include: {
       labTest: true,
     },
+    skip: skip, // Skip to the correct offset
+    take: per_page, // Only retrieve the first 10 records
   });
 
   const paymentAmount = await prisma.transaction.aggregate({
@@ -77,8 +107,50 @@ const PharmacyPage = async ({ params }: { params: { slug: string } }) => {
             Generate Lead
           </Link>
         </div>
-        <div className="md:col-span-2">
-          <TransactionTable transactions={transactions} />
+        <div className="col-span-2">
+          <h2 className="text-2xl font-bold py-4">All Transactions</h2>
+          <StatusSorter page={page} per_page={per_page} status={tStatus} />
+          <SuspenseLoader>
+            <TransactionList transactions={transactions} />
+          </SuspenseLoader>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                {page > 1 && (
+                  <PaginationPrevious
+                    href={{
+                      pathname: `/pharmacy/${shop.agentId}`,
+                      query: {
+                        status: tStatus,
+                        page: page - 1,
+                        per_page: per_page,
+                      },
+                    }}
+                  />
+                )}
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                {page < totalPages && (
+                  <PaginationNext
+                    href={{
+                      pathname: `/pharmacy/${shop.agentId}`,
+                      query: {
+                        status: tStatus,
+                        page: page + 1,
+                        per_page: per_page,
+                      },
+                    }}
+                  />
+                )}
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     </div>

@@ -12,7 +12,6 @@ import Link from "next/link";
 import React from "react";
 
 const InvoiceList = ({ invoices }: { invoices: Invoice[] }) => {
-  console.log(invoices);
   return (
     <Table>
       <TableHeader>

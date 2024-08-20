@@ -12,6 +12,7 @@ import prisma from "@/db";
 import TransactionStatusDropdown from "./TransactionStatus";
 
 const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
+  console.log(transactions);
   return (
     <div>
       <Table>
@@ -23,6 +24,7 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
             <TableHead>Address</TableHead>
             <TableHead>Agent</TableHead>
             <TableHead>Lab Test</TableHead>
+            <TableHead>Price</TableHead>
             <TableHead>Commission</TableHead>
             <TableHead>Status</TableHead>
           </TableRow>
@@ -38,6 +40,7 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
                   name: true,
                 },
               });
+              console.log(transaction.isPaid);
 
               return (
                 <TableRow key={transaction.transactionId}>
@@ -52,6 +55,9 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
                   <TableCell>{testName?.name}</TableCell>
                   <TableCell>
                     {transaction.amount === 0 ? "-" : transaction.amount}
+                  </TableCell>
+                  <TableCell>
+                    {transaction.inkam === 0 ? "-" : transaction.inkam}
                   </TableCell>
                   <TableCell className="relative">
                     <TransactionStatusDropdown

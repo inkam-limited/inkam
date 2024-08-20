@@ -52,6 +52,7 @@ export const createInvoice = async () => {
         in: transactions.map((t) => t.agentId),
       },
       status: "PROVIDED",
+      isPaid: false,
     },
     data: {
       isPaid: true,

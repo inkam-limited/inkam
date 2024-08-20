@@ -32,9 +32,6 @@ const TransactionStatusDropdown: React.FC<TransactionStatusDropdownProps> = ({
   const router = useRouter();
 
   const handleStatusChange = async (value: string) => {
-    if (notPaid) {
-      return;
-    }
     const newStatus = value as TransactionStatus;
     const res = await updateTransactionStatus(transactionId, newStatus);
     if (res.success) {
@@ -55,28 +52,14 @@ const TransactionStatusDropdown: React.FC<TransactionStatusDropdownProps> = ({
     }
   };
 
-  const notPaid =
-    currentStatus === TransactionStatus.PROVIDED && isPaid === false;
-  console.log(notPaid);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          className={
-            currentStatus
-              ? TransactionStatus.PROVIDED && isPaid === false
-                ? " bg-red-500 text-neutral-100 hover:bg-red-600 hover:text-neutral-100"
-                : ""
-              : ""
-          }
-          variant={getButtonVariant(currentStatus)}
-        >
+        <Button variant={getButtonVariant(currentStatus)}>
           <span>
-            {currentStatus
-              ? TransactionStatus.PROVIDED && isPaid === false
-                ? "Payment pending"
-                : currentStatus
-              : ""}
+            {currentStatus === TransactionStatus.PROVIDED && isPaid === false
+              ? "Payment pending"
+              : currentStatus}
           </span>
         </Button>
       </DropdownMenuTrigger>

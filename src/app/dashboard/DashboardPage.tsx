@@ -85,7 +85,7 @@ export async function DashboardPage() {
     },
     {
       name: "Service Pending",
-      value: `BDT ${orderPending._sum.amount}`,
+      value: `BDT ${orderPending._sum.amount || 0}`,
       qty: orderPending._count.amount,
       gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
       detail: {
@@ -95,7 +95,7 @@ export async function DashboardPage() {
     },
     {
       name: "Commission Pending",
-      value: `BDT ${orderPending._sum.inkam}`,
+      value: `BDT ${orderPending._sum.inkam || 0}`,
       qty: orderPending._count.inkam,
       gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
       detail: {

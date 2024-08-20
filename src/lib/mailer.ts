@@ -46,7 +46,7 @@ export const sendInvoice = async ({ invoice }: { invoice: Invoice }) => {
   try {
     const { data, error } = await resend.emails.send({
       from: "Inkam <onboarding@resend.dev>",
-      to: ["inkamlimited@gmail.com"],
+      to: ["inkamlimited@gmail.com", "soyab@inkam.app", "khalid@inkam.app"],
       subject: "Test mail",
       react: InvoiceEmail({
         invoice,

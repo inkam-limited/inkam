@@ -1,6 +1,8 @@
+"use client";
 import { buttonVariants } from "@/components/ui/button";
 import { TransactionStatus } from "@prisma/client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const StatusSorter = ({
@@ -12,6 +14,8 @@ const StatusSorter = ({
   per_page: number;
   status: TransactionStatus;
 }) => {
+  const pathName = usePathname();
+  console.log(pathName);
   return (
     <div className="flex gap-2">
       <Link
@@ -19,7 +23,7 @@ const StatusSorter = ({
           variant: status === TransactionStatus.PENDING ? "default" : "outline",
         })}
         href={{
-          pathname: "/dashboard/transactions",
+          pathname: pathName,
           query: {
             status: TransactionStatus.PENDING,
             page: page,

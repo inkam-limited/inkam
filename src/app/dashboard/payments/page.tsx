@@ -30,28 +30,6 @@ const PharmacyDashboard = async ({
   const totalAgents = await prisma.agent.count();
   const totalPages = Math.ceil(totalAgents / per_page);
 
-  const agents = await prisma.agent.findMany({
-    where: {
-      transaction: {
-        some: {
-          isPaid: false,
-          status: "PROVIDED",
-        },
-      },
-    },
-    skip,
-    take: per_page,
-    orderBy: {
-      name: "asc",
-    },
-    select: {
-      agentId: true,
-      name: true,
-      number: true,
-      transaction: true,
-    },
-  });
-
   const transactions = await prisma.transaction.groupBy({
     by: ["agentId", "agentName"],
     where: {

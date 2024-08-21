@@ -39,6 +39,7 @@ import useMediaQuery from "@custom-react-hooks/use-media-query";
 import { createTransaction } from "./actions";
 import { seed } from "@/lib/seed";
 import { sendMail } from "@/lib/mailer";
+import { Badge } from "@/components/ui/badge";
 
 export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const { data: labTests, isLoading: isLabTestsLoading } =
@@ -236,9 +237,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                                   <span className="text-left overflow-hidden text-ellipsis whitespace-nowrap">
                                     {test.name}
                                   </span>
-                                  <span className="px-2 py-1 rounded-md bg-green-100 text-xs">
-                                    BDT {test.price}
-                                  </span>
+                                  <Badge>BDT {test.price}</Badge>
                                 </Button>
                                 <CheckIcon
                                   className={cn(
@@ -324,9 +323,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                                   <span className="text-left overflow-hidden text-ellipsis whitespace-nowrap">
                                     {test.name}
                                   </span>
-                                  <span className="px-2 py-1 rounded-md bg-green-100 text-xs">
-                                    BDT {test.price}
-                                  </span>
+                                  <Badge>BDT {test.price}</Badge>
                                 </Button>
                                 <CheckIcon
                                   className={cn(

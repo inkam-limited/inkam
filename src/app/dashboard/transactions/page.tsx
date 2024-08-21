@@ -15,6 +15,8 @@ import { TransactionStatus } from "@prisma/client";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import StatusSorter from "./StatusSorter";
+import { TransactionTable } from "./transaction-table";
+import { columns } from "./TransactionColumns";
 
 const TransactionPage = async ({
   searchParams,
@@ -50,10 +52,11 @@ const TransactionPage = async ({
 
   return (
     <div className="space-y-4">
-      <StatusSorter page={page} per_page={per_page} status={tStatus} />
       <h2 className="text-2xl font-bold">All Transactions</h2>
+      <StatusSorter page={page} per_page={per_page} status={tStatus} />
       <SuspenseLoader>
         <TransactionList transactions={transactions} />
+        {/* <TransactionTable columns={columns} data={transactions} /> */}
       </SuspenseLoader>
       <Pagination>
         <PaginationContent>

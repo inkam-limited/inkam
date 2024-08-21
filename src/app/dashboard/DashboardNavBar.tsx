@@ -19,7 +19,7 @@ const DashboardNavbar = ({ user }: { user: KindeUser | null }) => {
   const pathName = usePathname();
 
   return (
-    <div className="flex border-b print:hidden border-gray-200 items-center justify-between h-[4rem]">
+    <div className="flex border-b print:hidden border-gray-200 dark:border-gray-700 items-center justify-between h-[4rem]">
       <Link href="/dashboard" className="relative w-[100px] h-[50px]">
         <Image alt="inkam-logo" className="object-cover" fill src="/logo.png" />
       </Link>

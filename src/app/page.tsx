@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <div className="">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-        <div className="md:col-span-2 relative h-[280px] md:h-[550px]">
+        <div className="md:col-span-2 relative h-[200px] sm:h-[280px] md:h-[550px]">
           <Image
             src="/inkam-cover.png"
             alt="Inkam Logo"
@@ -29,20 +29,21 @@ export default async function Home() {
           </p>
         </div>
         <div className="flex items-center md:items-start flex-col gap-4 p-10">
-          <Link
-            className="px-6 py-4 border w-56 text-center text-neutral-50 bg-blue-700 border-gray-700 font-bold rounded-sm"
-            href="/onboard"
-          >
-            Join as a Agent
-          </Link>
           <LoginLink className="px-6 py-4 border w-56 text-center border-gray-700 font-bold rounded-sm">
             Login to Dashboard
           </LoginLink>
           <Link
             href="/find"
-            className="px-6 py-4 border w-56 text-center text-neutral-50 bg-blue-700 border-gray-700 font-bold rounded-sm"
+            className="px-6 py-4 mb-6 border w-56 text-center text-neutral-50 bg-blue-700 border-gray-700 font-bold rounded-sm"
           >
             See agent Transactions
+          </Link>
+
+          <Link
+            className="px-6 pt-12 py-4 w-56 text-center text-neutral-50  font-bold rounded-sm border-t border-gray-700"
+            href="/onboard"
+          >
+            Join as a Agent
           </Link>
         </div>
       </div>

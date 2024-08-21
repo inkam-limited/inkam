@@ -10,8 +10,10 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import prisma from "@/db";
+import { cn } from "@/lib/utils";
 import { TransactionStatus } from "@prisma/client";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export async function DashboardPage() {
   const totalSales = await prisma.transaction.aggregate({
@@ -119,36 +121,42 @@ export async function DashboardPage() {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2  gap-4">
-      {data.map((d) => (
-        <SuspenseLoader
-          key={d.name}
-          fallback={<Skeleton className="h-full w-full" />}
-        >
-          <Card key={d.name} className={d.gradient}>
-            <CardHeader>
-              <CardTitle>{d.name}</CardTitle>
-            </CardHeader>
-            <CardContent className="text-3xl font-bold">{d.value}</CardContent>
-            {d.qty ? (
-              <CardFooter>
-                <span className="text-sm text-neutral-50">
-                  From {d.qty} orders
-                </span>
-              </CardFooter>
-            ) : null}
-            {d.detail ? (
-              <CardFooter>
-                <Link
-                  className={buttonVariants({ variant: "secondary" })}
-                  href={d.detail.link}
-                >
-                  {d.detail.title}
-                </Link>
-              </CardFooter>
-            ) : null}
-          </Card>
-        </SuspenseLoader>
-      ))}
+      {data && data.length > 0
+        ? data.map((d) => (
+            <Suspense
+              key={d.name}
+              fallback={<Skeleton className="h-8 w-full" />}
+            >
+              <Card key={d.name} className={cn(d.gradient, "border-none")}>
+                <CardHeader>
+                  <CardTitle>{d.name}</CardTitle>
+                </CardHeader>
+                <CardContent className="text-3xl font-bold">
+                  {d.value}
+                </CardContent>
+                {d.qty ? (
+                  <CardFooter>
+                    <span className="text-sm text-neutral-50">
+                      From {d.qty} orders
+                    </span>
+                  </CardFooter>
+                ) : null}
+                {d.detail ? (
+                  <CardFooter>
+                    <Link
+                      className={buttonVariants({ variant: "secondary" })}
+                      href={d.detail.link}
+                    >
+                      {d.detail.title}
+                    </Link>
+                  </CardFooter>
+                ) : (
+                  <Skeleton className="h-8 w-full" />
+                )}
+              </Card>
+            </Suspense>
+          ))
+        : null}
     </div>
   );
 }

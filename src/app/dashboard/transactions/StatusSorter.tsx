@@ -15,7 +15,6 @@ const StatusSorter = ({
   status: TransactionStatus;
 }) => {
   const pathName = usePathname();
-  console.log(pathName);
   return (
     <div className="flex gap-2">
       <Link

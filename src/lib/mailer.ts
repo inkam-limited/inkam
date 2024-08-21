@@ -21,7 +21,12 @@ export const sendMail = async ({
   try {
     const { data, error } = await resend.emails.send({
       from: "Inkam Labs <orders@labs.inkam.app>",
-      to: ["inkamlimited@gmail.com", "soyab@inkam.app", "khalid@inkam.app"],
+      to: [
+        "inkamlimited@gmail.com",
+        "soyab@inkam.app",
+        "khalid@inkam.app",
+        "tofael@inkam.app",
+      ],
       subject: "Order placement",
       react: DiagnosticConfirmationEmail({
         patientName,
@@ -46,7 +51,12 @@ export const sendInvoice = async ({ invoice }: { invoice: Invoice }) => {
   try {
     const { data, error } = await resend.emails.send({
       from: "Inkam Labs <orders@labs.inkam.app>",
-      to: ["inkamlimited@gmail.com", "soyab@inkam.app", "khalid@inkam.app"],
+      to: [
+        "inkamlimited@gmail.com",
+        "soyab@inkam.app",
+        "khalid@inkam.app",
+        "tofael@inkam.app",
+      ],
       subject: "Payment Confirmation",
       react: InvoiceEmail({
         invoice,

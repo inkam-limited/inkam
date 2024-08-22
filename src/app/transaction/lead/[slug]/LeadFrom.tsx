@@ -34,7 +34,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, LoaderCircleIcon } from "lucide-react";
 import useMediaQuery from "@custom-react-hooks/use-media-query";
 import { createTransaction } from "./actions";
 import { seed } from "@/lib/seed";
@@ -349,7 +349,15 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
             )}
           />
         ) : null}
-        <Button type="submit">{isLoading ? "Submitting..." : "Submit"}</Button>
+        {isLoading ? (
+          <Button size="lg" type="submit" disabled>
+            <LoaderCircleIcon className="w-5 h-5 animate-spin" />
+          </Button>
+        ) : (
+          <Button size="lg" type="submit">
+            Submit
+          </Button>
+        )}
       </form>
     </Form>
   );

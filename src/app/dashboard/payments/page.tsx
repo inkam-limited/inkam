@@ -16,7 +16,7 @@ import SuspenseLoader from "@/components/SuspenseLoader";
 import AllPayments from "./AllPayments";
 import PaymentControls from "./PaymentControls";
 
-const PharmacyDashboard = async ({
+const PaymentsPage = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -93,4 +93,4 @@ const PharmacyDashboard = async ({
   );
 };
 
-export default PharmacyDashboard;
+export default PaymentsPage;

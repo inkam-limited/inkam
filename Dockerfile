@@ -24,7 +24,8 @@ COPY . .
 ENV KINDE_ISSUER_URL=https://inkampte.kinde.com
 ENV KINDE_CLIENT_ID=cad8d79785d145edb36d7c237d97bbff
 ENV KINDE_CLIENT_SECRET=D524CJ8tuOJRKGtveBXkEVQyfjcXEkVqVvh8U7ey8PWUIPCVikX6
-
+ENV DATABASE_URL=postgresql://neondb_owner:2wrpqZ9fMRob@ep-orange-snow-a1l6lhye.ap-southeast-1.aws.neon.tech/neondb?sslmode=require
+ENV RESEND_API_KEY=re_5TH3YiBc_5QT6FNpvn25sRAHmbFBmUQUf
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

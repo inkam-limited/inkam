@@ -69,7 +69,7 @@ const StatusSorter = ({
             status === TransactionStatus.PROVIDED ? "default" : "outline",
         })}
         href={{
-          pathname: "/dashboard/transactions",
+          pathname: pathName,
           query: {
             status: TransactionStatus.PROVIDED,
             page: page,

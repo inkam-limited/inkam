@@ -21,7 +21,9 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ENV KINDE_ISSUER_URL=https://inkampte.kinde.com,KINDE_CLIENT_ID=cad8d79785d145edb36d7c237d97bbff,KINDE_CLIENT_SECRET=D524CJ8tuOJRKGtveBXkEVQyfjcXEkVqVvh8U7ey8PWUIPCVikX6
+ENV KINDE_ISSUER_URL=https://inkampte.kinde.com
+ENV KINDE_CLIENT_ID=cad8d79785d145edb36d7c237d97bbff
+ENV KINDE_CLIENT_SECRET=D524CJ8tuOJRKGtveBXkEVQyfjcXEkVqVvh8U7ey8PWUIPCVikX6
 
 
 # Next.js collects completely anonymous telemetry data about general usage.

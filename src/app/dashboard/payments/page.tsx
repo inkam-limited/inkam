@@ -43,7 +43,9 @@ const PaymentsPage = async ({
   return (
     <div className="w-full max-w-7xl mx-auto">
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">All Payments</h2>
+        <h2 className="text-4xl font-bold dark:text-neutral-300">
+          All Payments
+        </h2>
         <SuspenseLoader>
           <AllPayments transactions={transactions} />
         </SuspenseLoader>

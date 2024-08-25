@@ -11,9 +11,10 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import prisma from "@/db";
 import { cn } from "@/lib/utils";
+import { Suspense } from "react";
+import SalesChart from "./sales-chart";
 import { TransactionStatus } from "@prisma/client";
 import Link from "next/link";
-import { Suspense } from "react";
 
 export async function DashboardPage() {
   const totalSales = await prisma.transaction.aggregate({
@@ -69,7 +70,6 @@ export async function DashboardPage() {
       name: "Total Orders",
       value: `BDT ${totalSales._sum.amount ?? 0}`,
       qty: totalSales._count.amount,
-      gradient: "bg-gradient-to-r from-blue-600 to-violet-600 text-white",
       detail: {
         link: "/dashboard/transactions",
         title: "View Transactions",
@@ -79,7 +79,6 @@ export async function DashboardPage() {
       name: "Total Commission",
       value: `BDT ${totalSales._sum.inkam ?? 0}`,
       qty: totalSales._count.inkam,
-      gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
       detail: {
         link: "/dashboard/payments",
         title: "View Payments",
@@ -89,7 +88,6 @@ export async function DashboardPage() {
       name: "Service Pending",
       value: `BDT ${orderPending._sum.amount || 0}`,
       qty: orderPending._count.amount,
-      gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
       detail: {
         link: "/dashboard/transactions",
         title: "View Transactions",
@@ -99,7 +97,6 @@ export async function DashboardPage() {
       name: "Commission Pending",
       value: `BDT ${orderPending._sum.inkam || 0}`,
       qty: orderPending._count.inkam,
-      gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
       detail: {
         link: "/dashboard/invoices",
         title: "View Invoices",
@@ -109,25 +106,23 @@ export async function DashboardPage() {
       name: "Order Failed",
       value: `BDT ${orderFailed._sum.amount || 0}`,
       qty: orderFailed._count.inkam,
-      gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
     },
     {
       name: "Commission Failed",
       value: `BDT ${orderFailed._sum.inkam || 0}`,
       qty: orderFailed._count.inkam,
-      gradient: "bg-gradient-to-r from-red-500 to-orange-500 text-white",
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2  gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-4">
       {data && data.length > 0
         ? data.map((d) => (
             <Suspense
               key={d.name}
               fallback={<Skeleton className="h-60 min-w-16 w-full" />}
             >
-              <Card key={d.name} className={cn(d.gradient, "border-none")}>
+              <Card key={d.name} className="border-none">
                 <CardHeader>
                   <CardTitle>{d.name}</CardTitle>
                 </CardHeader>
@@ -150,13 +145,12 @@ export async function DashboardPage() {
                       {d.detail.title}
                     </Link>
                   </CardFooter>
-                ) : (
-                  <Skeleton className="h-8 w-full" />
-                )}
+                ) : null}
               </Card>
             </Suspense>
           ))
         : null}
+      <SalesChart />
     </div>
   );
 }

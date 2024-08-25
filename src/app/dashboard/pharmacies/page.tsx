@@ -42,7 +42,9 @@ const PharmacyDashboard = async ({
   return (
     <div>
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">All Pharmacies</h2>
+        <h2 className="text-4xl font-bold dark:text-neutral-300">
+          All Pharmacies
+        </h2>
         <PharmacyList pharmacies={pharmacies} />
 
         <Pagination>

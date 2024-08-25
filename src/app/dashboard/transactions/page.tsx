@@ -47,7 +47,9 @@ const TransactionPage = async ({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold">All Transactions</h2>
+      <h2 className="text-4xl font-bold dark:text-neutral-300">
+        All Transactions
+      </h2>
       <StatusSorter page={page} per_page={per_page} status={tStatus} />
       <TransactionList transactions={transactions} />
       <Pagination>

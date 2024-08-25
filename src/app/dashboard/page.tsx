@@ -1,6 +1,5 @@
 import React, { Suspense } from "react";
-import { DashboardPage } from "./DashboardPage";
-import SuspenseLoader from "@/components/SuspenseLoader";
+import { DashboardPage } from "./_components/DashboardPage";
 
 const Dashboard = () => {
   return <DashboardPage />;

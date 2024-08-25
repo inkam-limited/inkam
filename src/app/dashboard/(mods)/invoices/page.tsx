@@ -36,7 +36,7 @@ const page = async ({
 
   return (
     <div>
-      <h1>Invoices</h1>
+      <h1 className="text-4xl font-bold dark:text-neutral-300">Invoices</h1>
       <InvoiceList invoices={invoices} />
       <Pagination>
         <PaginationContent>

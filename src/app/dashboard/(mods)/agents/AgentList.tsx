@@ -17,9 +17,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
+import SuspenseLoader from "@/components/SuspenseLoader";
+
 const AgentList = ({ agents }: { agents: Agent[] }) => {
   return (
-    <Table>
+    <Table className="w-full">
       <TableCaption>A list of your recent pharmacies.</TableCaption>
       <TableHeader>
         <TableRow>
@@ -30,56 +34,58 @@ const AgentList = ({ agents }: { agents: Agent[] }) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {agents.map(async function (agent) {
-          let address;
-          if (
-            agent?.address &&
-            typeof agent?.address === "object" &&
-            Array.isArray(agent?.address)
-          ) {
-            const addressObj = agent?.address as Prisma.JsonArray;
+        <SuspenseLoader>
+          {agents.map(async function (agent) {
+            let address;
+            if (
+              agent?.address &&
+              typeof agent?.address === "object" &&
+              Array.isArray(agent?.address)
+            ) {
+              const addressObj = agent?.address as Prisma.JsonArray;
 
-            address = addressObj;
-          }
+              address = addressObj;
+            }
 
-          return (
-            <TableRow key={agent.agentId}>
-              <TableCell className="font-medium">
-                <Link
-                  href={`/pharmacy/${agent.agentId}`}
-                  className={buttonVariants({ variant: "link" })}
-                >
-                  {agent.name}
-                </Link>
-              </TableCell>
-              <TableCell>{agent.number}</TableCell>
-              <TableCell className="max-w-9">
-                {agent.address?.toString().replaceAll(",", ", ")}
-              </TableCell>
-              <TableCell>{agent.createdAt.toDateString()}</TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full">
-                      Actions
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <Link href={`/pharmacy/${agent.agentId}`}>View</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href={`/pharmacy/${agent.agentId}`}>Edit</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href={`/pharmacy/${agent.agentId}`}>Delete</Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          );
-        })}
+            return (
+              <TableRow key={agent.agentId}>
+                <TableCell className="font-medium">
+                  <Link
+                    href={`/pharmacy/${agent.agentId}`}
+                    className={buttonVariants({ variant: "link" })}
+                  >
+                    {agent.name}
+                  </Link>
+                </TableCell>
+                <TableCell>{agent.number}</TableCell>
+                <TableCell className="max-w-9">
+                  {agent.address?.toString().replaceAll(",", ", ")}
+                </TableCell>
+                <TableCell>{agent.createdAt.toDateString()}</TableCell>
+                <TableCell>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="w-full">
+                        Actions
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem>
+                        <Link href={`/pharmacy/${agent.agentId}`}>View</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Link href={`/pharmacy/${agent.agentId}`}>Edit</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Link href={`/pharmacy/${agent.agentId}`}>Delete</Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </SuspenseLoader>
       </TableBody>
     </Table>
   );

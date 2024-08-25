@@ -34,7 +34,7 @@ const SettingsPage = async () => {
     );
   }
 
-  if (dbUser.role !== Role.ADMIN) {
+  if (dbUser.role !== Role.ADMIN && dbUser.role !== Role.MODERATOR) {
     return (
       <div className="w-full h-full">
         <Card>
@@ -53,7 +53,7 @@ const SettingsPage = async () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">Settings</h1>
+      <h1 className="text-4xl font-bold dark:text-neutral-300">Settings</h1>
       <SuspenseLoader>
         <UserSettings users={users} />
       </SuspenseLoader>

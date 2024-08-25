@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardNavbar from "./DashboardNavBar";
+import DashboardNavbar from "./_components/DashboardNavBar";
 import {
   getKindeServerSession,
   LoginLink,
@@ -7,7 +7,7 @@ import {
 } from "@kinde-oss/kinde-auth-nextjs/server";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 import { Button } from "@/components/ui/button";
-import Sidebar from "./Sidebar";
+import Sidebar from "./_components/Sidebar";
 import prisma from "@/db";
 import { redirect } from "next/navigation";
 

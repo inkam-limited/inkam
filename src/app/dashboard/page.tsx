@@ -3,11 +3,7 @@ import { DashboardPage } from "./DashboardPage";
 import SuspenseLoader from "@/components/SuspenseLoader";
 
 const Dashboard = () => {
-  return (
-    <SuspenseLoader>
-      <DashboardPage />
-    </SuspenseLoader>
-  );
+  return <DashboardPage />;
 };
 
 export default Dashboard;

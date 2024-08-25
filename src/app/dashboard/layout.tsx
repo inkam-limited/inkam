@@ -58,8 +58,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="w-full max-w-7xl  mx-auto px-4">
       <DashboardNavbar user={user} />
-
-      <div className="md:grid min-h-[calc(100svh-4rem)] grid-cols-6  px-4 gap-4">
+      <div className="md:grid min-h-[calc(100svh-4rem)] grid-cols-6 gap-4">
         <div className="col-span-1 print:hidden pt-8 md:border-r md:border-gray-200 dark:md:border-gray-700">
           <Sidebar dbUser={dbUser} />
         </div>

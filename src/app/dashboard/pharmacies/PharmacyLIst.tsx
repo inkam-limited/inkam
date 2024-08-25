@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
   return (
@@ -36,19 +38,41 @@ const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
             address = addressObj;
           }
           return (
-            <TableRow key={agent.agentId}>
-              <TableCell className="font-medium">
-                <Link
-                  href={`/pharmacy/${agent.agentId}`}
-                  className={buttonVariants({ variant: "link" })}
-                >
-                  {agent.name}
-                </Link>
-              </TableCell>
-              <TableCell>{agent.number}</TableCell>
-              <TableCell>{address?.toString().replaceAll(",", ", ")}</TableCell>
-              <TableCell>{agent.createdAt.toDateString()}</TableCell>
-            </TableRow>
+            <Suspense
+              key={agent.agentId}
+              fallback={<Skeleton className="h-8 min-w-16 w-full" />}
+            >
+              <TableRow>
+                <TableCell className="font-medium">
+                  <Link
+                    href={`/pharmacy/${agent.agentId}`}
+                    className={buttonVariants({ variant: "link" })}
+                  >
+                    {agent.name}
+                  </Link>
+                </TableCell>
+                <TableCell>{agent.number}</TableCell>
+                <TableCell>
+                  {address?.toString().replaceAll(",", ", ")}
+                </TableCell>
+                <TableCell>{agent.createdAt.toDateString()}</TableCell>
+              </TableRow>
+              <TableRow key={agent.agentId}>
+                <TableCell className="font-medium">
+                  <Link
+                    href={`/pharmacy/${agent.agentId}`}
+                    className={buttonVariants({ variant: "link" })}
+                  >
+                    {agent.name}
+                  </Link>
+                </TableCell>
+                <TableCell>{agent.number}</TableCell>
+                <TableCell>
+                  {address?.toString().replaceAll(",", ", ")}
+                </TableCell>
+                <TableCell>{agent.createdAt.toDateString()}</TableCell>
+              </TableRow>
+            </Suspense>
           );
         })}
       </TableBody>

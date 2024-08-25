@@ -125,7 +125,7 @@ export async function DashboardPage() {
         ? data.map((d) => (
             <Suspense
               key={d.name}
-              fallback={<Skeleton className="h-8 w-full" />}
+              fallback={<Skeleton className="h-60 min-w-16 w-full" />}
             >
               <Card key={d.name} className={cn(d.gradient, "border-none")}>
                 <CardHeader>

@@ -1,5 +1,6 @@
 import { Loader2 } from "lucide-react";
 import React, { Suspense } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 const SuspenseLoader = ({
   children,
@@ -13,8 +14,11 @@ const SuspenseLoader = ({
       fallback={
         fallback ?? (
           <div className="w-full h-full flex-col flex justify-center items-center">
-            <Loader2 className="animate-spin h-12 w-12" />
-            <h1 className="text-center text-2xl font-bold">Loading...</h1>
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
           </div>
         )
       }

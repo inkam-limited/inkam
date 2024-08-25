@@ -1,22 +1,17 @@
 import prisma from "@/db";
-import React from "react";
+import React, { Suspense } from "react";
 import TransactionList from "./TransactionList";
 import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import SuspenseLoader from "@/components/SuspenseLoader";
 import { TransactionStatus } from "@prisma/client";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
 import StatusSorter from "./StatusSorter";
-import { TransactionTable } from "./transaction-table";
-import { columns } from "./TransactionColumns";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const TransactionPage = async ({
   searchParams,
@@ -54,10 +49,9 @@ const TransactionPage = async ({
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">All Transactions</h2>
       <StatusSorter page={page} per_page={per_page} status={tStatus} />
-      <SuspenseLoader>
+      <Suspense fallback={<Skeleton className="h-8 min-w-16 w-full" />}>
         <TransactionList transactions={transactions} />
-        {/* <TransactionTable columns={columns} data={transactions} /> */}
-      </SuspenseLoader>
+      </Suspense>
       <Pagination>
         <PaginationContent>
           <PaginationItem>

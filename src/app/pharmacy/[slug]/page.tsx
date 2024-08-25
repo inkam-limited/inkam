@@ -82,7 +82,7 @@ const PharmacyPage = async ({
               <CardHeader>{shop.name}</CardHeader>
               <CardContent>
                 <Link
-                  className="text-pretty text-primary"
+                  className="text-xl font-bold text-primary"
                   href={`tel:${shop.number}`}
                   rel="noopener noreferrer"
                 >

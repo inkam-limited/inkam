@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import prisma from "@/db";
 import TransactionStatusDropdown from "./TransactionStatus";
+import SuspenseLoader from "@/components/SuspenseLoader";
 
 const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
   return (
@@ -40,32 +41,34 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
                 },
               });
               return (
-                <TableRow key={transaction.transactionId}>
-                  <TableCell className="font-medium">
-                    {transaction.customerName}
-                  </TableCell>
-                  <TableCell>{transaction.customerNumber}</TableCell>
-                  <TableCell className="line-clamp-2">
-                    {transaction.customerLocation}
-                  </TableCell>
-                  <TableCell>{transaction.agentName}</TableCell>
-                  <TableCell>{testName?.name}</TableCell>
-                  <TableCell>
-                    {transaction.amount === 0 ? "-" : transaction.amount}
-                  </TableCell>
-                  <TableCell>
-                    {transaction.inkam === 0 ? "-" : transaction.inkam}
-                  </TableCell>
-                  <TableCell className="relative">
-                    <TransactionStatusDropdown
-                      isPaid={transaction.isPaid}
-                      agentId={transaction.agentId}
-                      amount={transaction.amount}
-                      currentStatus={transaction.status}
-                      transactionId={transaction.transactionId}
-                    />
-                  </TableCell>
-                </TableRow>
+                <SuspenseLoader>
+                  <TableRow key={transaction.transactionId}>
+                    <TableCell className="font-medium">
+                      {transaction.customerName}
+                    </TableCell>
+                    <TableCell>{transaction.customerNumber}</TableCell>
+                    <TableCell className="line-clamp-2">
+                      {transaction.customerLocation}
+                    </TableCell>
+                    <TableCell>{transaction.agentName}</TableCell>
+                    <TableCell>{testName?.name}</TableCell>
+                    <TableCell>
+                      {transaction.amount === 0 ? "-" : transaction.amount}
+                    </TableCell>
+                    <TableCell>
+                      {transaction.inkam === 0 ? "-" : transaction.inkam}
+                    </TableCell>
+                    <TableCell className="relative">
+                      <TransactionStatusDropdown
+                        isPaid={transaction.isPaid}
+                        agentId={transaction.agentId}
+                        amount={transaction.amount}
+                        currentStatus={transaction.status}
+                        transactionId={transaction.transactionId}
+                      />
+                    </TableCell>
+                  </TableRow>
+                </SuspenseLoader>
               );
             })}
         </TableBody>

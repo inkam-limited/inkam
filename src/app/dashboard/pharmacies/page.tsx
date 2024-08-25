@@ -1,6 +1,6 @@
 import prisma from "@/db";
 import { Agent } from "@prisma/client";
-import React from "react";
+import React, { Suspense } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/pagination";
 import SuspenseLoader from "@/components/SuspenseLoader";
 import PharmacyList from "./PharmacyLIst";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const PharmacyDashboard = async ({
   searchParams,
@@ -42,9 +43,8 @@ const PharmacyDashboard = async ({
     <div>
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">All Pharmacies</h2>
-        <SuspenseLoader>
-          <PharmacyList pharmacies={pharmacies} />
-        </SuspenseLoader>
+        <PharmacyList pharmacies={pharmacies} />
+
         <Pagination>
           <PaginationContent>
             <PaginationItem>

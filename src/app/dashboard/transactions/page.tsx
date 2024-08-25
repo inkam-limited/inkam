@@ -49,9 +49,7 @@ const TransactionPage = async ({
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">All Transactions</h2>
       <StatusSorter page={page} per_page={per_page} status={tStatus} />
-      <Suspense fallback={<Skeleton className="h-8 min-w-16 w-full" />}>
-        <TransactionList transactions={transactions} />
-      </Suspense>
+      <TransactionList transactions={transactions} />
       <Pagination>
         <PaginationContent>
           <PaginationItem>

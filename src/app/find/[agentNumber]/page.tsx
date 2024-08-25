@@ -95,8 +95,10 @@ const page = async ({
   });
 
   return (
-    <div className="max-w-2xl w-full mx-auto p-4 flex flex-col gap-4">
-      <h1>Agent Transactions</h1>
+    <div className="max-w-2xl text-center  w-full mx-auto p-4 flex flex-col gap-4">
+      <h1 className="text-4xl py-8 font-bold dark:text-neutral-300">
+        Agent Transactions
+      </h1>
       <Card>
         <CardHeader className="font-bold">Agent Details</CardHeader>
         <CardContent className="grid grid-cols-2 gap-4  items-center">

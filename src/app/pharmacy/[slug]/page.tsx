@@ -49,6 +49,7 @@ const PharmacyPage = async ({
   const transactions = await prisma.transaction.findMany({
     where: {
       agentId: shop.agentId,
+      status: tStatus,
     },
     orderBy: {
       createdAt: "desc",

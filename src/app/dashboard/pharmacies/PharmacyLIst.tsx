@@ -57,21 +57,6 @@ const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
                 </TableCell>
                 <TableCell>{agent.createdAt.toDateString()}</TableCell>
               </TableRow>
-              <TableRow key={agent.agentId}>
-                <TableCell className="font-medium">
-                  <Link
-                    href={`/pharmacy/${agent.agentId}`}
-                    className={buttonVariants({ variant: "link" })}
-                  >
-                    {agent.name}
-                  </Link>
-                </TableCell>
-                <TableCell>{agent.number}</TableCell>
-                <TableCell>
-                  {address?.toString().replaceAll(",", ", ")}
-                </TableCell>
-                <TableCell>{agent.createdAt.toDateString()}</TableCell>
-              </TableRow>
             </Suspense>
           );
         })}

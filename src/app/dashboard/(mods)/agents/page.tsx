@@ -32,7 +32,7 @@ const PharmacyDashboard = async ({
   const agents: Agent[] = await prisma.agent.findMany({
     where: {
       AgentType: {
-        not: "PHARMACY",
+        notIn: ["PHARMACY"],
       },
     },
     orderBy: {

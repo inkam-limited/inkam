@@ -26,7 +26,6 @@ export function TransactionTable<TData, Transaction>({
   columns,
   data,
 }: DataTableProps<TData, Transaction>) {
-  console.log(data);
   const table = useReactTable({
     data,
     columns,

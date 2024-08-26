@@ -46,9 +46,7 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
                     {transaction.customerName}
                   </TableCell>
                   <TableCell>{transaction.customerNumber}</TableCell>
-                  <TableCell className="line-clamp-2">
-                    {transaction.customerLocation}
-                  </TableCell>
+                  <TableCell>{transaction.customerLocation}</TableCell>
                   <TableCell>{transaction.agentName}</TableCell>
                   <TableCell>{testName?.name}</TableCell>
                   <TableCell>

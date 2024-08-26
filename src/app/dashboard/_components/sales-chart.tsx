@@ -6,7 +6,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const SalesChart = async () => {
   const data = await getDailySales();
-  console.log(data);
   return (
     <div className="col-span-1 sm:col-span-2 md:col-span-3">
       <h1>Sales Chart</h1>

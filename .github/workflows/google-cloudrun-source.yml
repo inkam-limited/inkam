@@ -38,16 +38,16 @@ jobs:
             --build-arg _GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }} \
             --build-arg _GOOGLE_MAPS_ID=${{ secrets.GOOGLE_MAPS_ID }} \
             --build-arg _RESEND_API_KEY=${{ secrets.RESEND_API_KEY }} \
-            -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-nextjs-app:$GITHUB_SHA .
+            -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA .
 
       - name: Push Docker image
         run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-nextjs-app:$GITHUB_SHA
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy my-nextjs-app \
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-nextjs-app:$GITHUB_SHA \
+          gcloud run deploy inkam-labs \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA \
             --platform managed \
             --region ${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \

@@ -21,7 +21,7 @@ importers:
         specifier: ^2.3.4
         version: 2.3.4(@babel/core@7.24.8)(next@14.2.4(@babel/core@7.24.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@prisma/client':
-        specifier: 5.18.0
+        specifier: ^5.18.0
         version: 5.18.0(prisma@5.18.0)
       '@radix-ui/react-dialog':
         specifier: ^1.1.1

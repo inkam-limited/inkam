@@ -1,3 +1,4 @@
+# Base image
 FROM node:18-alpine AS base
 
 # Install dependencies
@@ -50,7 +51,6 @@ USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 
-# Set environment variables from build arguments
 # Set environment variables from build arguments
 ARG _DATABASE_URL
 ARG _NEXT_PUBLIC_URL

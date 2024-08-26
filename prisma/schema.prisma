@@ -57,24 +57,22 @@ model User {
 }
 
 model Agent {
-  agentId              String        @id @default(uuid())
-  name                 String
-  ownerNumber          String?
-  number               String        @unique
-  managerName          String?
-  division             String?
-  district             String?
-  address              Json?
-  latitude             Float?
-  longitude            Float?
-  payment              Float         @default(0.00)
-  agentPayment         Float         @default(0.00)
-  createdAt            DateTime      @default(now())
-  updatedAt            DateTime      @updatedAt
-  transaction          Transaction[]
-  AgentType            AGENTTYPE     @default(PHARMACY)
-  geoLocationLatitude  Float?
-  geoLocationLongitude Float?
+  agentId      String        @id @default(uuid())
+  name         String
+  ownerNumber  String?
+  number       String        @unique
+  managerName  String?
+  division     String?
+  district     String?
+  address      Json?
+  latitude     Float?
+  longitude    Float?
+  payment      Float         @default(0.00)
+  agentPayment Float         @default(0.00)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transaction  Transaction[]
+  AgentType    AGENTTYPE     @default(PHARMACY)
 }
 
 enum TransactionStatus {

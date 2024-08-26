@@ -88,7 +88,7 @@ export const appRouter = router({
         });
       }
       try {
-        await prisma.agent.create({
+        const agent = await prisma.agent.create({
           data: {
             name: input.name,
             number: input.number,
@@ -97,9 +97,13 @@ export const appRouter = router({
             longitude: input.longitude,
             managerName: input.managerName ?? "",
             ownerNumber: input.ownerNumber ?? "",
+            AgentType: "INDIVIDUAL",
           },
         });
-        return { success: true };
+        return {
+          success: true,
+          agent: { agentName: agent.name, AgentType: agent.AgentType },
+        };
       } catch (error) {
         console.log(error);
         throw new TRPCError({ code: "BAD_REQUEST" });

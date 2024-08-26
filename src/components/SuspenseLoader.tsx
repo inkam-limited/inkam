@@ -13,7 +13,7 @@ const SuspenseLoader = ({
     <Suspense
       fallback={
         fallback ?? (
-          <div className="w-full h-full flex-col flex justify-center items-center">
+          <div className="w-full h-full space-y-4 flex-col flex justify-center items-center">
             <Skeleton className="h-8 w-full" />
             <Skeleton className="h-8 w-full" />
             <Skeleton className="h-8 w-full" />

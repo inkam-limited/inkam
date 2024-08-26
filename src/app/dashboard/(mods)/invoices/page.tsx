@@ -11,6 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import SuspenseLoader from "@/components/SuspenseLoader";
 
 const page = async ({
   searchParams,
@@ -37,7 +38,9 @@ const page = async ({
   return (
     <div>
       <h1 className="text-4xl font-bold dark:text-neutral-300">Invoices</h1>
-      <InvoiceList invoices={invoices} />
+      <SuspenseLoader>
+        <InvoiceList invoices={invoices} />
+      </SuspenseLoader>
       <Pagination>
         <PaginationContent>
           <PaginationItem>

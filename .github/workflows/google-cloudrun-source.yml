@@ -26,7 +26,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker buildx build \
+          docker buildx build --no-cache \
             --build-arg _DATABASE_URL=${{ secrets.DATABASE_URL }} \
             --build-arg _NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }} \
             --build-arg _KINDE_CLIENT_ID=${{ secrets.KINDE_CLIENT_ID }} \
@@ -38,8 +38,7 @@ jobs:
             --build-arg _GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }} \
             --build-arg _GOOGLE_MAPS_ID=${{ secrets.GOOGLE_MAPS_ID }} \
             --build-arg _RESEND_API_KEY=${{ secrets.RESEND_API_KEY }} \
-            -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA \
-            --no-cache .
+            -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA .
 
       - name: Push Docker image
         run: |

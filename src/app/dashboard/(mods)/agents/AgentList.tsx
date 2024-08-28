@@ -20,6 +20,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import SuspenseLoader from "@/components/SuspenseLoader";
+import AgentDropdown from "./agent-dropdown";
 
 const AgentList = ({ agents }: { agents: Agent[] }) => {
   return (
@@ -63,24 +64,7 @@ const AgentList = ({ agents }: { agents: Agent[] }) => {
                 </TableCell>
                 <TableCell>{agent.createdAt.toDateString()}</TableCell>
                 <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="w-full">
-                        Actions
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem>
-                        <Link href={`/pharmacy/${agent.agentId}`}>View</Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Link href={`/pharmacy/${agent.agentId}`}>Edit</Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Link href={`/pharmacy/${agent.agentId}`}>Delete</Link>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <AgentDropdown agentId={agent.agentId} />
                 </TableCell>
               </TableRow>
             );

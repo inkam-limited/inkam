@@ -42,7 +42,7 @@ jobs:
           EOF
           )
 
-          docker buildx build \
+          docker build \
             $build_args \
             -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA \
             .

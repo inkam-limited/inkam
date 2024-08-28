@@ -57,5 +57,5 @@ jobs:
           gcloud run deploy inkam-labs \
             --image=gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA \
             --platform=managed \
-            --region=$GCP_REGION \
+            --region=${{secrets.GCP_REGION}} \
             --set-env-vars _DATABASE_URL=${{ secrets.DATABASE_URL }},_NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }},_KINDE_CLIENT_ID=${{ secrets.KINDE_CLIENT_ID }},_KINDE_CLIENT_SECRET=${{ secrets.KINDE_CLIENT_SECRET }},_KINDE_ISSUER_URL=${{ secrets.KINDE_ISSUER_URL }},_KINDE_SITE_URL=${{ secrets.KINDE_SITE_URL }},_KINDE_POST_LOGOUT_REDIRECT_URL=${{ secrets.KINDE_POST_LOGOUT_REDIRECT_URL }},_KINDE_POST_LOGIN_REDIRECT_URL=${{ secrets.KINDE_POST_LOGIN_REDIRECT_URL }},_GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }},_GOOGLE_MAPS_ID=${{ secrets.GOOGLE_MAPS_ID }},_RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}

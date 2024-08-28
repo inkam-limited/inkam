@@ -60,14 +60,14 @@ jobs:
             --platform managed \
             --region ${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
-            --set-env-vars DATABASE_URL=${{ secrets.DATABASE_URL }},\
-            NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }},\
-            KINDE_CLIENT_ID=${{ secrets.KINDE_CLIENT_ID }},\
-            KINDE_CLIENT_SECRET=${{ secrets.KINDE_CLIENT_SECRET }},\
-            KINDE_ISSUER_URL=${{ secrets.KINDE_ISSUER_URL }},\
-            KINDE_SITE_URL=${{ secrets.KINDE_SITE_URL }},\
-            KINDE_POST_LOGOUT_REDIRECT_URL=${{ secrets.KINDE_POST_LOGOUT_REDIRECT_URL }},\
-            KINDE_POST_LOGIN_REDIRECT_URL=${{ secrets.KINDE_POST_LOGIN_REDIRECT_URL }},\
-            GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }},\
-            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }} \
+            --set-env-vars DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            --set-env-vars NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }} \
+            --set-env-vars KINDE_CLIENT_ID=${{ secrets.KINDE_CLIENT_ID }} \
+            --set-env-vars KINDE_CLIENT_SECRET=${{ secrets.KINDE_CLIENT_SECRET }} \
+            --set-env-vars KINDE_ISSUER_URL=${{ secrets.KINDE_ISSUER_URL }} \
+            --set-env-vars KINDE_SITE_URL=${{ secrets.KINDE_SITE_URL }} \
+            --set-env-vars KINDE_POST_LOGOUT_REDIRECT_URL=${{ secrets.KINDE_POST_LOGOUT_REDIRECT_URL }} \
+            --set-env-vars KINDE_POST_LOGIN_REDIRECT_URL=${{ secrets.KINDE_POST_LOGIN_REDIRECT_URL }} \
+            --set-env-vars GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }} \
+            --set-env-vars RESEND_API_KEY=${{ secrets.RESEND_API_KEY }} \
             --project ${{ secrets.GCP_PROJECT_ID }}

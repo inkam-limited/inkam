@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/pagination";
 import SuspenseLoader from "@/components/SuspenseLoader";
 import PharmacyList from "./PharmacyLIst";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const PharmacyPage = async ({
   searchParams,
@@ -47,7 +46,10 @@ const PharmacyPage = async ({
         <h2 className="text-4xl font-bold dark:text-neutral-300">
           All Pharmacies
         </h2>
-        <PharmacyList pharmacies={pharmacies} />
+
+        <SuspenseLoader>
+          <PharmacyList pharmacies={pharmacies} />
+        </SuspenseLoader>
 
         <Pagination>
           <PaginationContent>

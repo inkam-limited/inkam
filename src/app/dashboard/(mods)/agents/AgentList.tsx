@@ -51,7 +51,9 @@ const AgentList = ({ agents }: { agents: Agent[] }) => {
                 </TableCell>
                 <TableCell>{agent.number}</TableCell>
                 <TableCell className="max-w-9">
-                  {agent.address?.toString().split(",")[1]}
+                  {agent.address?.toString().split(",")[2] ||
+                    agent.address?.toString().split(",")[1] ||
+                    agent.address?.toString().split(",")[1]}
                 </TableCell>
                 <TableCell>{agent.createdAt.toDateString()}</TableCell>
                 <TableCell>

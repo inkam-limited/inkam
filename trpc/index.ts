@@ -82,13 +82,10 @@ export const appRouter = router({
         },
       });
       if (numberExists) {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: "Number already exists",
-        });
+        return { success: false, message: "Number already exists" };
       }
       try {
-        const agent = await prisma.agent.create({
+        await prisma.agent.create({
           data: {
             name: input.name,
             number: input.number,
@@ -102,11 +99,10 @@ export const appRouter = router({
         });
         return {
           success: true,
-          agent: { agentName: agent.name, AgentType: agent.AgentType },
+          message: "Agent created successfully",
         };
-      } catch (error) {
-        console.log(error);
-        throw new TRPCError({ code: "BAD_REQUEST" });
+      } catch (error: any) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: error.message });
       }
     }),
   createPharmacy: publicProcedure

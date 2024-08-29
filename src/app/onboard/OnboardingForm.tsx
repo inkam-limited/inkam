@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
+import { getDistricts, getDivisions } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { createAgentSchema } from "../../lib/schema";
 import { trpc } from "../_trpc/client";
@@ -28,8 +29,10 @@ import { useGeolocated } from "react-geolocated";
 import { Autocomplete, Libraries, useLoadScript } from "@react-google-maps/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import { createAgent } from "./success/actions";
 const libraries = ["places"] as Libraries;
 export default function OnboardingForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
       positionOptions: {
@@ -57,11 +60,6 @@ export default function OnboardingForm() {
     },
   });
 
-  const { mutate, isLoading, error } = trpc.createAgent.useMutation();
-
-  if (error) {
-    toast.error(error.message);
-  }
   useEffect(() => {
     if (isGeolocationAvailable) {
       const geoLocation = {
@@ -95,21 +93,24 @@ export default function OnboardingForm() {
   }
 
   const onSubmit = async (data: z.infer<typeof createAgentSchema>) => {
-    try {
-      if (form.getValues("address").length === 0) {
-        form.setError("address", {
-          type: "required",
-          message: "Address is required",
-        });
-        toast.error("Address is required");
-        return;
-      }
-      mutate(data);
-      router.push("onboard/success");
-      toast.success("Agent created successfully");
-    } catch (error) {
-      console.log(error);
-      toast.error("Error creating agent");
+    if (!form.getValues("address")) {
+      form.setError("address", {
+        type: "required",
+        message: "Address is required",
+      });
+      toast.error("Address is required");
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(true);
+    const response = await createAgent(data);
+    if (response.success) {
+      toast.success(response.message);
+      router.push("/onboard/success");
+      setIsLoading(false);
+    } else {
+      toast.error(response.message);
+      setIsLoading(false);
     }
   };
 

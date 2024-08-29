@@ -12,6 +12,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import AgentDropdown from "../(mods)/agents/agent-dropdown";
 
 const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
   return (
@@ -53,9 +54,16 @@ const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
                 </TableCell>
                 <TableCell>{agent.number}</TableCell>
                 <TableCell>
-                  {address?.toString().replaceAll(",", ", ")}
+                  <TableCell className="max-w-9">
+                    {agent.address?.toString().split(",")[1] ||
+                      agent.address?.toString().split(",")[2] ||
+                      agent.address?.toString().split(",")[3]}
+                  </TableCell>
                 </TableCell>
                 <TableCell>{agent.createdAt.toDateString()}</TableCell>
+                <TableCell>
+                  <AgentDropdown agentId={agent.agentId} />
+                </TableCell>
               </TableRow>
             </Suspense>
           );

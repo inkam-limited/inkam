@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+"use client";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,6 +8,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import React from "react";
+import { deleteAgent } from "./actions";
+import { toast } from "sonner";
+
+const deleteAgentHandler = async (agentId: string) => {
+  const response = await deleteAgent(agentId);
+  if (response.success) {
+    toast.success(response.message);
+  } else {
+    toast.error(response.message);
+  }
+};
 
 const AgentDropdown = ({ agentId }: { agentId: string }) => {
   return (
@@ -19,13 +31,25 @@ const AgentDropdown = ({ agentId }: { agentId: string }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem>
-            <Link href={`/pharmacy/${agentId}`}>View</Link>
+            <Link
+              className={buttonVariants({ variant: "ghost" })}
+              href={`/pharmacy/${agentId}`}
+            >
+              View
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href={`/pharmacy/${agentId}/edit`}>Edit</Link>
+            <Link
+              className={buttonVariants({ variant: "ghost" })}
+              href={`/pharmacy/${agentId}/edit`}
+            >
+              Edit
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href={`/pharmacy/${agentId}/delete`}>Delete</Link>
+            <Button onClick={() => deleteAgentHandler(agentId)} variant="ghost">
+              Delete
+            </Button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

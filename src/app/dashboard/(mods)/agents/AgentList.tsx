@@ -9,16 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-import { Skeleton } from "@/components/ui/skeleton";
-import { Suspense } from "react";
+import { buttonVariants } from "@/components/ui/button";
 import SuspenseLoader from "@/components/SuspenseLoader";
 import AgentDropdown from "./agent-dropdown";
 
@@ -60,7 +51,7 @@ const AgentList = ({ agents }: { agents: Agent[] }) => {
                 </TableCell>
                 <TableCell>{agent.number}</TableCell>
                 <TableCell className="max-w-9">
-                  {agent.address?.toString().replaceAll(",", ", ")}
+                  {agent.address?.toString().split(",")[1]}
                 </TableCell>
                 <TableCell>{agent.createdAt.toDateString()}</TableCell>
                 <TableCell>

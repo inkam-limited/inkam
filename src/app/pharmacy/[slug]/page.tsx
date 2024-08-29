@@ -105,13 +105,20 @@ const PharmacyPage = async ({
               link={`${process.env.NEXT_PUBLIC_URL}/transaction/lead/${shop.agentId}`}
             />
           </div>
-
-          <Link
-            href={`/transaction/lead/${shop.agentId}`}
-            className={cn(buttonVariants({ variant: "secondary" }))}
-          >
-            Generate Lead
-          </Link>
+          <div className="flex justify-items-end col-span-3 gap-4">
+            <Link
+              href={`/transaction/lead/${shop.agentId}`}
+              className={cn(buttonVariants({ variant: "secondary" }))}
+            >
+              Generate Lead
+            </Link>
+            <Link
+              href={`/pharmacy/${shop.agentId}/edit`}
+              className={cn(buttonVariants({ variant: "secondary" }))}
+            >
+              Edit pharmacy
+            </Link>
+          </div>
         </div>
         <div className="col-span-4">
           <h2 className="text-2xl font-bold py-4 dark:text-neutral-300">

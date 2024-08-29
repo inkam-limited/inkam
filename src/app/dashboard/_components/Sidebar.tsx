@@ -15,16 +15,26 @@ import {
 } from "lucide-react";
 import { Role, User } from "@prisma/client";
 
-const Sidebar = ({ dbUser }: { dbUser: User | null }) => {
+interface SidebarProps {
+  dbUser: User | null;
+}
+
+interface SidebarItem {
+  field: string;
+  value: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  roles: Role[];
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ dbUser }) => {
   const pathName = usePathname();
 
-  const isActive = (field: string) => {
-    return pathName === `/dashboard/${field}`
+  const isActive = (field: string) =>
+    pathName === `/dashboard/${field}`
       ? "bg-neutral-800 font-bold text-white hover:text-neutral-100/70"
       : "";
-  };
 
-  const cols = [
+  const sidebarItems: SidebarItem[] = [
     {
       field: "",
       value: "Home",
@@ -77,20 +87,22 @@ const Sidebar = ({ dbUser }: { dbUser: User | null }) => {
 
   return (
     <div className="md:col-span-3 space-y-2 grid grid-cols-3 md:flex md:flex-col md:pe-4">
-      {cols.map((col) => {
-        if (!dbUser || !col.roles.includes(dbUser.role)) {
+      {sidebarItems.map((item) => {
+        if (!dbUser || !item.roles.includes(dbUser.role)) {
           return null;
         }
+
         return (
           <Link
-            key={col.field}
-            href={`/dashboard/${col.field}`}
+            key={item.field}
+            href={`/dashboard/${item.field}`}
             className={cn(
               "font-semibold capitalize flex items-center w-full text-start hover:text-neutral-500/70 px-4 py-2 rounded-lg gap-2",
-              isActive(col.field)
+              isActive(item.field)
             )}
           >
-            <col.icon className="w-5 h-5 shrink-0" /> <span>{col.value}</span>
+            <item.icon className="w-5 h-5 shrink-0" />
+            <span>{item.value}</span>
           </Link>
         );
       })}

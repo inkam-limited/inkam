@@ -12,6 +12,9 @@ const EditPharmacyPage = async ({ params }: { params: { slug: string } }) => {
 
   return (
     <div>
+      <div className="flex justify-between items-center py-8">
+        <h1 className="text-3xl font-bold text-neutral-300">Edit Agent</h1>
+      </div>
       <EditAgentForm agent={agent} />
     </div>
   );

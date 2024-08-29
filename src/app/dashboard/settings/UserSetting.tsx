@@ -95,6 +95,9 @@ const UserSettings = ({ users }: { users: User[] }) => {
                           <DropdownMenuRadioItem value={Role.PARTNER}>
                             Partner
                           </DropdownMenuRadioItem>
+                          <DropdownMenuRadioItem value={Role.NEWBIE}>
+                            Newbie
+                          </DropdownMenuRadioItem>
                         </DropdownMenuRadioGroup>
                       </DropdownMenuContent>
                     </DropdownMenu>

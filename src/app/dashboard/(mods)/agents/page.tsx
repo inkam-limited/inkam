@@ -15,7 +15,7 @@ import {
 import AgentList from "./AgentList";
 import SuspenseLoader from "@/components/SuspenseLoader";
 
-const PharmacyDashboard = async ({
+const AgentsPage = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -26,7 +26,9 @@ const PharmacyDashboard = async ({
   const skip = (page - 1) * per_page;
 
   // Fetch total count of agents to determine the last page
-  const totalAgents = await prisma.agent.count();
+  const totalAgents = await prisma.agent.count({
+    where: { AgentType: { notIn: ["PHARMACY"] } },
+  });
   const totalPages = Math.ceil(totalAgents / per_page);
 
   const agents: Agent[] = await prisma.agent.findMany({
@@ -66,7 +68,9 @@ const PharmacyDashboard = async ({
             </PaginationItem>
             <PaginationItem></PaginationItem>
             <PaginationItem>
-              <PaginationEllipsis />
+              <p>
+                Page {page} of {totalPages}
+              </p>
             </PaginationItem>
             <PaginationItem>
               {page < totalPages && (
@@ -88,4 +92,4 @@ const PharmacyDashboard = async ({
   );
 };
 
-export default PharmacyDashboard;
+export default AgentsPage;

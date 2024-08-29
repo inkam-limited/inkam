@@ -21,7 +21,6 @@ import { trpc } from "@/app/_trpc/client";
 import { Autocomplete, Libraries, useLoadScript } from "@react-google-maps/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
-import { revalidatePath } from "next/cache";
 const libraries = ["places"] as Libraries;
 
 const AddPharmacyForm = () => {

@@ -14,7 +14,7 @@ import SuspenseLoader from "@/components/SuspenseLoader";
 import PharmacyList from "./PharmacyLIst";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const PharmacyDashboard = async ({
+const PharmacyPage = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -86,4 +86,4 @@ const PharmacyDashboard = async ({
   );
 };
 
-export default PharmacyDashboard;
+export default PharmacyPage;

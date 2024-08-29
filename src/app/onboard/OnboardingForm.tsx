@@ -21,7 +21,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
-import { getDistricts, getDivisions } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { createAgentSchema } from "../../lib/schema";
 import { trpc } from "../_trpc/client";
@@ -97,6 +96,14 @@ export default function OnboardingForm() {
 
   const onSubmit = async (data: z.infer<typeof createAgentSchema>) => {
     try {
+      if (form.getValues("address").length === 0) {
+        form.setError("address", {
+          type: "required",
+          message: "Address is required",
+        });
+        toast.error("Address is required");
+        return;
+      }
       mutate(data);
       router.push("onboard/success");
       toast.success("Agent created successfully");

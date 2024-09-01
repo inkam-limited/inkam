@@ -9,7 +9,7 @@ const page = () => {
         <div className="relative h-[80px] w-[300px]">
           <Image src="/logo.png" className="object-cover" alt="logo" fill />
         </div>
-        <h1 className="text-xl font-bold">Lets get started..</h1>
+        <h1 className="text-xl font-bold">Fill in all the information.</h1>
         <OnboardingForm />
       </div>
     </div>

@@ -1,16 +1,13 @@
-import SuspenseLoader from "@/components/SuspenseLoader";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import prisma from "@/db";
-import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import SalesChart from "./sales-chart";
 import { TransactionStatus } from "@prisma/client";
@@ -122,11 +119,11 @@ export async function DashboardPage() {
               key={d.name}
               fallback={<Skeleton className="h-60 min-w-16 w-full" />}
             >
-              <Card key={d.name} className="border-none">
+              <Card key={d.name}>
                 <CardHeader>
                   <CardTitle>{d.name}</CardTitle>
                 </CardHeader>
-                <CardContent className="text-3xl font-bold">
+                <CardContent className="text-2xl font-bold">
                   {d.value}
                 </CardContent>
                 {d.qty ? (

@@ -118,7 +118,7 @@ export default function OnboardingForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="gap-4 w-full flex-col flex max-w-lg border border-neutral-300 rounded-lg px-4 py-8"
+        className="gap-4 w-full flex-col flex max-w-lg border border-neutral-800 rounded-lg px-4 py-8"
       >
         <FormField
           control={form.control}
@@ -160,7 +160,9 @@ export default function OnboardingForm() {
             <Skeleton className="w-full h-8" />
           )}
         </FormItem>
-        <Button type="submit">{isLoading ? "Submitting..." : "Submit"}</Button>
+        <Button size="lg" className="font-semibold" type="submit">
+          {isLoading ? "Submitting..." : "Submit"}
+        </Button>
       </form>
     </Form>
   );

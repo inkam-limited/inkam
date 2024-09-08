@@ -6,6 +6,7 @@ import React, { Suspense } from "react";
 import UserSettings from "./UserSetting";
 import SuspenseLoader from "@/components/SuspenseLoader";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import PharmacyQR from "@/app/pharmacy/[slug]/PharmacyQR";
 
 const SettingsPage = async () => {
   const { getUser } = await getKindeServerSession();
@@ -50,6 +51,17 @@ const SettingsPage = async () => {
     );
   }
   const users = await prisma.user.findMany();
+  const pharmacies = await prisma.agent.findMany({
+    where: {
+      AgentType: "PHARMACY",
+    },
+    select: {
+      name: true,
+      number: true,
+      agentId: true,
+    },
+  });
+  console.log(pharmacies.length);
 
   return (
     <div className="flex flex-col gap-4">
@@ -57,6 +69,18 @@ const SettingsPage = async () => {
       <SuspenseLoader>
         <UserSettings users={users} />
       </SuspenseLoader>
+
+      <h2>Download all qr</h2>
+      <div className="grid grid-cols-3 gap-4">
+        {pharmacies.map((pharmacy) => (
+          <PharmacyQR
+            link={`/pharmacy/${pharmacy.agentId}`}
+            name={pharmacy.name}
+            number={pharmacy.number}
+            key={pharmacy.agentId}
+          />
+        ))}
+      </div>
     </div>
   );
 };

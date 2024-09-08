@@ -16,7 +16,7 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
   return (
     <div>
       <Table>
-        <TableCaption>A list of your recent pharmacies.</TableCaption>
+        <TableCaption>A list of your recent transactions.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>

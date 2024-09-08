@@ -54,11 +54,10 @@ const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
                 </TableCell>
                 <TableCell>{agent.number}</TableCell>
                 <TableCell>
-                  <TableCell className="max-w-9">
-                    {agent.address?.toString().split(",")[1] ||
-                      agent.address?.toString().split(",")[2] ||
-                      agent.address?.toString().split(",")[3]}
-                  </TableCell>
+                  {(agent.address?.toString().split(",")[1] &&
+                    agent.address?.toString().split(",")[2]) ||
+                    agent.address?.toString().split(",")[2] ||
+                    agent.address?.toString().split(",")[3]}
                 </TableCell>
                 <TableCell>{agent.createdAt.toDateString()}</TableCell>
                 <TableCell>

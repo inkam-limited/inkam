@@ -66,7 +66,6 @@ const PharmacyPage = async ({
                 />
               )}
             </PaginationItem>
-            <PaginationItem></PaginationItem>
             <PaginationItem>{`Page ${page} of ${totalPages}`}</PaginationItem>
             <PaginationItem>
               {page < totalPages && (

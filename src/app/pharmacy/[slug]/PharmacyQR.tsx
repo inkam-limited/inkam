@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { LegacyRef, RefObject, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { QRCode } from "react-qrcode-logo";
 
 function PharmacyQR({
@@ -12,6 +12,7 @@ function PharmacyQR({
   name: string;
   number: string;
 }) {
+  const [downloaded, setDownloaded] = useState(false);
   const ref = useRef<QRCode | null>(null);
 
   const download = () => {
@@ -36,7 +37,7 @@ function PharmacyQR({
         enableCORS={true}
         ref={ref}
       />
-      <Button className="w-full mt-4" onClick={download}>
+      <Button className="w-full mt-4" disabled={downloaded} onClick={download}>
         Download QR Code
       </Button>
     </div>

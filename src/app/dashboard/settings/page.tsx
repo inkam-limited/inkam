@@ -71,10 +71,10 @@ const SettingsPage = async () => {
       </SuspenseLoader>
 
       <h2>Download all qr</h2>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-4 gap-4">
         {pharmacies.map((pharmacy) => (
           <PharmacyQR
-            link={`/pharmacy/${pharmacy.agentId}`}
+            link={`${process.env.NEXT_PUBLIC_URL}/transaction/lead/${pharmacy.agentId}`}
             name={pharmacy.name}
             number={pharmacy.number}
             key={pharmacy.agentId}

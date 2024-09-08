@@ -102,7 +102,7 @@ const PharmacyPage = async ({
             <PharmacyQR
               name={shop.name}
               number={shop.number}
-              link={`${process.env.NEXT_PUBLIC_URL}/transaction/lead/${shop.agentId}`}
+              link={`https://labs.inkam.app/transaction/lead/${shop.agentId}`}
             />
           </div>
           <div className="flex justify-items-end col-span-3 gap-4">

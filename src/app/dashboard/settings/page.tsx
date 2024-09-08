@@ -74,7 +74,7 @@ const SettingsPage = async () => {
       <div className="grid grid-cols-4 gap-4">
         {pharmacies.map((pharmacy) => (
           <PharmacyQR
-            link={`${process.env.NEXT_PUBLIC_URL}/transaction/lead/${pharmacy.agentId}`}
+            link={`https://labs.inkam.app/transaction/lead/${pharmacy.agentId}`}
             name={pharmacy.name}
             number={pharmacy.number}
             key={pharmacy.agentId}

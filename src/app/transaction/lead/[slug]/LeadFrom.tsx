@@ -374,9 +374,9 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
         </form>
       </Form>
       {noticeOpen && <Overlay setNoticeOpen={setNoticeOpen} />}
-      <div className="bg-blue-800/10 absolute top-[-6rem] -z-10 right-[11rem] h-[31.25rem] w-[31.25rem] rounded-full blur-[10rem] sm:w-[68.75rem] dark:bg-blue-800/10"></div>
+      <div className="bg-blue-800/10 absolute top-[-6rem] -z-10 right-[11rem] h-[31.25rem] w-[31.25rem] rounded-full blur-[10rem] sm:w-[68.75rem] dark:bg-blue-600/30"></div>
 
-      <div className="bg-blue-600/10 absolute bottom-[-1rem] -z-10 right-[-35rem] h-[31.25rem] w-[50rem] overflow-hidden rounded-full blur-[10rem] sm:w-[68.75rem] md:right-[-33rem] lg:right-[-28rem] xl:right-[-15rem] 2xl:right-[-5rem] dark:bg-blue-600/10"></div>
+      <div className="bg-blue-600/10 absolute bottom-56m -z-10 right-[-35rem] h-[31.25rem] w-[50rem] overflow-hidden rounded-full blur-[10rem] sm:w-[68.75rem] md:right-[-33rem] lg:right-[-28rem] xl:right-[-15rem] 2xl:right-[-5rem] dark:bg-blue-400/10"></div>
     </>
   );
 }

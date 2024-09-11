@@ -19,49 +19,34 @@ const GeneratePharmacyLeadPage = async ({
 
   return (
     <main className="py-12 relative h-[100svh] overflow-hidden">
-      <div className="w-full flex flex-col max-w-7xl mx-auto px-4">
-        <h2 className="text-xl">
-          Generate Lead for <br />
-          <span className="font-bold text-3xl tracking-tight py-2 text-transparent  bg-clip-text bg-gradient-to-br from-blue-500 via-yellow-500 to-fuchsia-600 rounded-full">
+      <div className="w-full flex items-center justify-between  max-w-7xl mx-auto px-4">
+        <h2 className="text-sm">
+          Order home diagnostic <br />
+          <span className="font-bold text-xl tracking-tight py-2 text-transparent  bg-clip-text bg-gradient-to-br from-blue-500 via-yellow-500 to-fuchsia-600 rounded-full">
             {pharmacy.name}
           </span>
         </h2>
+        <div className="flex items-center justify-center">
+          <span className="text-sm">Powered by Amarlab</span>
+          <Image
+            height={50}
+            width={50}
+            src="/amarlab-logo.png"
+            alt="amarlab logo"
+          />
+        </div>
       </div>
       <div className="h-12 flex items-center justify-center py-8">
         <Marquee speed={20} direction="left" autoFill={true} className="">
-          <div className="flex items-center justify-center ml-4">
-            <Image
-              height={30}
-              width={30}
-              src="/amarlab-logo.png"
-              alt="amarlab logo"
-            />
-            <p className="text-gray-950 dark:text-gray-100 text-xs">
-              Safe Home Sample Collection
-            </p>
-          </div>
-          <div className="flex items-center justify-center ml-4">
-            <Image
-              height={30}
-              width={30}
-              src="/amarlab-logo.png"
-              alt="amarlab logo"
-            />
-            <p className="text-gray-950 dark:text-gray-100 text-xs">
-              Get Digital Report Within A Day
-            </p>
-          </div>
-          <div className="flex items-center justify-center ml-4">
-            <Image
-              height={30}
-              width={30}
-              src="/amarlab-logo.png"
-              alt="amarlab logo"
-            />
-            <p className="text-gray-950 dark:text-gray-100 text-xs">
-              Offers And Affordable Prices{" "}
-            </p>
-          </div>
+          <p className="text-gray-950 dark:text-gray-100 text-xs px-4 py-2 mx-2 bg-gradient-to-bl from-gray-950/30 to-gray-900/30 backdrop-blur-xl rounded-2xl">
+            Safe Home Sample Collection
+          </p>
+          <p className="text-gray-950 dark:text-gray-100 text-xs px-4 py-2 mx-2 bg-gradient-to-bl from-gray-950/30 to-gray-900/30 backdrop-blur-xl rounded-2xl">
+            Get Digital Report Within A Day
+          </p>
+          <p className="text-gray-950 dark:text-gray-100 text-xs px-4 py-2 mx-2 bg-gradient-to-bl from-gray-950/30 to-gray-900/30 backdrop-blur-xl rounded-2xl">
+            Offers And Affordable Prices{" "}
+          </p>
         </Marquee>
       </div>
 

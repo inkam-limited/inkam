@@ -3,6 +3,7 @@
 import prisma from "@/db";
 import { createAgentSchema } from "@/lib/schema";
 import { z } from "zod";
+import sharp from "sharp";
 
 const editAgent = async (
   agentId: string,
@@ -33,4 +34,27 @@ const editAgent = async (
   return { success: true };
 };
 
-export { editAgent };
+const processQRCode = async ({
+  qrDataUrl,
+  name,
+  number,
+}: {
+  qrDataUrl: string;
+  name: string;
+  number: string;
+}) => {
+  const base64Data = qrDataUrl.replace(/^data:image\/png;base64,/, "");
+  const qrBuffer = Buffer.from(base64Data, "base64");
+  const background = sharp("./qr-template.jpg");
+  // console.log(background);
+  const qrResized = sharp(qrBuffer).resize(250, 250); //
+  // const processedImage = await background
+  //   .composite([{ input: await qrResized.toBuffer(), top: 275, left: 275 }]) // Adjust `top` and `left` for correct placement
+  //   .toBuffer();
+  // return processedImage;
+  console.log(__dirname);
+  // const outputFileName = `/public/processed/processed-${name}-${number}.png`;
+  // return await sharp(processedImage).toFile(outputFileName);
+};
+
+export { editAgent, processQRCode };

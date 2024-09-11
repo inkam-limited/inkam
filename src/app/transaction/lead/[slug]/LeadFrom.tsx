@@ -50,7 +50,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const [inkam, setInkam] = useState<number>(0);
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [noticeOpen, setNoticeOpen] = useState(false);
+  const [noticeOpen, setNoticeOpen] = useState(true);
   const isWide = useMediaQuery("(min-width: 600px)");
   const form = useForm<z.infer<typeof createTransactionSchema>>({
     resolver: zodResolver(createTransactionSchema),

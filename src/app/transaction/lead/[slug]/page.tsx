@@ -18,7 +18,7 @@ const GeneratePharmacyLeadPage = async ({
   }
 
   return (
-    <main className="py-12 relative h-[100svh]">
+    <main className="py-12 relative h-[100svh] overflow-hidden">
       <div className="w-full flex flex-col max-w-7xl mx-auto px-4">
         <h2 className="text-xl">
           Generate Lead for <br />

@@ -50,7 +50,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
   const [inkam, setInkam] = useState<number>(0);
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [noticeOpen, setNoticeOpen] = useState(true);
+  const [noticeOpen, setNoticeOpen] = useState(false);
   const isWide = useMediaQuery("(min-width: 600px)");
   const form = useForm<z.infer<typeof createTransactionSchema>>({
     resolver: zodResolver(createTransactionSchema),
@@ -356,13 +356,17 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
             />
           ) : null}
           {isLoading ? (
-            <Button size="lg" type="submit" disabled>
+            <button
+              className="bg-gradient-to-bl px-4 py-2 rounded-lg bg-slate-800 text-gray-100 backdrop-blur-lg"
+              type="submit"
+              disabled
+            >
               <LoaderCircleIcon className="w-5 h-5 animate-spin" />
-            </Button>
+            </button>
           ) : (
             <button
               type="submit"
-              className="bg-gradient-to-bl px-4 py-2 rounded-lg from-blue-800 to-fuchsia-800 text-white backdrop-blur-lg"
+              className="bg-gradient-to-bl px-4 py-2 rounded-lg bg-slate-800 text-gray-100 backdrop-blur-lg"
             >
               Submit
             </button>
@@ -370,8 +374,9 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
         </form>
       </Form>
       {noticeOpen && <Overlay setNoticeOpen={setNoticeOpen} />}
-      <div className="bg-blue-500/30 absolute top-[-6rem] -z-10 right-[11rem] h-[31.25rem] w-[31.25rem] rounded-full blur-[10rem] sm:w-[68.75rem] dark:bg-blue-500/30"></div>
-      <div className="bg-yellow-300/30 absolute bottom-[-1rem] -z-10 right-[-35rem] h-[31.25rem] w-[50rem] rounded-full blur-[10rem] sm:w-[68.75rem] md:right-[-33rem] lg:right-[-28rem] xl:right-[-15rem] 2xl:right-[-5rem] dark:bg-yellow-500/30"></div>
+      <div className="bg-blue-800/10 absolute top-[-6rem] -z-10 right-[11rem] h-[31.25rem] w-[31.25rem] rounded-full blur-[10rem] sm:w-[68.75rem] dark:bg-blue-800/10"></div>
+
+      <div className="bg-blue-600/10 absolute bottom-[-1rem] -z-10 right-[-35rem] h-[31.25rem] w-[50rem] overflow-hidden rounded-full blur-[10rem] sm:w-[68.75rem] md:right-[-33rem] lg:right-[-28rem] xl:right-[-15rem] 2xl:right-[-5rem] dark:bg-blue-600/10"></div>
     </>
   );
 }

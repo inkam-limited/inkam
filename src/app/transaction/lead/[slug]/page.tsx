@@ -22,12 +22,16 @@ const GeneratePharmacyLeadPage = async ({
       <div className="w-full flex items-center justify-between  max-w-7xl mx-auto px-4">
         <h2 className="text-sm">
           Order home diagnostic <br />
-          <span className="font-bold text-xl tracking-tight py-2 text-transparent  bg-clip-text bg-gradient-to-br from-blue-500 via-yellow-500 to-fuchsia-600 rounded-full">
+          <span className="font-semibold text-lg tracking-tight py-2 text-transparent  bg-clip-text bg-gradient-to-br from-blue-500 via-yellow-500 to-fuchsia-600 rounded-full">
             {pharmacy.name}
           </span>
+          <br />
+          <span className="text-gray-200/60">{pharmacy.number}</span>
         </h2>
         <div className="flex items-center justify-center">
-          <span className="text-sm">Powered by Amarlab</span>
+          <span className="text-xs w-[70px] font-semibold">
+            Powered by Amarlab
+          </span>
           <Image
             height={50}
             width={50}

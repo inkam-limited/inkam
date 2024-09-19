@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "@/db";
-export const agentCommissionRate = 0.25;
+export const agentCommissionRate = 0.5;
 
 const AgentTransactionList = ({
   transactions,

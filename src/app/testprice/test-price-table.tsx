@@ -52,7 +52,6 @@ export default function LabTestPriceTable({
       <h1 className="text-3xl font-bold mb-6 text-blue-800">
         Lab Test Price List
       </h1>
-      <div className="mb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
       <div className="overflow-x-auto">
         <table className="w-full bg-white border border-blue-200 rounded-lg overflow-hidden">
           <thead className="bg-blue-100">
@@ -88,9 +87,6 @@ export default function LabTestPriceTable({
             ))}
           </tbody>
         </table>
-      </div>
-      <div className="mt-4 flex justify-between items-center">
-        <div className="flex space-x-2"></div>
       </div>
     </div>
   );

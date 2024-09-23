@@ -140,7 +140,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
               <FormItem>
                 <FormLabel>Patient Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your name" {...field} />
+                  <Input placeholder="Your Name" {...field} />
                 </FormControl>
                 <FormDescription>Input patient Name</FormDescription>
                 <FormMessage />
@@ -154,7 +154,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
               <FormItem>
                 <FormLabel>Patient Number</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your number" {...field} />
+                  <Input placeholder="01XXXXXXXXX" {...field} />
                 </FormControl>
                 <FormDescription>Input patient number</FormDescription>
                 <FormMessage />
@@ -168,7 +168,10 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
               <FormItem>
                 <FormLabel>Patient Address</FormLabel>
                 <FormControl>
-                  <Input placeholder="John Doe" {...field} />
+                  <Input
+                    placeholder="House, street, city, state, zip"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>Input patient name</FormDescription>
                 <FormMessage />

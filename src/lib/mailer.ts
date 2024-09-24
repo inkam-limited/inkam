@@ -23,7 +23,7 @@ export const sendMail = async ({
       from: "Inkam Labs <orders@labs.inkam.app>",
       to: [
         "inkamlimited@gmail.com",
-        "soyab@inkam.app",
+        "nibir@inkam.app",
         "khalid@inkam.app",
         "tofael@inkam.app",
       ],

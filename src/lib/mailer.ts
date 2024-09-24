@@ -26,6 +26,8 @@ export const sendMail = async ({
         "nibir@inkam.app",
         "khalid@inkam.app",
         "tofael@inkam.app",
+        "orders@amarlab.com",
+        "nazmul.islam@inkam.app",
       ],
       subject: "Order placement",
       react: DiagnosticConfirmationEmail({
@@ -53,9 +55,10 @@ export const sendInvoice = async ({ invoice }: { invoice: Invoice }) => {
       from: "Inkam Labs <orders@labs.inkam.app>",
       to: [
         "inkamlimited@gmail.com",
-        "soyab@inkam.app",
+        "nibir@inkam.app",
         "khalid@inkam.app",
         "tofael@inkam.app",
+        "orders@amarlab.com",
       ],
       subject: "Payment Confirmation",
       react: InvoiceEmail({

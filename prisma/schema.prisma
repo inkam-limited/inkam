@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,27 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  ADMIN
-  MODERATOR
-  PARTNER
-  NEWBIE
-}
-
-enum AGENTTYPE {
-  PHARMACY
-  RESTURANT
-  INDIVIDUAL
-  MERCHANT
-}
-
 model Division {
   id        String     @id @default(uuid())
   name      String
   nameBn    String
-  districts District[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  districts District[]
 }
 
 model District {
@@ -42,9 +22,9 @@ model District {
   nameBn      String
   coordinates String
   divisionId  String
-  division    Division @relation(fields: [divisionId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  division    Division @relation(fields: [divisionId], references: [id])
 }
 
 model User {
@@ -68,24 +48,17 @@ model Agent {
   address      Json?
   latitude     Float?
   longitude    Float?
-  payment      Float         @default(0.00)
-  agentPayment Float         @default(0.00)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  transaction  Transaction[]
   AgentType    AGENTTYPE     @default(PHARMACY)
-}
-
-enum TransactionStatus {
-  PENDING
-  SCHEDULED
-  FAILED
-  PROVIDED
+  payment      Float         @default(0.00)
+  agentPayment Float         @default(0.00)
+  password     String        @default("0000")
+  transaction  Transaction[]
 }
 
 model Transaction {
   transactionId    String            @id @default(uuid())
-  agent            Agent             @relation(fields: [agentId], references: [agentId], onDelete: Cascade)
   agentId          String
   agentNumber      String
   agentName        String
@@ -99,6 +72,7 @@ model Transaction {
   status           TransactionStatus @default(PENDING)
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
+  agent            Agent             @relation(fields: [agentId], references: [agentId], onDelete: Cascade)
   labTest          LabTest           @relation(fields: [labTestId], references: [testId])
 }
 
@@ -108,22 +82,43 @@ model LabTest {
   commissionRate String
   commission     String
   price          String
-  Transaction    Transaction[]
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
+  Transaction    Transaction[]
+}
+
+model Invoice {
+  id        String   @id @default(uuid())
+  amount    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  data      Json
+  disbursed Boolean  @default(false)
+  name      Int      @default(autoincrement())
+}
+
+enum Role {
+  ADMIN
+  MODERATOR
+  PARTNER
+  NEWBIE
+}
+
+enum AGENTTYPE {
+  PHARMACY
+  RESTURANT
+  INDIVIDUAL
+  MERCHANT
+}
+
+enum TransactionStatus {
+  PENDING
+  SCHEDULED
+  FAILED
+  PROVIDED
 }
 
 enum PaymentStatus {
   PENDING
   PAID
-}
-
-model Invoice {
-  id        String   @id @default(uuid())
-  name      Int      @default(autoincrement())
-  data      Json
-  amount    Float
-  disbursed Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }

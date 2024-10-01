@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import prisma from "@/db";
 import TransactionStatusDropdown from "./TransactionStatus";
-import SuspenseLoader from "@/components/SuspenseLoader";
+import { Clock10Icon } from "lucide-react";
 
 const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
   return (
@@ -19,6 +19,9 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
         <TableCaption>A list of your recent transactions.</TableCaption>
         <TableHeader>
           <TableRow>
+            <TableHead>
+              <Clock10Icon />
+            </TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Number</TableHead>
             <TableHead>Address</TableHead>
@@ -42,6 +45,9 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
               });
               return (
                 <TableRow key={transaction.transactionId}>
+                  <TableCell>
+                    {transaction.createdAt.toLocaleString()}
+                  </TableCell>
                   <TableCell className="font-medium">
                     {transaction.customerName}
                   </TableCell>

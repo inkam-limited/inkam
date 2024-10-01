@@ -46,7 +46,7 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
               return (
                 <TableRow key={transaction.transactionId}>
                   <TableCell>
-                    {transaction.createdAt.toLocaleString()}
+                    {transaction.createdAt.toLocaleString("bn-BD")}
                   </TableCell>
                   <TableCell className="font-medium">
                     {transaction.customerName}

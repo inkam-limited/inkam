@@ -15,13 +15,13 @@ const steps = [
   {
     step: "Step 02:",
     name: "Provide Sample",
-    sub: "From your doorstep",
+    sub: "From your doorstep Within 24 hours",
     icon: <BiInjection />,
   },
   {
     step: "Step 03:",
     name: "Get Report",
-    sub: "Your report delivered",
+    sub: "Your report delivered ",
     icon: <CiMedicalClipboard />,
   },
 ];

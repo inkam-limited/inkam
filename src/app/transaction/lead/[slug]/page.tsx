@@ -2,7 +2,6 @@ import prisma from "@/db";
 import LeadFrom from "./LeadFrom";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
-import Overlay from "./Overlay";
 
 const GeneratePharmacyLeadPage = async ({
   params,
@@ -41,7 +40,7 @@ const GeneratePharmacyLeadPage = async ({
         </div>
       </div>
       <div className="h-12 flex items-center justify-center py-8">
-        <Marquee speed={20} direction="left" autoFill={true} className="">
+        <Marquee speed={20} direction="left" autoFill={true}>
           <p className="text-gray-950 dark:text-gray-100 text-xs px-4 py-2 mx-2 bg-gradient-to-bl from-gray-950/30 to-gray-900/30 backdrop-blur-xl rounded-2xl">
             Safe Home Sample Collection
           </p>
@@ -49,7 +48,7 @@ const GeneratePharmacyLeadPage = async ({
             Get Digital Report Within A Day
           </p>
           <p className="text-gray-950 dark:text-gray-100 text-xs px-4 py-2 mx-2 bg-gradient-to-bl from-gray-950/30 to-gray-900/30 backdrop-blur-xl rounded-2xl">
-            Offers And Affordable Prices{" "}
+            Offers And Affordable Prices
           </p>
         </Marquee>
       </div>

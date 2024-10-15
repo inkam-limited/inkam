@@ -21,12 +21,6 @@ const PaymentsPage = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   // Fetch total count of agents to determine the last page
-  const totalPayment = await prisma.transaction.count({
-    where: {
-      status: "PROVIDED",
-      isPaid: false,
-    },
-  });
 
   const transactions = await prisma.transaction.groupBy({
     by: ["agentId", "agentName"],

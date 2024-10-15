@@ -41,18 +41,14 @@ jobs:
             --build-arg _RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
           EOF
           )
-
           docker build \
             $build_args \
             -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA \
             .
-
           echo "Docker image built and tagged as gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA"
-
       - name: Push Docker image
         run: |
           docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA
-
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy inkam-labs \

@@ -11,8 +11,6 @@ const TestPricePage = async () => {
     },
   });
 
-  console.log(labTest);
-
   return (
     <div>
       <LabTestPriceTable data={labTest} />

@@ -17,7 +17,6 @@ const Chart = ({
 }: {
   data: { date: string; sales: number; transactionCount: number }[];
 }) => {
-  console.log(data);
   return (
     <ResponsiveContainer width="100%" height={400}>
       <LineChart data={data}>

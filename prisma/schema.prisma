@@ -73,7 +73,7 @@ model Transaction {
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   agent            Agent             @relation(fields: [agentId], references: [agentId], onDelete: Cascade)
-  labTest          LabTest           @relation(fields: [labTestId], references: [testId])
+  labTest          LabTest           @relation(fields: [labTestId], references: [testId], onDelete: Cascade)
 }
 
 model LabTest {

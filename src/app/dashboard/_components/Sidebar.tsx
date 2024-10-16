@@ -11,6 +11,7 @@ import {
   MemoryStickIcon,
   Settings,
   StoreIcon,
+  TestTube,
   User2Icon,
 } from "lucide-react";
 import { Role, User } from "@prisma/client";
@@ -58,6 +59,12 @@ const Sidebar: React.FC<SidebarProps> = ({ dbUser }) => {
       value: "Transactions",
       icon: Gem,
       roles: [Role.MODERATOR, Role.ADMIN, Role.PARTNER],
+    },
+    {
+      field: "lab-test",
+      value: "lab test",
+      icon: TestTube,
+      roles: [Role.MODERATOR, Role.ADMIN],
     },
     {
       field: "maps",

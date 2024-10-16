@@ -11,10 +11,15 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
 
       - name: Log in to Google Cloud
         uses: google-github-actions/auth@v2
@@ -46,9 +51,11 @@ jobs:
             -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA \
             .
           echo "Docker image built and tagged as gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA"
+
       - name: Push Docker image
         run: |
           docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/inkam-labs:$GITHUB_SHA
+
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy inkam-labs \

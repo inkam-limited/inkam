@@ -53,11 +53,8 @@ const PharmacyList = ({ pharmacies }: { pharmacies: Agent[] }) => {
                   </Link>
                 </TableCell>
                 <TableCell>{agent.number}</TableCell>
-                <TableCell>
-                  {(agent.address?.toString().split(",")[1] &&
-                    agent.address?.toString().split(",")[2]) ||
-                    agent.address?.toString().split(",")[2] ||
-                    agent.address?.toString().split(",")[3]}
+                <TableCell className="max-w-md line-clamp-1">
+                  {agent.address?.toString()}
                 </TableCell>
                 <TableCell>{agent.createdAt.toDateString()}</TableCell>
                 <TableCell>

@@ -129,7 +129,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
                   {canEdit ? "Referer phone Number" : "Agent Name"}
                 </FormLabel>
                 <FormControl>
-                  <Input disabled={canEdit} {...field} />
+                  <Input disabled={canEdit ? true : false} {...field} />
                 </FormControl>
                 <FormDescription>
                   {canEdit

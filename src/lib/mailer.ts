@@ -21,14 +21,7 @@ export const sendMail = async ({
   try {
     const { data, error } = await resend.emails.send({
       from: "Inkam Labs <orders@labs.inkam.app>",
-      to: [
-        "inkamlimited@gmail.com",
-        "nibir@inkam.app",
-        "khalid@inkam.app",
-        "tofael@inkam.app",
-        "orders@amarlab.com",
-        "nazmul.islam@inkam.app",
-      ],
+      to: ["inkamlimited@gmail.com"],
       subject: "Order placement",
       react: DiagnosticConfirmationEmail({
         patientName,

@@ -24,11 +24,11 @@ export const createAgentSchema = z.object({
 
 export const createTransactionSchema = z.object({
   agentId: z.string(),
-  agentName: z.string().min(1, { message: "Please enter agent name" }),
-  customerName: z.string().min(1, { message: "Please customer your name" }),
+  agentName: z.string().min(1, { message: "This field is required" }),
+  customerName: z.string().min(1, { message: "Please patient your number" }),
   customerNumber: z
     .string()
-    .min(1, { message: "Please enter your phone number" })
+    .min(1, { message: "Please enter patients phone number" })
     .max(11, { message: "Valid phone number is 11 digits" })
     .refine((val) => val.startsWith("0"), {
       message: "Number must start with 0",

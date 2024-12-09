@@ -66,6 +66,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
       inkam: 0,
     },
   });
+  const canEdit = pharmacy.number === "01896444201" ? true : false;
 
   useEffect(() => {
     form.setValue("labTestId", currentTestId);
@@ -121,13 +122,17 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
             control={form.control}
             name="agentName"
             render={({ field }) => (
-              <FormItem hidden>
-                <FormLabel>Pharmacy Name</FormLabel>
+              <FormItem hidden={canEdit ? false : true}>
+                <FormLabel>
+                  {canEdit ? "Referer phone Number" : "Agent Name"}
+                </FormLabel>
                 <FormControl>
-                  <Input disabled {...field} />
+                  <Input disabled={canEdit} {...field} />
                 </FormControl>
                 <FormDescription>
-                  This is your public display name.
+                  {canEdit
+                    ? "Input referer number."
+                    : "This is your pharmacy name."}
                 </FormDescription>
                 <FormMessage />
               </FormItem>

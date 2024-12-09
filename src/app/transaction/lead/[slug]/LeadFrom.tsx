@@ -67,6 +67,8 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
     },
   });
   const canEdit = pharmacy.number === "01896444201" ? true : false;
+  console.log("canEdit", canEdit);
+  console.log("pharmacy", pharmacy);
 
   useEffect(() => {
     form.setValue("labTestId", currentTestId);

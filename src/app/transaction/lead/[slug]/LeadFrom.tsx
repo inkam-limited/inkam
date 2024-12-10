@@ -42,6 +42,7 @@ import { Badge } from "@/components/ui/badge";
 import Overlay from "./Overlay";
 
 export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
+  const canEdit = pharmacy.number === "01896444201" ? true : false;
   const { data: labTests, isLoading: isLabTestsLoading } =
     trpc.getLabTests.useQuery();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -56,7 +57,7 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
     resolver: zodResolver(createTransactionSchema),
     defaultValues: {
       agentId: pharmacy.agentId,
-      agentName: pharmacy.name,
+      agentName: canEdit ? "" : pharmacy.name,
       customerName: "",
       customerNumber: "",
       customerLocation: "",
@@ -66,7 +67,6 @@ export default function LeadGenerationForm({ pharmacy }: { pharmacy: Agent }) {
       inkam: 0,
     },
   });
-  const canEdit = pharmacy.number === "01896444201" ? true : false;
   console.log("canEdit", canEdit);
   console.log("pharmacy", pharmacy);
 

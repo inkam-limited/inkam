@@ -17,7 +17,7 @@ const GeneratePharmacyLeadPage = async ({
   }
 
   return (
-    <main className="py-12 relative h-[100svh] overflow-hidden">
+    <main className="py-12 relative min-h-[100svh] overflow-hidden">
       <div className="w-full flex items-center justify-between  max-w-7xl mx-auto px-4">
         <h2 className="text-sm">
           Order home diagnostic <br />
